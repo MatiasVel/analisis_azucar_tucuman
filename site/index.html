@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estacionalidad del precio del azúcar en Tucumán · Paper interactivo</title>
+<meta name="description" content="Cuándo comprar y cuándo vender la bolsa de azúcar común tipo A de 50 kg en Tucumán: 224 meses (2008–2026) en pesos constantes, filtro de Hodrick-Prescott y ventanas operativas de zafra e interzafra.">
+<meta name="author" content="Héctor Matías Veliz">
+<meta name="theme-color" content="#050806">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Estacionalidad del precio del azúcar en Tucumán">
+<meta property="og:description" content="Comprar en zafra, vender en interzafra: evidencia de 224 meses en pesos constantes. Paper de la UTN Facultad Regional Tucumán.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" as="image" href="assets/img/hero/canaveral-2560.webp" imagesrcset="assets/img/hero/canaveral-1600.webp 1600w, assets/img/hero/canaveral-2560.webp 2560w, assets/img/hero/canaveral-3840.webp 3840w" imagesizes="100vw" media="(min-width: 701px)">
+<link rel="stylesheet" href="assets/css/styles.css?v=1">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán","author":{"@type":"Person","name":"Héctor Matías Veliz","affiliation":{"@type":"CollegeOrUniversity","name":"Universidad Tecnológica Nacional, Facultad Regional Tucumán"}},"inLanguage":"es","keywords":"Azúcar, Tucumán, Filtro Hodrick-Prescott, Estacionalidad, Zafra, IPC","about":"Estacionalidad del precio de la bolsa de azúcar común tipo A de 50 kg en el mercado interno de Tucumán, 2008–2026"}
+</script>
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="progreso" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__barra">
+    <a class="marca" href="index.html" aria-label="Inicio: Estacionalidad del azúcar en Tucumán">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span>
+    </a>
+    <nav class="nav__enlaces" aria-label="Principal">
+      <a href="index.html" aria-current="page">Inicio</a>
+      <a href="datos.html">Datos</a>
+      <a href="justificacion.html">Justificación</a>
+      <a href="futuro.html">Aportes futuros</a>
+    </nav>
+    <a class="btn btn--primario btn--chico nav__cta" href="#paper">Leer el paper</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"><span></span></button>
+  </div>
+</header>
+<nav class="menu-movil" id="menu-movil" aria-label="Menú principal">
+  <a href="index.html" aria-current="page">Inicio <span aria-hidden="true">→</span></a>
+  <a href="datos.html">Datos <span aria-hidden="true">→</span></a>
+  <a href="justificacion.html">Justificación <span aria-hidden="true">→</span></a>
+  <a href="futuro.html">Aportes futuros <span aria-hidden="true">→</span></a>
+  <a href="#paper">Leer el paper <span aria-hidden="true">→</span></a>
+  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+</nav>
+
+<main id="contenido">
+<!-- ================================================================= PORTADA -->
+<section class="hero" id="inicio" aria-labelledby="titulo-principal">
+  <picture class="hero__fondo">
+    <source media="(max-width: 700px) and (orientation: portrait)" srcset="assets/img/hero/canaveral-vertical-1215.webp">
+    <img src="assets/img/hero/canaveral-2560.webp" srcset="assets/img/hero/canaveral-1600.webp 1600w, assets/img/hero/canaveral-2560.webp 2560w, assets/img/hero/canaveral-3840.webp 3840w" sizes="100vw" width="3840" height="2160" alt="Ilustración digital de un cañaveral tucumano al anochecer; la silueta de la sierra del fondo traza la serie real del precio del azúcar entre 2008 y 2026." fetchpriority="high" decoding="async">
+  </picture>
+  <div class="hero__velo"></div>
+  <div class="contenedor hero__contenido">
+    <span class="antetitulo">Paper de investigación · UTN Facultad Regional Tucumán</span>
+    <h1 id="titulo-principal">Estacionalidad del precio del <em>azúcar</em> en Tucumán</h1>
+    <p class="hero__bajada">Cuándo conviene comprar y cuándo vender la bolsa de azúcar común tipo A de 50&nbsp;kg en el mercado interno: 224 meses de evidencia (enero 2008 – agosto 2026) en pesos constantes, descompuestos con el filtro de Hodrick-Prescott.</p>
+    <div class="hero__acciones">
+      <a class="btn btn--primario" href="#respuesta">Ver los resultados <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a class="btn btn--secundario" href="#diagrama">Recorrer el estudio</a>
+    </div>
+    <p class="hero__autor"><b>Héctor Matías Veliz</b><span>Universidad Tecnológica Nacional · Facultad Regional Tucumán</span></p>
+    <div class="cifras" role="list">
+      <div class="cifra" role="listitem"><span class="cifra__valor num" data-contar="6791">6.791</span><span class="cifra__rotulo">registros diarios de precios (CACTU)</span></div>
+      <div class="cifra" role="listitem"><span class="cifra__valor num" data-contar="224">224</span><span class="cifra__rotulo">meses en pesos constantes de agosto de 2026</span></div>
+      <div class="cifra" role="listitem"><span class="cifra__valor num">λ = 14.400</span><span class="cifra__rotulo">suavizado del filtro HP para datos mensuales</span></div>
+      <div class="cifra" role="listitem"><span class="cifra__valor num verde" data-contar="8.62" data-dec="2" data-suf=" pp">8,62 pp</span><span class="cifra__rotulo">diferencial real promedio julio → febrero</span></div>
+      <div class="cifra" role="listitem"><span class="cifra__valor num" data-contar="9509.33" data-dec="0" data-pre="$ ">$ 9.509</span><span class="cifra__rotulo">por bolsa, sobre medianas (ARS de ago-2026)</span></div>
+    </div>
+  </div>
+  <p class="hero__nota">El perfil de la sierra del fondo es la serie real del precio de la bolsa, 2008–2026.</p>
+</section>
+
+<!-- ================================================================= RESPUESTA -->
+<section class="seccion" id="respuesta" aria-labelledby="t-respuesta">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Resultado principal</span>
+      <h2 class="titulo" id="t-respuesta">Comprar en <em>zafra</em>, vender en <em>interzafra</em></h2>
+      <p class="bajada">Al aislar el componente cíclico-estacional del precio real, el año azucarero muestra dos ventanas operativas nítidas. Tocá cada tarjeta para ver el detalle, o recorré la rueda mes por mes.</p>
+    </div>
+    <div class="respuesta">
+      <div class="respuesta__tarjetas">
+        <article class="tarjeta tarjeta--clic decision decision--compra revelar" data-detalle="d-compra" data-grupo="decision" data-titulo="Ventana de compra y acopio: junio a octubre" data-etiqueta="Compra · plena zafra">
+          <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <span class="etiqueta etiqueta--blanca">Comprar y acopiar</span>
+          <div class="decision__meses">Junio → Octubre</div>
+          <div><div class="decision__valor num">−4,66 %</div><p class="mt-1">Piso estacional en <b>julio</b>, bajo la tendencia estructural.</p></div>
+          <div class="decision__pie"><span>Mediana julio <b class="num">−$ 5.169,95</b></span><span>Octubre <b class="num">−3,62 %</b></span></div>
+        </article>
+        <article class="tarjeta tarjeta--clic decision decision--venta revelar" data-detalle="d-venta" data-grupo="decision" data-titulo="Ventana de venta y liquidación: enero a marzo" data-etiqueta="Venta · interzafra">
+          <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <span class="etiqueta">Vender y liquidar</span>
+          <div class="decision__meses">Enero → Marzo</div>
+          <div><div class="decision__valor num">+3,96 %</div><p class="mt-1">Pico estacional en <b>febrero</b>, sobre la tendencia estructural.</p></div>
+          <div class="decision__pie"><span>Mediana febrero <b class="num">+$ 4.339,38</b></span><span>Marzo <b class="num">+1,32 %</b></span></div>
+        </article>
+        <article class="tarjeta tarjeta--clic decision decision--arbitraje revelar" data-detalle="d-arbitraje" data-grupo="decision" data-titulo="Diferencial de arbitraje estacional" data-etiqueta="Julio → febrero">
+          <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <span class="etiqueta">Arbitraje estacional</span>
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 28px">
+            <div class="decision__valor num verde">8,62 pp</div>
+            <p style="max-width:40ch;margin:0">Comprar en el valle de julio y vender en el pico de febrero captura, en promedio, un margen bruto real por encima de la inflación oficial: <b class="num">$ 9.509,33</b> constantes por bolsa sobre medianas.</p>
+          </div>
+        </article>
+      </div>
+      <div class="revelar">
+        <div class="rueda" id="rueda" aria-label="Rueda anual del desvío estacional: cada mes es un botón">
+          <div class="rueda__centro" aria-live="polite">
+            <span class="rueda__fase" id="rueda-fase">Ciclo anual</span>
+            <span class="rueda__mes" id="rueda-mes">Año azucarero</span>
+            <span class="rueda__valor num" id="rueda-valor">12 meses</span>
+            <span class="rueda__detalle" id="rueda-detalle">Tocá un mes para ver su desvío</span>
+          </div>
+        </div>
+        <div class="leyenda mt-2" style="justify-content:center">
+          <span><i style="background:var(--verde)"></i>Sobre la tendencia</span>
+          <span><i style="background:var(--compra)"></i>Bajo la tendencia</span>
+          <span><i style="background:transparent;border:1px dashed rgba(255,255,255,.5)"></i>Tendencia (0 %)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= DIAGRAMA -->
+<section class="seccion seccion--elevada seccion--borde" id="diagrama" aria-labelledby="t-diagrama">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Diagrama del estudio</span>
+      <h2 class="titulo" id="t-diagrama">Del dato crudo a la decisión, <em>en 12 bloques</em></h2>
+      <p class="bajada">Cada bloque es interactivo: abrilo para ver qué se hizo, con qué código, qué cifras produjo y por qué se eligió ese camino. Podés avanzar entre bloques desde el mismo panel.</p>
+    </div>
+    <div class="flujo" id="flujo">
+      <svg class="flujo__lineas" id="flujo-lineas" aria-hidden="true"></svg>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>1</b>Datos y problema</div>
+        <button class="nodo" type="button" id="n-problema" data-detalle="d-problema" data-grupo="flujo" data-etiqueta="Bloque 01 · Problema" data-hacia="n-deflactacion">
+          <span class="nodo__sup"><span class="nodo__num">01</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">La inflación oculta el patrón</span>
+          <span class="nodo__dato num">×569</span>
+          <span class="nodo__texto">subió el precio nominal mensual entre ene-2008 y ago-2026</span>
+        </button>
+        <button class="nodo" type="button" id="n-cactu" data-detalle="d-cactu" data-grupo="flujo" data-etiqueta="Bloque 02 · Fuente primaria" data-hacia="n-limpieza">
+          <span class="nodo__sup"><span class="nodo__num">02</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">CACTU · precio diario</span>
+          <span class="nodo__dato num">2008 – 2026</span>
+          <span class="nodo__texto">bolsa de azúcar común tipo A de 50 kg, mercado interno</span>
+        </button>
+        <button class="nodo" type="button" id="n-indec" data-detalle="d-indec" data-grupo="flujo" data-etiqueta="Bloque 03 · Deflactor" data-hacia="n-deflactacion">
+          <span class="nodo__sup"><span class="nodo__num">03</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">INDEC · IPC empalmado</span>
+          <span class="nodo__dato num">×1.051,54</span>
+          <span class="nodo__texto">coeficiente de ene-2008 a pesos de ago-2026</span>
+        </button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>2</b>Ingeniería de datos</div>
+        <button class="nodo" type="button" id="n-limpieza" data-detalle="d-limpieza" data-grupo="flujo" data-etiqueta="Bloque 04 · Limpieza" data-hacia="n-mensual">
+          <span class="nodo__sup"><span class="nodo__num">04</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Limpieza y estandarización</span>
+          <span class="nodo__dato num">6.791 registros</span>
+          <span class="nodo__texto">0 nulos · 0 duplicados · fechas ISO 8601</span>
+        </button>
+        <button class="nodo" type="button" id="n-mensual" data-detalle="d-mensual" data-grupo="flujo" data-etiqueta="Bloque 05 · Submuestreo" data-hacia="n-deflactacion">
+          <span class="nodo__sup"><span class="nodo__num">05</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Promedio mensual</span>
+          <span class="nodo__dato num">N = 224</span>
+          <span class="nodo__texto"><code>.resample('MS').mean()</code></span>
+        </button>
+        <button class="nodo nodo--clave" type="button" id="n-deflactacion" data-detalle="d-deflactacion" data-grupo="flujo" data-etiqueta="Bloque 06 · Deflactación" data-hacia="n-hp">
+          <span class="nodo__sup"><span class="nodo__num">06</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Precio real</span>
+          <span class="nodo__dato num">$ 60.042,71</span>
+          <span class="nodo__texto">media histórica en pesos de agosto de 2026</span>
+        </button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>3</b>Modelo econométrico</div>
+        <button class="nodo nodo--clave" type="button" id="n-hp" data-detalle="d-hp" data-grupo="flujo" data-etiqueta="Bloque 07 · Filtro HP" data-hacia="n-componentes">
+          <span class="nodo__sup"><span class="nodo__num">07</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Filtro de Hodrick-Prescott</span>
+          <span class="nodo__dato num">λ = 14.400</span>
+          <span class="nodo__texto">modelo aditivo y = τ + c</span>
+        </button>
+        <button class="nodo" type="button" id="n-componentes" data-detalle="d-componentes" data-grupo="flujo" data-etiqueta="Bloque 08 · Componentes" data-hacia="n-agregacion">
+          <span class="nodo__sup"><span class="nodo__num">08</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Tendencia τ y ciclo c</span>
+          <span class="nodo__dato num">2 picos estructurales</span>
+          <span class="nodo__texto">feb-2011 y abr-2023; valle en mar-2016</span>
+        </button>
+        <button class="nodo" type="button" id="n-agregacion" data-detalle="d-agregacion" data-grupo="flujo" data-etiqueta="Bloque 09 · Tabla 1" data-hacia="n-compra,n-venta">
+          <span class="nodo__sup"><span class="nodo__num">09</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Agregación por mes calendario</span>
+          <span class="nodo__dato num">12 × 18–19</span>
+          <span class="nodo__texto">media, mediana y desvío relativo por mes</span>
+        </button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>4</b>Decisión</div>
+        <button class="nodo nodo--blanco" type="button" id="n-compra" data-detalle="d-compra" data-grupo="flujo" data-etiqueta="Bloque 10 · Compra" data-hacia="n-arbitraje">
+          <span class="nodo__sup"><span class="nodo__num">10</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Ventana de compra</span>
+          <span class="nodo__dato num">jun – oct</span>
+          <span class="nodo__texto">piso en julio: −4,66 % bajo la tendencia</span>
+        </button>
+        <button class="nodo" type="button" id="n-venta" data-detalle="d-venta" data-grupo="flujo" data-etiqueta="Bloque 11 · Venta" data-hacia="n-arbitraje">
+          <span class="nodo__sup"><span class="nodo__num">11</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Ventana de venta</span>
+          <span class="nodo__dato num">ene – mar</span>
+          <span class="nodo__texto">pico en febrero: +3,96 % sobre la tendencia</span>
+        </button>
+        <button class="nodo nodo--clave" type="button" id="n-arbitraje" data-detalle="d-arbitraje" data-grupo="flujo" data-etiqueta="Bloque 12 · Arbitraje">
+          <span class="nodo__sup"><span class="nodo__num">12</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span>
+          <span class="nodo__titulo">Diferencial de arbitraje</span>
+          <span class="nodo__dato num">8,62 pp</span>
+          <span class="nodo__texto">$ 9.509,33 por bolsa sobre medianas</span>
+        </button>
+      </div>
+    </div>
+    <div class="flujo-extra">
+      <button class="nodo" type="button" data-detalle="d-herramientas" data-grupo="extra" data-etiqueta="Infraestructura"><span class="nodo__sup"><span class="nodo__num">+</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Herramientas y reproducibilidad</span><span class="nodo__texto">Python 3.13 · Jupyter en VS Code · Pandas · NumPy · Statsmodels · Matplotlib</span></button>
+      <button class="nodo" type="button" data-detalle="d-validacion" data-grupo="extra" data-etiqueta="Validación complementaria"><span class="nodo__sup"><span class="nodo__num">+</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">¿Es robusto el patrón?</span><span class="nodo__texto">Friedman p = 0,047 · robusto a λ y a otros métodos de descomposición</span></button>
+      <button class="nodo" type="button" data-detalle="d-futuro" data-grupo="extra" data-etiqueta="Próximos pasos"><span class="nodo__sup"><span class="nodo__num">+</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Trabajos futuros</span><span class="nodo__texto">Machine learning, cost of carry, bioetanol y paridad de exportación</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= EXPLORADOR -->
+<section class="seccion" id="serie" aria-labelledby="t-serie">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Explorador de la serie</span>
+      <h2 class="titulo" id="t-serie">De la serie nominal al <em>ciclo puro</em></h2>
+      <p class="bajada">Recorré cada etapa de la transformación. Pasá el cursor (o el dedo) sobre el gráfico para leer el valor exacto de cada mes.</p>
+    </div>
+    <div class="panel-grafico revelar">
+      <div class="panel-grafico__barra">
+        <div class="segmentos" role="group" aria-label="Etapa de la serie" id="exp-vistas">
+          <button type="button" data-vista="nominal" aria-pressed="false">Nominal diaria</button>
+          <button type="button" data-vista="real" aria-pressed="false">Precio real</button>
+          <button type="button" data-vista="tendencia" aria-pressed="true">Real + tendencia</button>
+          <button type="button" data-vista="ciclo" aria-pressed="false">Ciclo ($)</button>
+          <button type="button" data-vista="rel" aria-pressed="false">Desvío (%)</button>
+        </div>
+        <div class="panel-grafico__controles">
+          <div class="segmentos" role="group" aria-label="Período" id="exp-rangos">
+            <button type="button" data-rango="todo" aria-pressed="true">Todo</button>
+            <button type="button" data-rango="2008-2013" aria-pressed="false">2008–13</button>
+            <button type="button" data-rango="2014-2019" aria-pressed="false">2014–19</button>
+            <button type="button" data-rango="2020-2026" aria-pressed="false">2020–26</button>
+          </div>
+          <label class="interruptor"><input type="checkbox" id="exp-zafra"> Marcar zafra</label>
+          <label class="interruptor" id="exp-log-control"><input type="checkbox" id="exp-log" checked> Escala log</label>
+        </div>
+      </div>
+      <div class="explorador">
+        <div class="grafico" id="exp-grafico"></div>
+        <aside class="lectura" aria-live="polite">
+          <span class="etiqueta" id="exp-etiqueta">Lectura</span>
+          <h3 id="exp-titulo"></h3>
+          <p id="exp-texto"></p>
+          <div class="metricas-mini" id="exp-metricas"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= TABLA 1 -->
+<section class="seccion seccion--elevada seccion--borde" id="estacionalidad" aria-labelledby="t-estacionalidad">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Tabla 1 interactiva</span>
+      <h2 class="titulo" id="t-estacionalidad">El patrón estacional, <em>mes por mes</em></h2>
+      <p class="bajada">Componente cíclico agrupado por mes calendario (2008–2026), en pesos constantes de agosto de 2026 y en porcentaje de la tendencia. Elegí un mes para ver cómo se comportó cada año.</p>
+    </div>
+    <div class="estacional">
+      <div class="panel-grafico revelar">
+        <div class="panel-grafico__barra">
+          <div class="segmentos" role="group" aria-label="Métrica" id="est-metricas">
+            <button type="button" data-metrica="rel" aria-pressed="true">Desvío relativo (%)</button>
+            <button type="button" data-metrica="media" aria-pressed="false">Media cíclica ($)</button>
+            <button type="button" data-metrica="mediana" aria-pressed="false">Mediana cíclica ($)</button>
+          </div>
+        </div>
+        <div class="grafico" id="est-grafico"></div>
+      </div>
+      <aside class="tarjeta ficha-mes revelar" id="est-ficha" aria-live="polite"></aside>
+    </div>
+    <div class="tabla-envoltura mt-3 revelar">
+      <table class="tabla" id="tabla1">
+        <caption>Tabla 1. Comportamiento estacional del componente cíclico de la bolsa de azúcar de 50 kg (2008–2026). Valores en ARS constantes de agosto de 2026.</caption>
+        <thead><tr><th class="izq">Mes</th><th class="izq">Fase operativa</th><th>Media cíclica (ARS)</th><th>Mediana cíclica (ARS)</th><th>Desvío relativo (%)</th><th>Años bajo la tendencia</th><th class="izq">Señal de mercado</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= MAPA DE CALOR -->
+<section class="seccion" id="mapa" aria-labelledby="t-mapa">
+  <div class="contenedor">
+    <div class="dividido dividido--texto" style="align-items:end;margin-bottom:clamp(30px,4vw,48px)">
+      <div class="encabezado revelar" style="margin-bottom:0">
+        <span class="antetitulo">Consistencia año a año</span>
+        <h2 class="titulo" id="t-mapa">¿Se repite el patrón <em>todos los años</em>?</h2>
+        <p class="bajada">Cada celda es un mes de un año: verde si el precio estuvo sobre su tendencia, claro si estuvo por debajo. Los ciclos largos (2011, 2023) tiñen filas completas; la estacionalidad aparece como una regularidad de columnas.</p>
+      </div>
+      <div class="datos-clave revelar">
+        <div class="dato-clave"><b class="num">13 de 19</b><span>años con julio bajo la tendencia (68 %)</span></div>
+        <div class="dato-clave"><b class="num">14 de 19</b><span>años con febrero por encima de julio del mismo año (74 %)</span></div>
+        <div class="dato-clave"><b class="num">p = 0,047</b><span>prueba de Friedman por bloques anuales</span></div>
+      </div>
+    </div>
+    <div class="panel-grafico revelar">
+      <div class="panel-grafico__barra"><span class="escala-color"><span>−40 %</span><span class="escala-color__barra"></span><span>+40 %</span></span><span class="tenue" style="font-size:.82rem">Pasá el cursor por una celda o tocala para ver el detalle del mes</span></div>
+      <div class="calor-envoltura"><div class="grafico" id="calor"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= SIMULADOR -->
+<section class="seccion seccion--elevada seccion--borde" id="simulador" aria-labelledby="t-simulador">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Simulador de arbitraje estacional</span>
+      <h2 class="titulo" id="t-simulador">¿Cuánto vale <em>esperar</em>?</h2>
+      <p class="bajada">Elegí cuándo comprar y cuándo vender, cuántas bolsas y cuánto cuesta mantener el stock. El cálculo aplica el patrón estacional promedio 2008–2026 de la Tabla 1 a un precio de referencia.</p>
+    </div>
+    <div class="simulador revelar">
+      <form class="simulador__entradas" id="sim-form">
+        <div class="campo"><label for="sim-compra">Mes de compra</label><select id="sim-compra"></select></div>
+        <div class="campo"><label for="sim-venta">Mes de venta</label><select id="sim-venta"></select></div>
+        <div class="campo"><label for="sim-bolsas">Cantidad de bolsas de 50 kg</label><input id="sim-bolsas" type="number" min="1" step="1" value="1000" inputmode="numeric"></div>
+        <div class="campo"><label for="sim-precio">Precio de referencia ($ por bolsa)</label><input id="sim-precio" type="number" min="1" step="1" value="35823" inputmode="numeric"><small class="tenue">Por defecto, el precio de agosto de 2026 ($ 35.822,90).</small></div>
+        <div class="campo"><span class="rotulo" id="sim-costo-rotulo">Costo de tenencia mensual (real)</span><input id="sim-costo" type="range" min="0" max="4" step="0.1" value="0" aria-labelledby="sim-costo-rotulo"><div class="rango-valor"><span>0 %</span><b id="sim-costo-valor" class="num">0,0 % por mes</b><span>4 %</span></div><small class="tenue">Almacenamiento, merma y costo financiero por encima de la inflación.</small></div>
+      </form>
+      <div class="simulador__salidas" aria-live="polite">
+        <div class="resultado-grande"><span id="sim-titulo">Diferencial estacional</span><b class="num" id="sim-diferencial">—</b><span id="sim-explicacion"></span></div>
+        <div class="resultados">
+          <div class="resultado"><b class="num" id="sim-meses">—</b><span>meses de tenencia</span></div>
+          <div class="resultado"><b class="num" id="sim-bruto">—</b><span>ganancia estacional bruta por bolsa</span></div>
+          <div class="resultado"><b class="num" id="sim-costo-total">—</b><span>costo de tenencia por bolsa</span></div>
+          <div class="resultado"><b class="num" id="sim-neto">—</b><span>resultado neto por bolsa</span></div>
+          <div class="resultado"><b class="num" id="sim-total">—</b><span id="sim-total-rotulo">resultado estimado total</span></div>
+          <div class="resultado"><b class="num" id="sim-equilibrio">—</b><span>costo mensual que anula la ganancia</span></div>
+        </div>
+        <div class="grafico" id="sim-grafico"></div>
+        <p class="tenue" id="sim-historia" style="margin:0;font-size:.92rem"></p>
+        <div class="aviso"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2v.1"/></svg><span>Estimación ilustrativa basada en promedios históricos 2008–2026: no es una recomendación de inversión ni un pronóstico. No incluye impuestos, comisiones, fletes ni el riesgo de que la tendencia estructural cambie durante la tenencia (ver el <a href="justificacion.html#backtest">backtest histórico</a>).</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= GALERÍA 4K -->
+<section class="seccion" id="figuras" aria-labelledby="t-figuras">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Galería en 4K</span>
+      <h2 class="titulo" id="t-figuras">Las láminas del estudio, <em>en 3840 × 2160</em></h2>
+      <p class="bajada">Cada lámina resume un resultado. Abrila para verla en resolución completa, descargarla en PNG 4K —también en versión de fondo blanco para el paper— o saltar a la sección donde se explica en profundidad.</p>
+    </div>
+    <div class="filtros segmentos revelar" role="group" aria-label="Filtrar láminas" id="filtros-figuras">
+      <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+      <button type="button" data-filtro="datos" aria-pressed="false">Datos</button>
+      <button type="button" data-filtro="modelo" aria-pressed="false">Modelo</button>
+      <button type="button" data-filtro="resultados" aria-pressed="false">Resultados</button>
+      <button type="button" data-filtro="robustez" aria-pressed="false">Robustez</button>
+    </div>
+    <div class="galeria" id="galeria">
+      <button class="figura figura--ancha revelar" type="button" data-cat="resultados" data-num="Lámina 04" data-src4k="assets/img/figuras/fig04-patron-estacional-3840.webp" data-png="assets/img/figuras/fig04-patron-estacional-3840.png" data-paper="assets/img/figuras/fig04-patron-estacional-paper-3840.png" data-enlace="#estacionalidad" data-texto="Promedio 2008–2026 del componente cíclico en % de la tendencia. Las barras verdes marcan la ventana de venta (enero–marzo, pico en febrero: +3,96 %) y las claras la de compra (junio–octubre, valle en julio: −4,66 %).">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig04-patron-estacional-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Barras del desvío relativo medio por mes: pico en febrero y valle en julio"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 04 · Resultados</span><span class="figura__titulo">Patrón estacional por mes (Tabla 1)</span><span class="figura__texto">El resumen del paper en una imagen: pico de febrero y valle de julio.</span></span>
+      </button>
+      <button class="figura figura--ancha revelar" type="button" data-cat="resultados" data-num="Lámina 07" data-src4k="assets/img/figuras/fig07-arbitraje-3840.webp" data-png="assets/img/figuras/fig07-arbitraje-3840.png" data-paper="assets/img/figuras/fig07-arbitraje-paper-3840.png" data-enlace="#simulador" data-texto="Recorrido del desvío relativo medio desde el valle de julio hasta el pico de febrero: 8,62 puntos porcentuales de diferencial real, equivalentes a $ 9.509,33 por bolsa sobre medianas.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig07-arbitraje-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Línea del desvío relativo desde julio hasta febrero con el diferencial de 8,62 puntos"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 07 · Resultados</span><span class="figura__titulo">Ruta del arbitraje julio → febrero</span><span class="figura__texto">Cómo se construye el diferencial de 8,62 pp mes a mes.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="datos" data-num="Lámina 01" data-src4k="assets/img/figuras/fig01-nominal-3840.webp" data-png="assets/img/figuras/fig01-nominal-3840.png" data-paper="assets/img/figuras/fig01-nominal-paper-3840.png" data-enlace="datos.html#calidad" data-texto="Serie nominal diaria de CACTU en escala logarítmica: de un mínimo de $ 55,00 (27/11/2008) a un máximo de $ 37.165,00 (18/06/2026). La pendiente refleja la inflación, no el mercado del azúcar.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig01-nominal-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Serie nominal diaria en escala logarítmica"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 01 · Datos</span><span class="figura__titulo">Precio nominal diario</span><span class="figura__texto">6.791 registros: la inflación domina la serie.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="modelo" data-num="Lámina 02" data-src4k="assets/img/figuras/fig02-real-tendencia-3840.webp" data-png="assets/img/figuras/fig02-real-tendencia-3840.png" data-paper="assets/img/figuras/fig02-real-tendencia-paper-3840.png" data-enlace="#serie" data-texto="Precio real mensual en pesos constantes de agosto de 2026 y su tendencia estructural según el filtro de Hodrick-Prescott (λ = 14.400). Media histórica: $ 60.042,71.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig02-real-tendencia-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Precio real mensual y tendencia de Hodrick-Prescott"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 02 · Modelo</span><span class="figura__titulo">Precio real y tendencia HP</span><span class="figura__texto">Pesos de agosto de 2026 y tendencia estructural τ.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="modelo" data-num="Lámina 03" data-src4k="assets/img/figuras/fig03-ciclo-3840.webp" data-png="assets/img/figuras/fig03-ciclo-3840.png" data-paper="assets/img/figuras/fig03-ciclo-paper-3840.png" data-enlace="#serie" data-texto="Componente cíclico-estacional c = y − τ. Las franjas marcan los meses de zafra (junio a octubre); las barras claras indican precio por debajo de la tendencia.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig03-ciclo-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Componente cíclico en barras con franjas de zafra"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 03 · Modelo</span><span class="figura__titulo">Componente cíclico-estacional</span><span class="figura__texto">El desvío respecto de la tendencia, mes a mes.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="resultados" data-num="Lámina 05" data-src4k="assets/img/figuras/fig05-mapa-calor-3840.webp" data-png="assets/img/figuras/fig05-mapa-calor-3840.png" data-paper="assets/img/figuras/fig05-mapa-calor-paper-3840.png" data-enlace="#mapa" data-texto="Desvío relativo de cada mes de cada año. Los ciclos largos tiñen filas completas (2011, 2023); la estacionalidad se lee como regularidad entre columnas.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig05-mapa-calor-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Mapa de calor año por mes del desvío relativo"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 05 · Resultados</span><span class="figura__titulo">Mapa de calor año × mes</span><span class="figura__texto">228 celdas para ver la regularidad del ciclo.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="robustez" data-num="Lámina 06" data-src4k="assets/img/figuras/fig06-distribucion-3840.webp" data-png="assets/img/figuras/fig06-distribucion-3840.png" data-paper="assets/img/figuras/fig06-distribucion-paper-3840.png" data-enlace="justificacion.html#validacion" data-texto="Distribución del desvío relativo por mes: la dispersión interanual es amplia, por eso el paper informa medias y medianas y aquí se complementa con pruebas no paramétricas.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig06-distribucion-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Diagramas de caja del desvío relativo por mes"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 06 · Robustez</span><span class="figura__titulo">Distribución por mes</span><span class="figura__texto">Medianas, cuartiles y valores extremos.</span></span>
+      </button>
+      <button class="figura revelar" type="button" data-cat="robustez" data-num="Lámina 08" data-src4k="assets/img/figuras/fig08-robustez-3840.webp" data-png="assets/img/figuras/fig08-robustez-3840.png" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png" data-enlace="justificacion.html#hp" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig08-robustez-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Patrón estacional con distintos valores de lambda"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 08 · Robustez</span><span class="figura__titulo">Sensibilidad a λ y al método</span><span class="figura__texto">El patrón no depende de una elección arbitraria.</span></span>
+      </button>
+      <button class="figura figura--ancha revelar" type="button" data-cat="datos" data-num="Lámina 09" data-src4k="assets/img/figuras/fig09-ipc-3840.webp" data-png="assets/img/figuras/fig09-ipc-3840.png" data-paper="assets/img/figuras/fig09-ipc-paper-3840.png" data-enlace="datos.html#ipc" data-texto="Coeficiente de actualización del IPC empalmado: 1 peso de enero de 2008 equivale a 1.051,54 pesos de agosto de 2026.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig09-ipc-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Coeficiente de actualización IPC en escala logarítmica"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 09 · Datos</span><span class="figura__titulo">El deflactor IPC</span><span class="figura__texto">Cómo se llevan los precios a pesos de ago-2026.</span></span>
+      </button>
+      <button class="figura figura--ancha revelar" type="button" data-cat="robustez" data-num="Lámina 10" data-src4k="assets/img/figuras/fig10-backtest-3840.webp" data-png="assets/img/figuras/fig10-backtest-3840.png" data-paper="assets/img/figuras/fig10-backtest-paper-3840.png" data-enlace="justificacion.html#backtest" data-texto="Retorno real observado de comprar en julio y vender en febrero del año siguiente, ciclo por ciclo (2008/09 a 2025/26). Positivo en 10 de 18 ciclos, con mediana de +14,6 % y alta dispersión.">
+        <span class="figura__imagen"><img src="assets/img/figuras/fig10-backtest-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Barras del retorno real de cada ciclo julio a febrero"><span class="figura__4k">4K</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 10 · Robustez</span><span class="figura__titulo">Backtest julio → febrero</span><span class="figura__texto">Qué pasó, ciclo por ciclo, con precios observados.</span></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= PAPER -->
+<section class="seccion seccion--clara" id="paper" aria-labelledby="t-paper">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">El paper completo</span>
+      <h2 class="titulo" id="t-paper">Leelo <em>sección por sección</em></h2>
+      <p class="bajada">El texto íntegro del trabajo, organizado según el formato de la cátedra. Cada sección muestra un resumen y se despliega completa.</p>
+    </div>
+    <div class="paper">
+      <aside class="paper__lateral revelar">
+        <div class="paper__ficha">
+          <span class="etiqueta">Ficha</span>
+          <div><b>Autor:</b> Héctor Matías Veliz</div>
+          <div><b>Filiación:</b> Universidad Tecnológica Nacional, Facultad Regional Tucumán</div>
+          <div><b>Período:</b> enero 2008 – agosto 2026 (N = 224)</div>
+          <div><b>Base de precios:</b> pesos constantes de agosto de 2026</div>
+          <div><b>Método:</b> filtro de Hodrick-Prescott, λ = 14.400</div>
+          <div class="palabras"><span>Azúcar</span><span>Tucumán</span><span>Filtro Hodrick-Prescott</span><span>Estacionalidad</span><span>Zafra</span><span>IPC</span></div>
+        </div>
+        <div class="paper__ficha">
+          <span class="etiqueta">Cómo citar</span>
+          <p id="cita-paper" style="margin:0;font-family:var(--fuente-serif);font-size:1rem;color:var(--tinta)">Veliz, H. M. (2026). <i>Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán</i>. Universidad Tecnológica Nacional, Facultad Regional Tucumán.</p>
+          <button class="btn btn--secundario btn--chico" type="button" data-copiar="#cita-paper">Copiar cita</button>
+        </div>
+      </aside>
+      <div>
+        <div class="paper__cabecera revelar">
+          <h3>Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán</h3>
+          <p class="autor">Veliz, Héctor Matías</p>
+          <p class="filiacion">Universidad Tecnológica Nacional, Facultad Regional Tucumán</p>
+        </div>
+        <div class="acordeon revelar">
+          <details open>
+            <summary><span class="acordeon__num">0</span><span><span class="acordeon__titulo">Resumen</span><span class="acordeon__resumen">Deflactación por IPC, filtro HP y dos ventanas operativas.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p class="resumen-paper">El presente trabajo analiza la evolución histórica del precio de la bolsa de azúcar de 50 kg en el mercado interno de Tucumán. Debido a la alta inflación en Argentina, las series nominales resultan insuficientes para identificar patrones puros de mercado, mientras que el uso de monedas como el dólar informal puede introducir sesgos por sus propias distorsiones. Por ello, se ajustaron los precios nominales desde 2008 utilizando el Índice de Precios al Consumidor (IPC) para obtener una serie en valores constantes. Seguidamente, se empleó el filtro de Hodrick-Prescott para descomponer la serie real, aislando el componente cíclico-estacional de su tendencia estructural. Los resultados revelan que el momento óptimo para la compra (menor precio relativo) ocurre entre junio y octubre, durante la zafra cañera, con un piso en julio, y que el mejor momento para la venta (mayor precio relativo) se presenta entre enero y marzo, en el período de interzafra, con un pico en febrero. Este análisis facilita la toma de decisiones para maximizar el rédito económico.</p>
+              <p><b>Palabras clave:</b> Azúcar, Tucumán, Filtro Hodrick-Prescott, Estacionalidad, Zafra, IPC.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">1</span><span><span class="acordeon__titulo">Introducción</span><span class="acordeon__resumen">La inflación distorsiona los precios históricos; el dólar paralelo no es un buen deflactor.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p>El mercado del azúcar en la provincia de Tucumán es altamente dinámico y está condicionado por los ciclos de la zafra cañera. Un problema fundamental al evaluar los precios históricos radica en la distorsión generada por la inflación. El uso del dólar paralelo como deflactor no siempre es preciso, ya que esta moneda también sufre inflaciones y devaluaciones relativas.</p>
+              <p>En consecuencia, el presente proyecto se centra en aplicar un ajuste de precios mediante coeficientes del IPC, permitiendo un análisis desestacionalizado de la bolsa de 50 kg para identificar en qué mes es más conveniente comprar y en cuál vender, evitando sesgos macroeconómicos.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">2</span><span><span class="acordeon__titulo">Trabajos relacionados</span><span class="acordeon__resumen">Fuentes sectoriales, deflactación por IPC y el filtro de Hodrick-Prescott.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p>A nivel sectorial, el Centro de Agricultores Cañeros de Tucumán (CACTU) [1] provee la serie histórica de cotizaciones de la bolsa de azúcar en el mercado interno, mientras que organismos como la Estación Experimental Agroindustrial Obispo Colombres (EEAOC) [4] y el Instituto de Promoción del Azúcar y Alcohol de Tucumán (IPAAT) [5] han recabado datos fundamentales sobre el volumen de molienda y los rendimientos de cada zafra.</p>
+              <p>Desde el enfoque econométrico, la evaluación de commodities agrícolas en economías inflacionarias recomienda ajustar por índices de precios internos, como el IPC [2], y aislar el ruido del mercado empleando la descomposición de series temporales. El filtro de Hodrick y Prescott [3] es la herramienta metodológica predominante para extraer la tendencia estructural y capturar fielmente las dinámicas de zafra e interzafra.</p>
+              <p>En el plano computacional, el trabajo se apoya en el ecosistema científico de Python: Pandas [6] para la manipulación de series de tiempo, Statsmodels [7] para el filtrado econométrico, Matplotlib [8] para la visualización y Jupyter [9] como entorno de cómputo reproducible.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">3</span><span><span class="acordeon__titulo">Metodología y procesamiento de datos</span><span class="acordeon__resumen">Cuatro etapas: herramientas, limpieza, deflactación y filtro HP.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p>Para responder a la problemática del sesgo inflacionario y aislar el comportamiento estacional puro de la bolsa de azúcar común tipo A de 50 kg en el mercado interno de Tucumán, se diseñó un flujo de trabajo de ingeniería de datos y modelado econométrico estructurado en cuatro etapas secuenciales.</p>
+              <h4>1. Arquitectura tecnológica y herramientas</h4>
+              <p>El procesamiento, limpieza, alineación temporal y modelado estadístico se implementó íntegramente en el lenguaje de programación Python (versión 3.13), ejecutado sobre el entorno interactivo Jupyter Notebook dentro de Visual Studio Code. La arquitectura de librerías científicas se compuso de:</p>
+              <ul>
+                <li><b>Pandas y NumPy:</b> ingesta de archivos en formato plano (CSV) y hojas de cálculo (.xlsx), limpieza de cadenas de caracteres, manejo de valores nulos (NaN), indexación de series de tiempo (DatetimeIndex) y álgebra vectorial.</li>
+                <li><b>Statsmodels (statsmodels.api):</b> ejecución algorítmica del filtro econométrico de Hodrick-Prescott (sm.tsa.filters.hpfilter) en la descomposición de la serie temporal.</li>
+                <li><b>Matplotlib (pyplot y dates):</b> visualización científica de alta resolución, trazado de tendencias estructurales, ondas cíclicas y formateo de ejes temporales.</li>
+              </ul>
+              <h4>2. Adquisición, limpieza y estandarización de datos (data wrangling)</h4>
+              <p>Se trabajó con dos fuentes primarias de datos. La <b>serie histórica del precio del azúcar</b> fue provista por el Centro de Agricultores Cañeros de Tucumán (CACTU), con registros diarios desde el 1 de enero de 2008. Dado que las planillas originales presentaban una estructura matricial fragmentada en múltiples bloques horizontales y verticales por año y mes, se desarrolló un algoritmo de extracción automatizado en Pandas. Este proceso eliminó caracteres no numéricos (símbolos monetarios, separadores de miles y leyendas como «s/c»), transformó las fechas al estándar ISO 8601 (AAAA-MM-DD) y consolidó una serie continua de 6.791 registros diarios, donde el valor nominal osciló entre un mínimo de $55,00 ARS en 2008 y un máximo nominal de $37.165,00 ARS en 2026.</p>
+              <p>La <b>serie del Índice de Precios al Consumidor (IPC)</b> utilizada es una serie histórica empalmada (base actualizada a agosto de 2026) de la que se obtuvieron los coeficientes de actualización monetaria mensual. Se descartó el uso de la cotización del dólar informal (blue) como deflactor debido a que dicha divisa introduce ruido exógeno (brechas cambiarias, controles de capitales e inflación propia del dólar estadounidense), distorsionando la relación real de intercambio en el mercado doméstico tucumano.</p>
+              <p>Para compatibilizar ambas fuentes de distinta granulometría temporal (diaria vs. mensual) y mitigar la microvolatilidad de las cotizaciones diarias, se aplicó una técnica de submuestreo (downsampling) mediante la función .resample('MS').mean() de Pandas. Esto agrupó los precios diarios fijando el índice al primer día de cada mes (Month Start) y calculó la media aritmética simple mensual, dando como resultado exactamente N = 224 observaciones mensuales continuas entre enero de 2008 y agosto de 2026.</p>
+              <h4>3. Deflactación y construcción de la serie en valores constantes</h4>
+              <p>Mediante una operación relacional de intersección interna (pd.merge con clave en el período mensual), se alinearon los 224 promedios mensuales nominales con sus respectivos coeficientes de ajuste del IPC. El precio real expresado en pesos constantes de agosto de 2026 para cada mes t se obtuvo mediante la ecuación:</p>
+              <div class="ecuacion" data-formula="deflactacion" data-alt="Precio real igual a precio nominal por coeficiente IPC a agosto de 2026"></div>
+              <p>Al eliminar el velo monetario de la inflación acumulada, la serie real presenta un valor histórico promedio de $60.042,71 ARS, una mediana de $52.544,84 ARS, un desvío estándar de $24.205,77 ARS, un mínimo real de $30.127,98 ARS y un pico máximo real de $155.786,60 ARS en momentos de escasez crítica.</p>
+              <h4>4. Descomposición econométrica mediante el filtro de Hodrick-Prescott</h4>
+              <p>Para separar la tendencia estructural de largo plazo (τ<sub>t</sub>) del componente cíclico-estacional de corto plazo (c<sub>t</sub>), se modeló la serie temporal real bajo un esquema aditivo:</p>
+              <div class="ecuacion" data-formula="aditivo" data-alt="y sub t igual a tau sub t más c sub t"></div>
+              <p>El filtro de Hodrick-Prescott obtiene la serie de tendencia τ<sub>t</sub> resolviendo el siguiente problema de optimización convexa, que minimiza la suma de las desviaciones cuadráticas del ciclo penalizando la aceleración (cambios en la pendiente) de la tendencia:</p>
+              <div class="ecuacion" data-formula="hp" data-alt="Problema de minimización del filtro de Hodrick-Prescott"></div>
+              <p>Donde el hiperparámetro λ controla la suavidad de la tendencia estructural. Siguiendo el estándar de la literatura econométrica para series temporales de frecuencia estrictamente mensual, se fijó λ = 14.400.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">4</span><span><span class="acordeon__titulo">Análisis de resultados y fundamentación para la toma de decisiones</span><span class="acordeon__resumen">Tabla 1, ventanas de compra y venta y diferencial de arbitraje.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p>Una vez extraído el vector del componente cíclico (c<sub>t</sub> = y<sub>t</sub> − τ<sub>t</sub>) para los 224 meses de estudio, se realizó una agregación estadística agrupando los residuos por mes calendario (m ∈ {1, …, 12}) para aislar el patrón estacional intranual del mercado azucarero en Tucumán. La Tabla 1 resume las métricas del desvío cíclico expresadas en pesos constantes de agosto de 2026 y en variación porcentual respecto de la tendencia estructural.</p>
+              <div class="tabla-envoltura"><table class="tabla" id="tabla1-paper"><caption>Tabla 1. Comportamiento estacional del componente cíclico de la bolsa de azúcar de 50 kg (2008–2026).</caption><thead><tr><th class="izq">Mes</th><th class="izq">Fase operativa</th><th>Media cíclica (ARS)</th><th>Mediana cíclica (ARS)</th><th>Desvío relativo (%)</th><th class="izq">Señal de mercado</th></tr></thead><tbody></tbody></table></div>
+              <h4>Justificación económica para la toma de decisiones</h4>
+              <p>El análisis cuantitativo respalda empíricamente la hipótesis de estacionalidad dictada por el ciclo biológico e industrial de la caña de azúcar en Tucumán:</p>
+              <p><b>Ventana óptima de compra y acopio (junio a octubre).</b> A partir de junio, con la entrada en régimen de los ingenios azucareros, el componente cíclico perfora el umbral cero hacia terreno negativo. El punto de máxima depresión de precios ocurre en julio (media de −$2.651,67 ARS, mediana de −$5.169,95 ARS y caída del −4,66 % bajo la tendencia) y se extiende hasta octubre (mediana de −$3.530,42 ARS y −3,62 % relativo). Durante este bloque, la sobreoferta física de producto terminado y la necesidad de liquidez inmediata de productores y cañeros para financiar costos de cosecha y fletes fuerzan la liquidación de bolsas a precios descontados.</p>
+              <p><b>Ventana óptima de venta y liquidación (enero a marzo).</b> Con la paralización de la molienda hacia finales de año (interzafra), el stock circulante disminuye progresivamente y queda concentrado en actores con espalda financiera. Entre enero y marzo el desvío cíclico se torna sistemáticamente positivo, y alcanza su máximo rendimiento en febrero, donde la bolsa registra un sobreprecio promedio de +$2.404,45 ARS (mediana de +$4.339,38 ARS, equivalente a un +3,96 % sobre la tendencia estructural).</p>
+              <div class="ecuacion" data-formula="arbitraje" data-alt="Diferencial igual a 3,96 menos menos 4,66 igual a 8,62 puntos porcentuales"></div>
+              <p><b>Diferencial de arbitraje estacional.</b> Un agente comercial o inversor que ejecute su compra en el valle de julio (descuento relativo del −4,66 %) y liquide su posición en el pico de febrero (premio relativo del +3,96 %) captura un margen bruto estacional promedio del 8,62 % en términos reales (por encima de la inflación oficial medida por el IPC), que calculado sobre las medianas representa un diferencial neto de $9.509,33 ARS constantes por cada bolsa de 50 kg.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">5</span><span><span class="acordeon__titulo">Conclusión y trabajos futuros</span><span class="acordeon__resumen">Dos ventanas operativas y una agenda: cost of carry, bioetanol y paridad de exportación.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <p>La descomposición del precio real de la bolsa de azúcar con el filtro de Hodrick-Prescott confirma la presencia de dos ventanas operativas definidas. El mejor momento para la compra se sitúa entre junio y octubre, con un piso en julio, cuando la zafra genera una sobreoferta física que presiona el precio a la baja. En contraposición, la mejor ventana de venta ocurre entre enero y marzo (interzafra), con un pico en febrero, cuando la disminución del stock eleva los precios.</p>
+              <p>Para investigaciones futuras, se plantea la incorporación de factores como el cost of carry (costo de almacenamiento y merma) y el arbitraje con el precio del bioetanol y la paridad de exportación, con el fin de robustecer el modelo predictivo de venta. <a class="enlace-flecha" href="futuro.html">Ver la hoja de ruta <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a></p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="acordeon__num">R</span><span><span class="acordeon__titulo">Referencias</span><span class="acordeon__resumen">Nueve fuentes: datos sectoriales, método y software.</span></span><span class="acordeon__icono"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12"/></svg></span></summary>
+            <div class="acordeon__contenido">
+              <ol class="referencias">
+                <li>Centro de Agricultores Cañeros de Tucumán (CACTU). Serie histórica de cotizaciones diarias de la bolsa de azúcar común tipo A de 50 kg en el mercado interno, 2008–2026. San Miguel de Tucumán.</li>
+                <li>Instituto Nacional de Estadística y Censos (INDEC). Índice de Precios al Consumidor (IPC), serie empalmada y coeficientes de actualización a pesos de agosto de 2026. Buenos Aires.</li>
+                <li>R. J. Hodrick y E. C. Prescott, “Postwar U.S. Business Cycles: An Empirical Investigation”, <i>Journal of Money, Credit and Banking</i>, vol. 29, n.º 1, pp. 1–16, 1997.</li>
+                <li>Estación Experimental Agroindustrial Obispo Colombres (EEAOC). Informes técnicos sobre la actividad sucroalcoholera de Tucumán. Las Talitas, Tucumán.</li>
+                <li>Instituto de Promoción del Azúcar y Alcohol de Tucumán (IPAAT). Información sectorial y seguimiento de zafra. San Miguel de Tucumán.</li>
+                <li>W. McKinney, “Data Structures for Statistical Computing in Python”, en <i>Proc. 9th Python in Science Conference (SciPy 2010)</i>, pp. 56–61, 2010.</li>
+                <li>S. Seabold y J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, en <i>Proc. 9th Python in Science Conference (SciPy 2010)</i>, pp. 92–96, 2010.</li>
+                <li>J. D. Hunter, “Matplotlib: A 2D Graphics Environment”, <i>Computing in Science &amp; Engineering</i>, vol. 9, n.º 3, pp. 90–95, 2007.</li>
+                <li>T. Kluyver et al., “Jupyter Notebooks – a publishing format for reproducible computational workflows”, en <i>Positioning and Power in Academic Publishing: Players, Agents and Agendas</i>, IOS Press, pp. 87–90, 2016.</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= IMPACTO -->
+<section class="seccion" id="impacto" aria-labelledby="t-impacto">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Para quién es este trabajo</span>
+      <h2 class="titulo" id="t-impacto">Un calendario de decisiones <em>para toda la cadena</em></h2>
+      <p class="bajada">Tucumán aporta alrededor del 60 % del azúcar del país y miles de pequeños productores dependen de su precio. Conocer cuándo el mercado castiga y cuándo premia es información estratégica para cada eslabón.</p>
+    </div>
+    <div class="reja reja--4">
+      <article class="tarjeta tarjeta--clic actor revelar" data-detalle="d-caneros" data-grupo="actores" data-titulo="Cañeros independientes" data-etiqueta="Productores">
+        <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+        <span class="icono-tarjeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21V4M8 9c3-3 7-3 10-1M8 14c3-2 7-1 9 1M4 21h16"/></svg></span>
+        <h3>Cañeros independientes</h3>
+        <p>Evitar liquidar el azúcar de maquila en el valle de julio y planificar ventas escalonadas hacia la interzafra.</p>
+      </article>
+      <article class="tarjeta tarjeta--clic actor revelar" data-detalle="d-ingenios" data-grupo="actores" data-titulo="Ingenios azucareros" data-etiqueta="Industria">
+        <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg></span>
+        <span class="icono-tarjeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V11l5 3V11l5 3V7l8 4v10H3zM7 21v-3M12 21v-3M17 21v-3"/></svg></span>
+        <h3>Ingenios azucareros</h3>
+        <p>Programar stocks, financiamiento de inventarios y ritmo comercial según el ciclo intranual.</p>
+      </article>
+      <article class="tarjeta tarjeta--clic actor revelar" data-detalle="d-provincia" data-grupo="actores" data-titulo="Provincia y organismos sectoriales" data-etiqueta="Política pública">
+        <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+        <span class="icono-tarjeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v9M19 10v9M9 10v9M15 10v9M3 21h18"/></svg></span>
+        <h3>Provincia y organismos</h3>
+        <p>Diseñar instrumentos de financiamiento de la retención en zafra y monitorear el índice estacional.</p>
+      </article>
+      <article class="tarjeta tarjeta--clic actor revelar" data-detalle="d-compradores" data-grupo="actores" data-titulo="Compradores y comercializadores" data-etiqueta="Demanda">
+        <span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+        <span class="icono-tarjeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h2l2 11h10l2-8H7M10 20h.01M17 20h.01"/></svg></span>
+        <h3>Compradores y comercio</h3>
+        <p>Concentrar compras y contratos en plena zafra, cuando el precio real se ubica bajo su tendencia.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= SEGUIR -->
+<section class="seccion seccion--elevada seccion--borde" aria-labelledby="t-seguir">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Seguir explorando</span>
+      <h2 class="titulo" id="t-seguir">Profundizá en cada <em>capa</em> del estudio</h2>
+    </div>
+    <div class="reja reja--3">
+      <a class="tarjeta tarjeta--clic siguiente revelar" href="datos.html">
+        <span class="siguiente__num">01</span>
+        <div><span class="etiqueta">Datos</span><h3>De dónde salen los datos</h3><p>Fuentes, pipeline de ingeniería, calidad, diccionario y descargas en CSV.</p></div>
+        <span class="enlace-flecha">Ir a Datos <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+      <a class="tarjeta tarjeta--clic siguiente revelar" href="justificacion.html">
+        <span class="siguiente__num">02</span>
+        <div><span class="etiqueta">Justificación</span><h3>Por qué este planteamiento</h3><p>IPC frente a dólar blue, el filtro HP con λ en vivo, validación estadística y límites.</p></div>
+        <span class="enlace-flecha">Ir a Justificación <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+      <a class="tarjeta tarjeta--clic siguiente revelar" href="futuro.html">
+        <span class="siguiente__num">03</span>
+        <div><span class="etiqueta">Aportes futuros</span><h3>Hacia la predicción del precio</h3><p>Machine learning, variables exógenas, arquitectura de datos y una prueba de concepto.</p></div>
+        <span class="enlace-flecha">Ir a Aportes futuros <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__reja">
+      <div>
+        <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
+        <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
+      </div>
+      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+    </div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+  </div>
+</footer>
+
+<!-- ================================================================= DETALLES (paneles) -->
+<template id="d-problema">
+  <p>En Argentina la inflación acumulada entre 2008 y 2026 es tan alta que domina cualquier serie de precios expresada en pesos corrientes. El promedio mensual de la bolsa pasó de <strong>$ 63,00</strong> en enero de 2008 a <strong>$ 35.822,90</strong> en agosto de 2026: casi 569 veces más. Comparar febrero de 2010 con julio de 2024 en pesos nominales no dice nada sobre el mercado del azúcar.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>×569</b><span>precio nominal mensual, ene-2008 → ago-2026</span></div>
+    <div class="dato-clave"><b>×1.051,54</b><span>coeficiente IPC acumulado en el mismo período</span></div>
+    <div class="dato-clave"><b>−46 %</b><span>variación real entre ambas puntas</span></div>
+  </div>
+  <h3>Por qué no alcanza con el dólar</h3>
+  <p>Una alternativa habitual es dolarizar los precios con la cotización informal. El paper la descarta porque el dólar blue incorpora <strong>brechas cambiarias, controles de capitales e inflación propia de la divisa estadounidense</strong>: ruido exógeno que no pertenece al mercado doméstico del azúcar.</p>
+  <h3>La pregunta que guía el estudio</h3>
+  <p>Una vez removido el velo monetario, ¿existe un patrón estacional estable que indique en qué meses conviene comprar y en cuáles vender la bolsa de 50 kg?</p>
+  <a class="enlace-flecha" href="justificacion.html#precios-reales">Leer la justificación completa <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-cactu">
+  <p>La serie primaria del estudio es la cotización diaria de la <strong>bolsa de azúcar común tipo A de 50 kg</strong> en el mercado interno de Tucumán, provista por el <strong>Centro de Agricultores Cañeros de Tucumán (CACTU)</strong>, entidad gremial de los productores cañeros de la provincia.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>6.791</b><span>registros diarios consolidados</span></div>
+    <div class="dato-clave"><b>01/01/2008</b><span>primer registro</span></div>
+    <div class="dato-clave"><b>11/09/2026</b><span>último registro</span></div>
+    <div class="dato-clave"><b>$ 55,00</b><span>mínimo nominal (27/11/2008)</span></div>
+    <div class="dato-clave"><b>$ 37.165,00</b><span>máximo nominal (18/06/2026)</span></div>
+    <div class="dato-clave"><b>99,4 %</b><span>de los días calendario con dato</span></div>
+  </div>
+  <h3>El desafío de origen</h3>
+  <p>Las planillas originales estaban organizadas en una estructura matricial fragmentada en bloques horizontales y verticales por año y mes, con símbolos monetarios, separadores de miles y leyendas como «s/c» (sin cotización). Antes de cualquier análisis hubo que reconstruir una serie de tiempo continua.</p>
+  <a class="enlace-flecha" href="datos.html#cactu">Ver la ficha de la fuente <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-indec">
+  <p>Para expresar todos los precios en una misma unidad de poder de compra se utilizó una <strong>serie empalmada del Índice de Precios al Consumidor (IPC)</strong>, con coeficientes que llevan cada mes a <strong>pesos constantes de agosto de 2026</strong>.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>224</b><span>coeficientes mensuales (ene-2008 a ago-2026)</span></div>
+    <div class="dato-clave"><b>×1.051,54</b><span>coeficiente de enero de 2008</span></div>
+    <div class="dato-clave"><b>×1,00</b><span>agosto de 2026 (base)</span></div>
+  </div>
+  <h3>Cómo se lee el coeficiente</h3>
+  <p>Un peso de enero de 2008 compra lo mismo que 1.051,54 pesos de agosto de 2026. Multiplicar el precio nominal de cada mes por su coeficiente convierte toda la serie a una misma moneda constante.</p>
+  <h3>Por qué el IPC y no el dólar</h3>
+  <p>El IPC mide el costo de vida doméstico, que es el marco en el que se compra y vende la bolsa en Tucumán. El dólar informal agrega dinámicas cambiarias ajenas al mercado del azúcar.</p>
+  <pre class="codigo" data-py># Parseo de períodos tipo "ene-08" y filtro del rango de estudio
+df_ipc["Periodo"] = df_ipc["Periodo"].apply(parsear_fecha_ipc)
+df_final = df_ipc[(df_ipc["Periodo"] &gt;= "2008-01-01") &amp; (df_ipc["Periodo"] &lt;= "2026-08-01")]</pre>
+  <a class="enlace-flecha" href="datos.html#ipc">Explorar el deflactor <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-limpieza">
+  <p>Se desarrolló un algoritmo de extracción automatizado en Pandas que recorre los bloques de la planilla matricial y produce una tabla larga con dos columnas: <code>Fecha</code> y <code>50Kg</code>.</p>
+  <ol>
+    <li>Eliminación de caracteres no numéricos: símbolos monetarios, separadores de miles y leyendas como «s/c».</li>
+    <li>Conversión de fechas al estándar <strong>ISO 8601</strong> (AAAA-MM-DD).</li>
+    <li>Orden cronológico y consolidación en una serie continua.</li>
+    <li>Controles de calidad: fechas únicas, ausencia de nulos y rango de valores plausible.</li>
+  </ol>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>6.791</b><span>registros válidos</span></div>
+    <div class="dato-clave"><b>0</b><span>valores nulos</span></div>
+    <div class="dato-clave"><b>0</b><span>fechas duplicadas</span></div>
+  </div>
+  <pre class="codigo" data-py>df_azucar = pd.read_csv("precio_azucar_50kg_desde_2008.csv")
+df_azucar["Fecha"] = pd.to_datetime(df_azucar["Fecha"])
+df_azucar = df_azucar.sort_values("Fecha")
+assert df_azucar["Fecha"].is_unique        # sin duplicados
+assert df_azucar["50Kg"].notna().all()     # sin nulos</pre>
+  <a class="enlace-flecha" href="datos.html#pipeline">Ver el pipeline completo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-mensual">
+  <p>Las dos fuentes tienen distinta granularidad: precios diarios e IPC mensual. Para compatibilizarlas y atenuar la microvolatilidad diaria, la serie se <strong>submuestreó a frecuencia mensual</strong> con la media aritmética simple de cada mes, indexada al primer día (<em>Month Start</em>).</p>
+  <pre class="codigo" data-py>df_azucar = df_azucar.set_index("Fecha")
+df_mensual = df_azucar["50Kg"].resample("MS").mean().round(2)</pre>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>224</b><span>meses continuos, ene-2008 a ago-2026</span></div>
+    <div class="dato-clave"><b>~30</b><span>cotizaciones promediadas por mes</span></div>
+  </div>
+  <p>El archivo diario llega hasta el 11/09/2026, pero septiembre de 2026 queda fuera del análisis: es un mes incompleto y todavía no tiene coeficiente IPC, por lo que la intersección con el deflactor lo excluye.</p>
+</template>
+
+<template id="d-deflactacion">
+  <p>Con una intersección interna (<code>pd.merge</code>, <code>how="inner"</code>) por período mensual se alinearon los 224 promedios nominales con sus coeficientes IPC. El precio real de cada mes es:</p>
+  <div class="formula" data-formula="deflactacion" data-alt="Precio real igual a precio nominal por coeficiente IPC"></div>
+  <p><strong>Ejemplo:</strong> enero de 2008 · $ 63,00 × 1.051,54 = <strong>$ 66.246,88</strong> de agosto de 2026.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>$ 60.042,71</b><span>media histórica real</span></div>
+    <div class="dato-clave"><b>$ 52.544,84</b><span>mediana</span></div>
+    <div class="dato-clave"><b>$ 24.205,77</b><span>desvío estándar</span></div>
+    <div class="dato-clave"><b>$ 30.127,98</b><span>mínimo real (sep-2025)</span></div>
+    <div class="dato-clave"><b>$ 155.786,60</b><span>máximo real (sep-2023)</span></div>
+  </div>
+  <pre class="codigo" data-py>df_real = pd.merge(df_azucar, df_ipc, left_on="Fecha", right_on="Periodo", how="inner")
+col_coef = "Coeficiente de ajuste a Pesos de Agosto de 2026"
+df_real["Precio_Real"] = (df_real["50Kg"] * df_real[col_coef]).round(2)</pre>
+</template>
+
+<template id="d-hp">
+  <p>La serie real se modeló como la suma de una <strong>tendencia estructural</strong> de largo plazo y un <strong>componente cíclico-estacional</strong> de corto plazo:</p>
+  <div class="formula" data-formula="aditivo" data-alt="y sub t igual a tau sub t más c sub t"></div>
+  <p>El filtro de Hodrick-Prescott elige la tendencia que minimiza los desvíos al cuadrado, penalizando los cambios de pendiente con el parámetro λ:</p>
+  <div class="formula" data-formula="hp" data-alt="Problema de minimización del filtro HP"></div>
+  <p>La solución tiene forma cerrada: un sistema lineal pentadiagonal que se resuelve en milisegundos.</p>
+  <div class="formula" data-formula="matricial" data-alt="tau igual a la inversa de I más lambda K traspuesta K, por y"></div>
+  <h3>Por qué λ = 14.400</h3>
+  <p>Es el valor convencional para series mensuales (1.600 × 3², a partir del valor trimestral de Hodrick y Prescott). En la página de justificación podés mover λ en vivo: el valle de julio y el pico de febrero persisten entre λ = 1.600 y λ = 129.600.</p>
+  <pre class="codigo" data-py>import statsmodels.api as sm
+ciclo, tendencia = sm.tsa.filters.hpfilter(df["Precio actualizado"], lamb=14400)</pre>
+  <a class="enlace-flecha" href="justificacion.html#hp">Mover λ en vivo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-componentes">
+  <p>La <strong>tendencia τ</strong> describe la trayectoria estructural del precio real: dos máximos plurianuales —febrero de 2011 ($ 87.695) y abril de 2023 ($ 82.844)— y un valle en marzo de 2016 ($ 41.674). El tramo final desciende con fuerza; en los extremos de la muestra el filtro es menos preciso (efecto de borde), por lo que la última tendencia debe leerse con cautela.</p>
+  <p>El <strong>ciclo c = y − τ</strong> concentra todo lo que la tendencia no explica: la estacionalidad intranual, ciclos cortos y ruido. Sus extremos coinciden con episodios conocidos del mercado:</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>+$ 75.351</b><span>máximo ciclo (sep-2023, escasez)</span></div>
+    <div class="dato-clave"><b>−$ 29.914</b><span>mínimo ciclo (jun-2024)</span></div>
+    <div class="dato-clave"><b>±18 %</b><span>desvío absoluto medio sobre la tendencia</span></div>
+  </div>
+  <p>Como el ciclo mezcla señales de distinta duración, el paso siguiente es promediarlo por mes calendario: lo que se repite año tras año (la estacionalidad) sobrevive al promedio; lo idiosincrático tiende a cancelarse.</p>
+  <a class="enlace-flecha" href="#serie">Ver la serie interactiva <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-agregacion">
+  <p>Los 224 valores del ciclo se agruparon por mes calendario (m = 1, …, 12). Para cada mes se calcularon la <strong>media</strong> y la <strong>mediana</strong> del ciclo en pesos constantes, y el <strong>desvío relativo</strong> promedio respecto de la tendencia:</p>
+  <div class="formula" data-formula="relativo" data-alt="d sub t igual a c sub t sobre tau sub t por 100; d barra sub m es el promedio de d sub t del mes m"></div>
+  <p>La mediana complementa a la media porque es robusta a episodios extremos como el pico de escasez de 2023: por eso el diferencial en pesos se informa sobre medianas.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>19</b><span>observaciones por mes (enero a agosto)</span></div>
+    <div class="dato-clave"><b>18</b><span>observaciones por mes (septiembre a diciembre)</span></div>
+  </div>
+  <a class="enlace-flecha" href="#estacionalidad">Abrir la Tabla 1 interactiva <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-compra">
+  <p>A partir de junio, con la entrada en régimen de los ingenios, el componente cíclico perfora el cero hacia terreno negativo y permanece allí hasta octubre.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>−4,66 %</b><span>julio · piso estacional (media −$ 2.651,67; mediana −$ 5.169,95)</span></div>
+    <div class="dato-clave"><b>−3,62 %</b><span>octubre · mediana −$ 3.530,42</span></div>
+    <div class="dato-clave"><b>−2,45 %</b><span>septiembre</span></div>
+    <div class="dato-clave"><b>−2,03 %</b><span>junio</span></div>
+    <div class="dato-clave"><b>−0,59 %</b><span>agosto · mediana −$ 1.055,53</span></div>
+  </div>
+  <h3>Mecanismo económico</h3>
+  <ul>
+    <li><strong>Sobreoferta física:</strong> la molienda vuelca al mercado un flujo masivo de producto terminado.</li>
+    <li><strong>Necesidad de liquidez:</strong> productores y cañeros deben financiar costos de cosecha y fletes, y liquidan bolsas a precios descontados.</li>
+  </ul>
+  <h3>Consistencia</h3>
+  <p>Julio se ubicó por debajo de su tendencia en <strong>13 de 19 años (68 %)</strong>.</p>
+  <a class="enlace-flecha" href="#simulador">Simular una compra en zafra <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-venta">
+  <p>Con la paralización de la molienda hacia fin de año, el stock circulante disminuye y queda concentrado en actores con espalda financiera. Entre enero y marzo el desvío cíclico se vuelve positivo.</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>+3,96 %</b><span>febrero · pico (media +$ 2.404,45; mediana +$ 4.339,38)</span></div>
+    <div class="dato-clave"><b>+1,32 %</b><span>marzo · media +$ 755,46</span></div>
+    <div class="dato-clave"><b>+0,25 %</b><span>enero · mediana +$ 2.125,17</span></div>
+  </div>
+  <h3>Mecanismo económico</h3>
+  <ul>
+    <li><strong>Receso fabril:</strong> sin molienda no hay nueva oferta física.</li>
+    <li><strong>Merma de stocks:</strong> la oferta remanente se concentra y el precio relativo sube hasta el inicio de la zafra siguiente.</li>
+  </ul>
+  <h3>Consistencia</h3>
+  <p>Febrero superó a julio del mismo año en <strong>14 de 19 años (74 %)</strong>.</p>
+  <a class="enlace-flecha" href="#simulador">Simular una venta en interzafra <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-arbitraje">
+  <p>Un agente que compra en el valle de julio y liquida en el pico de febrero captura, en promedio, la diferencia entre ambos desvíos relativos:</p>
+  <div class="formula" data-formula="arbitraje" data-alt="Diferencial igual a 3,96 menos menos 4,66 igual a 8,62 puntos porcentuales"></div>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>8,62 pp</b><span>margen bruto estacional real promedio</span></div>
+    <div class="dato-clave"><b>$ 9.509,33</b><span>por bolsa, sobre medianas (4.339,38 + 5.169,95)</span></div>
+    <div class="dato-clave"><b>7 meses</b><span>de tenencia (julio → febrero)</span></div>
+  </div>
+  <h3>Cómo leerlo</h3>
+  <ul>
+    <li>Es un margen <strong>bruto y promedio</strong>: no descuenta almacenamiento, merma, costo financiero ni impuestos.</li>
+    <li>Está medido sobre la tendencia: si la tendencia estructural cae durante la tenencia, el resultado observado puede ser negativo.</li>
+    <li>En el backtest con precios observados, la operación julio → febrero fue positiva en <strong>10 de 18 ciclos</strong>, con una mediana de <strong>+14,6 %</strong> real y alta dispersión.</li>
+  </ul>
+  <a class="enlace-flecha" href="#simulador">Probar el simulador <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-herramientas">
+  <p>Todo el flujo se implementó en <strong>Python 3.13</strong> sobre <strong>Jupyter Notebook</strong> dentro de <strong>Visual Studio Code</strong>.</p>
+  <ul>
+    <li><strong>Pandas y NumPy</strong> [6]: ingesta de CSV y XLSX, limpieza, DatetimeIndex, submuestreo y álgebra vectorial.</li>
+    <li><strong>Statsmodels</strong> [7]: filtro de Hodrick-Prescott (<code>sm.tsa.filters.hpfilter</code>).</li>
+    <li><strong>Matplotlib</strong> [8]: visualización científica de alta resolución.</li>
+    <li><strong>Jupyter</strong> [9]: cuaderno reproducible que documenta cada paso.</li>
+  </ul>
+  <p>El repositorio del sitio incluye además un pipeline en Python que regenera cada cifra, tabla y figura a partir de los CSV, y verifica que la implementación del filtro coincida con statsmodels.</p>
+  <a class="enlace-flecha" href="datos.html#reproducibilidad">Cómo reproducir el estudio <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-validacion">
+  <p>Como complemento del paper, el patrón se sometió a pruebas adicionales con los mismos datos:</p>
+  <div class="datos-clave">
+    <div class="dato-clave"><b>p = 0,047</b><span>Friedman: los meses difieren, controlando por año</span></div>
+    <div class="dato-clave"><b>p = 0,045</b><span>Wilcoxon: febrero &gt; julio del mismo año</span></div>
+    <div class="dato-clave"><b>p = 0,017</b><span>Mann-Whitney: interzafra &gt; zafra</span></div>
+  </div>
+  <ul>
+    <li>El valle en julio y el pico en febrero se repiten con <strong>λ = 1.600, 6.400, 14.400, 50.000 y 129.600</strong>.</li>
+    <li>También aparecen con una descomposición clásica por medias móviles 2×12, con el filtro HP sobre logaritmos y excluyendo el shock de 2023–2024.</li>
+    <li>Sin bloquear por año (Kruskal-Wallis) la diferencia no es significativa: la variabilidad entre años es grande, por eso las ventanas deben leerse como una <strong>tendencia probabilística</strong>, no como una regla segura.</li>
+  </ul>
+  <a class="enlace-flecha" href="justificacion.html#validacion">Ver la validación completa <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-futuro">
+  <p>El paper deja planteada una agenda para pasar de describir la estacionalidad a <strong>predecir el precio</strong> y optimizar decisiones:</p>
+  <ul>
+    <li><strong>Machine learning</strong> para pronosticar el precio real con validación walk-forward.</li>
+    <li><strong>Cost of carry:</strong> almacenamiento, merma y costo financiero para obtener márgenes netos.</li>
+    <li><strong>Bioetanol:</strong> la caña desviada a alcohol reduce la oferta de azúcar.</li>
+    <li><strong>Paridad de exportación:</strong> el precio internacional como piso o techo del mercado interno.</li>
+  </ul>
+  <a class="enlace-flecha" href="futuro.html">Ver la hoja de ruta <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<template id="d-caneros">
+  <p>Buena parte de los cañeros independientes comercializa bajo el <strong>régimen de maquila</strong>: entrega la caña al ingenio y recibe a cambio un porcentaje del azúcar elaborado (del orden del 60 %, según fuentes periodísticas del sector). Esa azúcar es, en la práctica, el ingreso de todo el año.</p>
+  <blockquote class="cita">«Lo ideal sería que uno pueda dividirla y venderla a 12 meses.»<cite>Productor cañero tucumano, citado por Bichos de Campo</cite></blockquote>
+  <h3>Qué aporta el estudio</h3>
+  <ul>
+    <li>Cuantifica el costo de vender en el valle: liquidar en julio en lugar de febrero resigna, en promedio, <strong>8,62 puntos porcentuales</strong> de valor real.</li>
+    <li>Ofrece un criterio para escalonar ventas: priorizar enero–marzo y evitar junio–octubre cuando la liquidez lo permita.</li>
+    <li>Da argumentos cuantitativos para negociar herramientas de financiamiento de la retención (warrants, créditos de prefinanciación, ventas cooperativas).</li>
+  </ul>
+  <div class="aviso"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2v.1"/></svg><span>Retener tiene costos (financieros, de almacenamiento y de riesgo de precio). Usá el simulador para estimar el costo mensual que anula la ganancia estacional.</span></div>
+</template>
+
+<template id="d-ingenios">
+  <p>Para la industria, la estacionalidad es una variable de planificación comercial y financiera.</p>
+  <ul>
+    <li><strong>Ritmo de ventas:</strong> dosificar la colocación de azúcar durante la zafra, cuando el mercado está sobreofertado, y reservar volumen para la interzafra.</li>
+    <li><strong>Financiamiento de inventarios:</strong> el diferencial estacional medio (8,62 pp en 7 meses ≈ 1,23 pp por mes) es una referencia para evaluar el costo máximo aceptable de financiar stock.</li>
+    <li><strong>Compras de terceros:</strong> la ventana junio–octubre es la más favorable para adquirir azúcar de terceros en el mercado interno.</li>
+    <li><strong>Capacidad de almacenamiento:</strong> el patrón estacional da un valor económico concreto a la capacidad de depósito.</li>
+  </ul>
+</template>
+
+<template id="d-provincia">
+  <p>El hallazgo de que la necesidad de liquidez en zafra deprime el precio tiene implicancias de política sectorial:</p>
+  <ul>
+    <li><strong>Financiamiento de la retención:</strong> líneas de crédito o warrants en zafra permitirían a los pequeños productores no vender en el valle.</li>
+    <li><strong>Monitoreo:</strong> un índice estacional del precio real publicado mensualmente ayudaría a evaluar el estado del mercado frente a su patrón histórico.</li>
+    <li><strong>Datos abiertos:</strong> consolidar series de precios, stocks y molienda en formatos reutilizables mejora la calidad de las decisiones de toda la cadena.</li>
+  </ul>
+  <p>El Instituto de Promoción del Azúcar y Alcohol de Tucumán (IPAAT), autoridad de aplicación de la normativa provincial del sector, es un interlocutor natural para estas herramientas.</p>
+</template>
+
+<template id="d-compradores">
+  <p>Para la industria alimenticia, distribuidores y fraccionadores, el patrón sugiere:</p>
+  <ul>
+    <li>Concentrar compras spot y contratos en <strong>plena zafra (junio–octubre)</strong>, con julio y octubre como meses de mayor descuento relativo.</li>
+    <li>Anticipar abastecimiento antes de la interzafra para no comprar en el pico de febrero.</li>
+    <li>Evaluar la conveniencia de stockear comparando el ahorro estacional con el costo de inmovilizar capital.</li>
+  </ul>
+</template>
+
+<script src="assets/data/azucar.js?v=1"></script>
+<script src="assets/js/formulas.js?v=1"></script>
+<script src="assets/js/core.js?v=1"></script>
+<script src="assets/js/charts.js?v=1"></script>
+<script src="assets/js/hp.js?v=1"></script>
+<script src="assets/js/inicio.js?v=1"></script>
+</body>
+</html>

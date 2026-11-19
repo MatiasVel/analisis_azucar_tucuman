@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Justificación metodológica · Estacionalidad del precio del azúcar en Tucumán</title>
+<meta name="description" content="Por qué precios reales, por qué el IPC y no el dólar blue, por qué el filtro de Hodrick-Prescott con λ = 14.400, validación estadística complementaria, backtest y limitaciones del estudio.">
+<meta name="author" content="Héctor Matías Veliz">
+<meta name="theme-color" content="#050806">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Por qué este planteamiento · Azúcar en Tucumán">
+<meta property="og:description" content="La justificación completa del paper: deflactación, filtro HP con λ interactivo, pruebas no paramétricas, backtest y límites.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="assets/css/styles.css?v=1">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="progreso" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__barra">
+    <a class="marca" href="index.html" aria-label="Inicio: Estacionalidad del azúcar en Tucumán">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span>
+    </a>
+    <nav class="nav__enlaces" aria-label="Principal">
+      <a href="index.html">Inicio</a>
+      <a href="datos.html">Datos</a>
+      <a href="justificacion.html" aria-current="page">Justificación</a>
+      <a href="futuro.html">Aportes futuros</a>
+    </nav>
+    <a class="btn btn--primario btn--chico nav__cta" href="index.html#paper">Leer el paper</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"><span></span></button>
+  </div>
+</header>
+<nav class="menu-movil" id="menu-movil" aria-label="Menú principal">
+  <a href="index.html">Inicio <span aria-hidden="true">→</span></a>
+  <a href="datos.html">Datos <span aria-hidden="true">→</span></a>
+  <a href="justificacion.html" aria-current="page">Justificación <span aria-hidden="true">→</span></a>
+  <a href="futuro.html">Aportes futuros <span aria-hidden="true">→</span></a>
+  <a href="index.html#paper">Leer el paper <span aria-hidden="true">→</span></a>
+  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+</nav>
+<main id="contenido">
+<section class="portada" aria-labelledby="t-portada">
+  <div class="portada__trama"></div>
+  <div class="contenedor">
+    <nav class="migas" aria-label="Ruta"><a href="index.html">Inicio</a><span aria-hidden="true">/</span><span>Justificación</span></nav>
+    <h1 id="t-portada">Por qué <span class="verde">este planteamiento</span></h1>
+    <p class="bajada">Cada decisión metodológica del paper responde a un problema concreto: la inflación, el ruido cambiario, la diferencia de frecuencias y la necesidad de separar lo estructural de lo estacional. Esta página reúne los argumentos, permite poner a prueba las elecciones y expone los límites del estudio.</p>
+    <div class="indice-pagina">
+      <a href="#hipotesis">Hipótesis</a><a href="#precios-reales">Precios reales</a><a href="#dolar">IPC vs. dólar</a><a href="#mensual">Promedio mensual</a><a href="#hp">Filtro HP · λ en vivo</a><a href="#estadisticos">Media y mediana</a><a href="#mecanismo">Mecanismo económico</a><a href="#validacion">Validación</a><a href="#backtest">Backtest</a><a href="#limitaciones">Limitaciones</a><a href="#uso">Cómo usarlo</a><a href="#referencias">Referencias</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= HIPÓTESIS -->
+<section class="seccion seccion--borde" id="hipotesis" aria-labelledby="t-hipotesis" style="padding-top:clamp(60px,8vw,110px)">
+  <div class="contenedor">
+    <div class="dividido">
+      <div class="encabezado revelar" style="margin-bottom:0">
+        <span class="antetitulo">1 · Hipótesis</span>
+        <h2 class="titulo" id="t-hipotesis">El calendario de la caña <em>marca el precio</em></h2>
+        <p class="bajada">La caña de azúcar se cosecha y muele durante la zafra, aproximadamente entre mayo y noviembre. Fuera de ese período no se produce azúcar nueva y el mercado se abastece de stocks.</p>
+      </div>
+      <div class="texto-largo revelar">
+        <p><strong>Hipótesis del estudio.</strong> Una vez removidos la inflación y la tendencia estructural, el precio de la bolsa de 50 kg debería ubicarse <strong>por debajo de su tendencia durante la zafra</strong> —por sobreoferta física y necesidad de liquidez— y <strong>por encima durante la interzafra</strong>, cuando la oferta se reduce a los stocks remanentes.</p>
+        <p>Si la hipótesis se verifica, existe una regla de decisión aprovechable: comprar o acopiar en zafra y vender en interzafra. El paper la contrasta con 224 meses de datos.</p>
+      </div>
+    </div>
+    <div class="calendario mt-3 revelar" id="calendario" role="list" aria-label="Fases del año azucarero"></div>
+  </div>
+</section>
+
+<!-- ================================================================= PRECIOS REALES -->
+<section class="seccion seccion--elevada seccion--borde" id="precios-reales" aria-labelledby="t-reales">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">2 · Precios reales</span>
+      <h2 class="titulo" id="t-reales">Sin deflactar, <em>la inflación lo tapa todo</em></h2>
+      <p class="bajada">Entre enero de 2008 y agosto de 2026 el precio nominal mensual se multiplicó por 569, mientras que el nivel general de precios lo hizo por 1.051,54. En términos reales, la bolsa terminó el período un 46 % más barata que al inicio. Alterná entre ambas series:</p>
+    </div>
+    <div class="panel-grafico revelar">
+      <div class="panel-grafico__barra">
+        <div class="segmentos" role="group" aria-label="Serie" id="r-vistas">
+          <button type="button" data-vista="nominal" aria-pressed="true">Nominal (escala log)</button>
+          <button type="button" data-vista="real" aria-pressed="false">Real (pesos de ago-2026)</button>
+        </div>
+        <span class="tenue" id="r-nota" style="font-size:.88rem"></span>
+      </div>
+      <div class="grafico" id="g-reales"></div>
+    </div>
+    <div class="reja reja--3 mt-2">
+      <div class="dato-clave revelar"><b class="num">×569</b><span>precio nominal mensual (ene-2008 → ago-2026)</span></div>
+      <div class="dato-clave revelar"><b class="num">×1.051,54</b><span>coeficiente IPC acumulado en el mismo período</span></div>
+      <div class="dato-clave revelar"><b class="num">−45,9 %</b><span>variación del precio real entre ambos extremos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= IPC VS DÓLAR -->
+<section class="seccion" id="dolar" aria-labelledby="t-dolar">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">3 · Elección del deflactor</span>
+      <h2 class="titulo" id="t-dolar">IPC frente al <em>dólar informal</em></h2>
+      <p class="bajada">En Argentina es habitual «dolarizar» los precios para compararlos en el tiempo. Para un mercado doméstico como el del azúcar tucumano, el paper descarta esa vía.</p>
+    </div>
+    <div class="tabla-envoltura revelar">
+      <table class="tabla comparativa">
+        <thead><tr><th>Criterio</th><th>IPC empalmado</th><th>Dólar informal (blue)</th><th>Dólar oficial</th></tr></thead>
+        <tbody>
+          <tr><td>Mide el poder de compra en el mercado interno</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
+          <tr><td>Libre de brecha cambiaria</td><td class="si">Sí</td><td class="no">No</td><td class="si">Sí</td></tr>
+          <tr><td>Libre de controles de capitales y cotización administrada</td><td class="si">Sí</td><td class="no">No (mercado paralelo)</td><td class="no">No (tipo de cambio administrado)</td></tr>
+          <tr><td>No incorpora la inflación propia del dólar estadounidense</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
+          <tr><td>Serie oficial, mensual y continua</td><td class="si">Sí, con empalmes</td><td class="no">No</td><td class="si">Sí</td></tr>
+          <tr><td>Coherente con la formación del precio en Tucumán</td><td class="si">Sí</td><td class="no">No</td><td class="no">Parcial (paridad de exportación)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dividido mt-3">
+      <div class="texto-largo revelar">
+        <h3 class="subtitulo">El problema del dólar como deflactor</h3>
+        <p>Dividir por el dólar blue mezcla dos fenómenos: el precio del azúcar y la dinámica cambiaria. En períodos de cepo, la brecha entre el dólar oficial y el informal llegó a ser muy amplia; una caída del «precio en dólares» podía reflejar una corrida cambiaria y no un cambio en el mercado azucarero. Además, el dólar tiene su propia inflación, que también contamina la comparación.</p>
+      </div>
+      <div class="texto-largo revelar">
+        <h3 class="subtitulo">Por qué una serie empalmada</h3>
+        <p>El IPC oficial cambió de base y de metodología varias veces, y entre 2007 y 2015 sus mediciones fueron objeto de fuertes cuestionamientos. Las series de largo plazo «empalmadas» enlazan los distintos tramos —y en algunos casos reemplazan el período cuestionado por índices alternativos— para obtener coeficientes continuos. El factor acumulado usado en el estudio (× 1.051,54 entre enero de 2008 y agosto de 2026) es del orden de esas series.</p>
+        <p class="tenue" style="font-size:.92rem">Recomendación para la versión final: documentar en la referencia [2] la fuente exacta del archivo «IPC desde 1943.xlsx» y el criterio de empalme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= PROMEDIO MENSUAL -->
+<section class="seccion seccion--elevada seccion--borde" id="mensual" aria-labelledby="t-mensual">
+  <div class="contenedor">
+    <div class="dividido">
+      <div class="encabezado revelar" style="margin-bottom:0">
+        <span class="antetitulo">4 · Frecuencia</span>
+        <h2 class="titulo" id="t-mensual">Por qué <em>promediar</em> cada mes</h2>
+        <p class="bajada">Las cotizaciones son diarias y el IPC es mensual. Promediar es la forma natural de llevar ambas series a la misma frecuencia sin perder información.</p>
+      </div>
+      <div class="texto-largo revelar">
+        <ul>
+          <li><strong>Compatibilidad:</strong> el deflactor solo existe a nivel mensual; aplicar un coeficiente mensual a un dato diario no agrega precisión.</li>
+          <li><strong>Reducción de ruido:</strong> con unas 30 cotizaciones por mes, la media atenúa saltos puntuales, días sin operaciones y errores de carga.</li>
+          <li><strong>Representatividad:</strong> la media mensual refleja mejor el precio al que efectivamente se operó durante el mes que una cotización de fin de mes.</li>
+          <li><strong>Convención:</strong> el índice <em>Month Start</em> (<code>.resample('MS')</code>) alinea cada mes con el primer día, igual que la tabla de coeficientes del IPC.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= FILTRO HP -->
+<section class="seccion" id="hp" aria-labelledby="t-hp">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">5 · Descomposición</span>
+      <h2 class="titulo" id="t-hp">El filtro de Hodrick-Prescott, <em>con λ en vivo</em></h2>
+      <p class="bajada">El filtro separa la serie en una tendencia suave y un componente cíclico. El parámetro λ define cuán suave es la tendencia. Movelo y observá que el valle de julio y el pico de febrero no dependen de una elección arbitraria: el cálculo se rehace en tu navegador.</p>
+    </div>
+    <div class="dividido revelar" style="align-items:center">
+      <div class="formula" data-formula="hp" data-alt="Problema de minimización del filtro de Hodrick-Prescott"></div>
+      <div class="texto-largo">
+        <p>El primer término premia el ajuste a los datos; el segundo penaliza los cambios de pendiente de la tendencia. Con λ → 0 la tendencia copia la serie; con λ → ∞ se vuelve una recta.</p>
+        <p><strong>λ = 14.400</strong> es el valor convencional para datos mensuales (1.600 × 3², a partir del valor trimestral propuesto por Hodrick y Prescott [3]). Ravn y Uhlig (2002) proponen ajustar por la cuarta potencia de la frecuencia, lo que da <strong>λ = 129.600</strong>; ambos casos se pueden comparar abajo.</p>
+      </div>
+    </div>
+    <div class="panel-grafico mt-3 revelar" id="laboratorio">
+      <div class="panel-grafico__barra">
+        <div style="flex:1;min-width:260px">
+          <div class="rango-valor" style="margin-bottom:6px"><span class="rotulo" style="font:600 .78rem/1 var(--fuente);letter-spacing:.1em;text-transform:uppercase;color:var(--tenue)">Parámetro de suavizado</span><b class="num" id="lam-valor" style="font:800 1.4rem/1 var(--fuente-titulo);color:var(--verde)">λ = 14.400</b></div>
+          <input type="range" id="lam" min="0" max="8" step="1" value="4" aria-label="Valor de lambda">
+          <div class="marcas-lambda" aria-hidden="true"><span>100</span><span>400</span><span>1.600</span><span>6.400</span><span>14.400</span><span>50.000</span><span>129.600</span><span>500.000</span><span>10⁶</span></div>
+        </div>
+      </div>
+      <div class="dividido" style="gap:24px">
+        <div><h3 class="subtitulo" style="font-size:1.05rem">Precio real y tendencia</h3><div class="grafico" id="g-lam-serie"></div></div>
+        <div><h3 class="subtitulo" style="font-size:1.05rem">Patrón estacional resultante</h3><div class="grafico" id="g-lam-patron"></div></div>
+      </div>
+      <div class="reja reja--4 mt-2" id="lam-metricas" aria-live="polite"></div>
+    </div>
+    <div class="reja reja--2 mt-3">
+      <div class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Crítica conocida</span><h3>Hamilton (2018)</h3><p>James Hamilton advirtió que el filtro HP puede generar dinámicas espurias y es poco confiable en los extremos de la muestra. Por eso este sitio complementa el paper con métodos alternativos (descomposición clásica 2×12 y HP sobre logaritmos) y con pruebas no paramétricas: el patrón mensual se mantiene.</p></div>
+      <div class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Efecto de borde</span><h3>Los últimos meses, con cautela</h3><p>En los extremos de la serie el filtro dispone de información solo hacia un lado, y la tendencia tiende a «seguir» a los últimos datos. La caída final de la tendencia (2025–2026) debe leerse con prudencia; el patrón estacional, en cambio, surge del promedio de 18 a 19 años y es poco sensible a ese efecto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= MEDIA Y MEDIANA -->
+<section class="seccion seccion--elevada seccion--borde" id="estadisticos" aria-labelledby="t-estadisticos">
+  <div class="contenedor">
+    <div class="dividido">
+      <div class="encabezado revelar" style="margin-bottom:0">
+        <span class="antetitulo">6 · Estadísticos</span>
+        <h2 class="titulo" id="t-estadisticos">Media <em>y</em> mediana</h2>
+        <p class="bajada">La Tabla 1 informa ambas porque responden preguntas distintas. La media incorpora todos los episodios; la mediana describe el año «típico» y es robusta a extremos como la escasez de 2023 (+93,7 % sobre la tendencia en septiembre).</p>
+      </div>
+      <div class="revelar">
+        <div class="tabla-envoltura"><table class="tabla" style="min-width:0">
+          <thead><tr><th class="izq">Mes</th><th>Media (ARS)</th><th>Mediana (ARS)</th><th>Desvío medio</th></tr></thead>
+          <tbody>
+            <tr><td><b>Febrero</b> · pico</td><td class="pos">+2.404,45</td><td class="pos">+4.339,38</td><td class="pos">+3,96 %</td></tr>
+            <tr><td><b>Julio</b> · valle</td><td class="neg">−2.651,67</td><td class="neg">−5.169,95</td><td class="neg">−4,66 %</td></tr>
+            <tr><td><b>Agosto</b></td><td class="pos">+454,52</td><td class="neg">−1.055,53</td><td class="neg">−0,59 %</td></tr>
+            <tr><td><b>Septiembre</b></td><td class="pos">+91,48</td><td class="neg">−1.999,12</td><td class="neg">−2,45 %</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tenue mt-1" style="font-size:.92rem">En agosto y septiembre la media cíclica es positiva por el shock de 2023, pero la mediana y el desvío relativo son negativos: el mes típico se ubica bajo la tendencia. Por eso el diferencial en pesos se calcula sobre medianas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= MECANISMO -->
+<section class="seccion" id="mecanismo" aria-labelledby="t-mecanismo">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">7 · Mecanismo económico</span>
+      <h2 class="titulo" id="t-mecanismo">Por qué el precio <em>cae en zafra</em> y sube después</h2>
+      <p class="bajada">El patrón estadístico tiene una explicación económica coherente con la organización del sector. Tocá cada eslabón para ver el detalle.</p>
+    </div>
+    <div class="reja reja--2">
+      <div class="tarjeta revelar">
+        <span class="etiqueta etiqueta--blanca">Zafra · junio a octubre</span>
+        <div class="cadena mt-2">
+          <button class="eslabon" type="button" data-detalle="m-molienda" data-grupo="mec" data-etiqueta="Zafra">Molienda a pleno</button>
+          <button class="eslabon" type="button" data-detalle="m-oferta" data-grupo="mec" data-etiqueta="Zafra">Sobreoferta física de azúcar</button>
+          <button class="eslabon" type="button" data-detalle="m-liquidez" data-grupo="mec" data-etiqueta="Zafra">Necesidad de liquidez de cañeros y productores</button>
+          <button class="eslabon eslabon--final" type="button" data-detalle="m-valle" data-grupo="mec" data-etiqueta="Resultado">Precio bajo la tendencia · valle en julio</button>
+        </div>
+      </div>
+      <div class="tarjeta revelar">
+        <span class="etiqueta">Interzafra · enero a marzo</span>
+        <div class="cadena mt-2">
+          <button class="eslabon" type="button" data-detalle="m-receso" data-grupo="mec" data-etiqueta="Interzafra">Receso fabril</button>
+          <button class="eslabon" type="button" data-detalle="m-stocks" data-grupo="mec" data-etiqueta="Interzafra">Merma progresiva de stocks</button>
+          <button class="eslabon" type="button" data-detalle="m-espalda" data-grupo="mec" data-etiqueta="Interzafra">Oferta concentrada en actores con espalda financiera</button>
+          <button class="eslabon eslabon--final eslabon--verde" type="button" data-detalle="m-pico" data-grupo="mec" data-etiqueta="Resultado">Precio sobre la tendencia · pico en febrero</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= VALIDACIÓN -->
+<section class="seccion seccion--elevada seccion--borde" id="validacion" aria-labelledby="t-validacion">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">8 · Validación complementaria</span>
+      <h2 class="titulo" id="t-validacion">¿Es el patrón <em>estadísticamente sólido</em>?</h2>
+      <p class="bajada">Estas pruebas no forman parte del paper original: se calcularon con los mismos datos para dimensionar la solidez del resultado. Las pruebas por rangos no suponen normalidad, adecuadas para 18–19 observaciones por mes con valores extremos.</p>
+    </div>
+    <div class="tabla-envoltura revelar">
+      <table class="tabla" id="t-pruebas" style="min-width:820px">
+        <thead><tr><th class="izq">Prueba</th><th class="izq">Pregunta</th><th>Estadístico</th><th>Valor p</th><th class="izq">Lectura</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="dividido mt-3">
+      <div class="texto-largo revelar">
+        <h3 class="subtitulo">Cómo interpretarlo</h3>
+        <p>Cuando se comparan los meses <strong>dentro de cada año</strong> (prueba de Friedman, que bloquea por año), las diferencias entre meses son significativas al 5 % y el ranking medio ubica a julio último y a febrero primero. El resultado se repite con λ = 1.600 (p = 0,019) y λ = 129.600 (p = 0,023).</p>
+        <p>Cuando se ignora el año (Kruskal-Wallis), la diferencia deja de ser significativa: los ciclos plurianuales —como 2011 o 2023— desplazan años enteros hacia arriba o hacia abajo y tapan la señal estacional. Conclusión: <strong>la estacionalidad existe y es consistente, pero su amplitud (±4–5 %) es pequeña frente a la volatilidad interanual (±23 %)</strong>. Las ventanas son una ventaja probabilística, no una garantía.</p>
+      </div>
+      <div class="revelar">
+        <button class="figura" type="button" style="width:100%" data-num="Lámina 08" data-src4k="assets/img/figuras/fig08-robustez-3840.webp" data-png="assets/img/figuras/fig08-robustez-3840.png" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12." data-titulo="Sensibilidad a λ y al método">
+          <span class="figura__imagen"><img src="assets/img/figuras/fig08-robustez-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Patrón estacional con distintos valores de lambda y métodos"><span class="figura__4k">4K</span></span>
+          <span class="figura__cuerpo"><span class="figura__num">Lámina 08 · Robustez</span><span class="figura__titulo">Sensibilidad a λ y al método</span></span>
+        </button>
+      </div>
+    </div>
+    <div class="reja reja--4 mt-3" id="consistencia"></div>
+  </div>
+</section>
+
+<!-- ================================================================= BACKTEST -->
+<section class="seccion" id="backtest" aria-labelledby="t-backtest">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">9 · Backtest histórico</span>
+      <h2 class="titulo" id="t-backtest">¿Qué habría pasado <em>ciclo por ciclo</em>?</h2>
+      <p class="bajada">El diferencial de 8,62 pp es un promedio respecto de la tendencia. Con precios observados, la operación «comprar en julio y vender en febrero del año siguiente» también depende de hacia dónde se mueva la tendencia durante los siete meses de tenencia.</p>
+    </div>
+    <div class="reja reja--4 revelar" id="bt-resumen"></div>
+    <div class="panel-grafico mt-2 revelar">
+      <div class="panel-grafico__barra"><h3 class="subtitulo" style="margin:0;font-size:1.1rem">Retorno real de cada ciclo julio → febrero</h3><span class="tenue" style="font-size:.85rem">Pasá el cursor por cada barra para ver la descomposición</span></div>
+      <div class="grafico" id="g-backtest"></div>
+    </div>
+    <div class="texto-largo mt-2 revelar">
+      <p>El retorno observado puede leerse como la suma aproximada de dos fuerzas: el <strong>cambio de posición respecto de la tendencia</strong> (lo que mide el paper) y el <strong>cambio de la tendencia misma</strong>. En ciclos con tendencia descendente —2012/13, 2023/24 o 2024/25— el premio estacional quedó absorbido; en ciclos con tendencia estable o creciente, la operación capturó y superó el diferencial medio. De allí la importancia de combinar las ventanas estacionales con una lectura de la tendencia y con gestión del riesgo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= LIMITACIONES -->
+<section class="seccion seccion--elevada seccion--borde" id="limitaciones" aria-labelledby="t-limitaciones">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">10 · Alcances y limitaciones</span>
+      <h2 class="titulo" id="t-limitaciones">Lo que el estudio <em>no dice</em></h2>
+      <p class="bajada">Explicitar los límites es parte del rigor. Estas son las principales salvedades para quien use los resultados en decisiones reales.</p>
+    </div>
+    <div class="reja reja--3">
+      <div class="tarjeta revelar"><h3>Márgenes brutos</h3><p>El diferencial de 8,62 pp no descuenta almacenamiento, merma, costo financiero, impuestos ni comisiones. El margen neto puede ser sensiblemente menor.</p></div>
+      <div class="tarjeta revelar"><h3>Promedios, no certezas</h3><p>La estacionalidad (±4–5 %) es pequeña frente a la volatilidad interanual (±23 %). Las ventanas mejoran las probabilidades, pero no eliminan el riesgo de precio.</p></div>
+      <div class="tarjeta revelar"><h3>Efecto de borde</h3><p>La tendencia HP es menos precisa en los últimos meses de la muestra; la caída final de la tendencia debe interpretarse con cautela.</p></div>
+      <div class="tarjeta revelar"><h3>Un único precio de referencia</h3><p>La serie de CACTU es una cotización de referencia del mercado interno; los precios efectivos de cada operación pueden diferir por plazos de pago, calidad, volumen o condiciones impositivas.</p></div>
+      <div class="tarjeta revelar"><h3>Deflactor general</h3><p>El IPC mide el costo de vida general, no los costos del sector. Además depende del criterio de empalme y se publica con rezago, lo que importa para usos en tiempo real.</p></div>
+      <div class="tarjeta revelar"><h3>Cambios de régimen</h3><p>Cupos de exportación, cortes de bioetanol, sequías o shocks macroeconómicos pueden alterar el patrón. Con 18–19 años por mes, el poder estadístico es limitado: conviene actualizar el análisis cada temporada.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= USO -->
+<section class="seccion" id="uso" aria-labelledby="t-uso">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">11 · Fundamentación para la toma de decisiones</span>
+      <h2 class="titulo" id="t-uso">Cinco reglas <em>prácticas</em></h2>
+    </div>
+    <div class="ruta">
+      <div class="hito revelar"><div class="hito__marca">1</div><div class="tarjeta"><h3>Concentrar compras y acopio en plena zafra</h3><p>Junio a octubre, con julio (−4,66 %) y octubre (−3,62 %) como los meses de mayor descuento relativo.</p></div></div>
+      <div class="hito revelar"><div class="hito__marca">2</div><div class="tarjeta"><h3>Concentrar ventas en la interzafra</h3><p>Enero a marzo, con febrero (+3,96 %) como el mes de mayor premio relativo. Abril ya es neutral (−0,38 %).</p></div></div>
+      <div class="hito revelar"><div class="hito__marca">3</div><div class="tarjeta"><h3>Comparar el premio con el costo de esperar</h3><p>8,62 pp en 7 meses equivalen a ≈ 1,23 pp por mes: si el costo real de mantener el stock supera ese umbral, el arbitraje julio → febrero deja de convenir en promedio. <a class="enlace-flecha" href="index.html#simulador">Usar el simulador</a></p></div></div>
+      <div class="hito revelar"><div class="hito__marca">4</div><div class="tarjeta"><h3>Escalonar y gestionar el riesgo de tendencia</h3><p>Distribuir compras y ventas dentro de cada ventana en lugar de concentrarlas en un solo mes, y monitorear la tendencia: en ciclos bajistas el premio estacional puede no alcanzar.</p></div></div>
+      <div class="hito revelar"><div class="hito__marca">5</div><div class="tarjeta"><h3>Actualizar cada temporada</h3><p>El pipeline del repositorio permite recalcular la Tabla 1 al incorporar cada nueva zafra y verificar si el patrón se mantiene.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= REFERENCIAS -->
+<section class="seccion seccion--clara" id="referencias" aria-labelledby="t-referencias">
+  <div class="contenedor--angosto">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Referencias</span>
+      <h2 class="titulo" id="t-referencias">Bibliografía <em>del paper</em> y complementaria</h2>
+    </div>
+    <div class="texto-largo revelar" style="font-family:var(--fuente-serif);font-size:1.12rem">
+      <h3 class="subtitulo" style="font-family:var(--fuente-titulo)">Citadas en el paper</h3>
+      <ol>
+        <li>Centro de Agricultores Cañeros de Tucumán (CACTU). Serie histórica de cotizaciones diarias de la bolsa de azúcar común tipo A de 50 kg, 2008–2026.</li>
+        <li>Instituto Nacional de Estadística y Censos (INDEC). Índice de Precios al Consumidor, serie empalmada y coeficientes a pesos de agosto de 2026.</li>
+        <li>R. J. Hodrick y E. C. Prescott, “Postwar U.S. Business Cycles: An Empirical Investigation”, <i>Journal of Money, Credit and Banking</i>, 29(1), 1–16, 1997.</li>
+        <li>Estación Experimental Agroindustrial Obispo Colombres (EEAOC). Informes técnicos sobre la actividad sucroalcoholera de Tucumán.</li>
+        <li>Instituto de Promoción del Azúcar y Alcohol de Tucumán (IPAAT). Información sectorial y seguimiento de zafra.</li>
+        <li>W. McKinney, “Data Structures for Statistical Computing in Python”, <i>Proc. 9th Python in Science Conference</i>, 56–61, 2010.</li>
+        <li>S. Seabold y J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <i>Proc. 9th Python in Science Conference</i>, 92–96, 2010.</li>
+        <li>J. D. Hunter, “Matplotlib: A 2D Graphics Environment”, <i>Computing in Science &amp; Engineering</i>, 9(3), 90–95, 2007.</li>
+        <li>T. Kluyver et al., “Jupyter Notebooks – a publishing format for reproducible computational workflows”, <i>Positioning and Power in Academic Publishing</i>, IOS Press, 87–90, 2016.</li>
+      </ol>
+      <h3 class="subtitulo mt-3" style="font-family:var(--fuente-titulo)">Complementarias (usadas en esta página)</h3>
+      <ul>
+        <li>M. O. Ravn y H. Uhlig, “On Adjusting the Hodrick-Prescott Filter for Changes in the Frequency of Observations”, <i>The Review of Economics and Statistics</i>, 84(2), 371–376, 2002.</li>
+        <li>J. D. Hamilton, “Why You Should Never Use the Hodrick-Prescott Filter”, <i>The Review of Economics and Statistics</i>, 100(5), 831–843, 2018.</li>
+        <li>M. Friedman, “The Use of Ranks to Avoid the Assumption of Normality Implicit in the Analysis of Variance”, <i>Journal of the American Statistical Association</i>, 32(200), 675–701, 1937.</li>
+        <li>F. Wilcoxon, “Individual Comparisons by Ranking Methods”, <i>Biometrics Bulletin</i>, 1(6), 80–83, 1945.</li>
+        <li>H. B. Mann y D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <i>Annals of Mathematical Statistics</i>, 18(1), 50–60, 1947.</li>
+        <li>W. H. Kruskal y W. A. Wallis, “Use of Ranks in One-Criterion Variance Analysis”, <i>Journal of the American Statistical Association</i>, 47(260), 583–621, 1952.</li>
+        <li>A. Cavallo y M. Bertolotto, “Filling the Gap in Argentina’s Inflation Data”, documento de trabajo, 2016.</li>
+        <li>P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <i>Nature Methods</i>, 17, 261–272, 2020.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__reja">
+      <div>
+        <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
+        <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
+      </div>
+      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+    </div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+  </div>
+</footer>
+
+<!-- ================================================================= DETALLES DEL MECANISMO -->
+<template id="m-molienda"><p>Con la zafra en marcha, los ingenios procesan caña de forma continua y el azúcar elaborado sale al mercado semana a semana. Hacia junio la mayoría de los ingenios ya está en régimen, y el componente cíclico del precio cruza a terreno negativo.</p><p>Los seguimientos semanales de zafra del IPAAT muestran la magnitud de ese flujo: cientos de miles de toneladas de azúcar físico producidas en pocos meses.</p></template>
+<template id="m-oferta"><p>La oferta física se concentra en el tiempo, pero el consumo interno se distribuye a lo largo de todo el año. Ese desacople genera un exceso transitorio de producto disponible que presiona el precio hacia abajo.</p><p>La exportación de excedentes y el desvío de caña a bioetanol funcionan como válvulas que moderan la sobreoferta; su intensidad varía según la temporada (ver <a href="futuro.html#variables">variables para futuros modelos</a>).</p></template>
+<template id="m-liquidez"><p>Buena parte de los cañeros independientes cobra en azúcar bajo el régimen de maquila. Para pagar cosecha, fletes, mano de obra y deudas, muchos necesitan vender rápido, justo cuando el mercado está más ofertado.</p><p>Dirigentes del sector han señalado públicamente que los productores chicos y medianos suelen vender a precios bajos para afrontar sus compromisos, y que lo ideal sería poder distribuir las ventas a lo largo del año.</p></template>
+<template id="m-valle"><p>La combinación de sobreoferta y ventas forzadas lleva el precio por debajo de su tendencia estructural. El piso se alcanza en <strong>julio (−4,66 %; mediana −$ 5.169,95)</strong> y el descuento se extiende hasta octubre (−3,62 %).</p></template>
+<template id="m-receso"><p>Hacia fines de año termina la molienda. Desde ese momento ya no ingresa azúcar nueva al mercado hasta la zafra siguiente, y el abastecimiento depende de los stocks acumulados.</p></template>
+<template id="m-stocks"><p>Mes a mes el consumo reduce el stock circulante. La oferta disponible se achica justo cuando la producción está detenida, lo que empuja el precio relativo hacia arriba.</p></template>
+<template id="m-espalda"><p>Quienes pudieron retener azúcar —ingenios y actores con capacidad financiera— concentran la oferta remanente y pueden esperar mejores precios. Esa asimetría explica por qué los beneficios del arbitraje estacional quedan, en general, del lado de quien tiene financiamiento.</p></template>
+<template id="m-pico"><p>El ciclo se vuelve positivo entre enero y marzo y alcanza su máximo en <strong>febrero (+3,96 %; mediana +$ 4.339,38)</strong>. En abril, con la expectativa de la nueva zafra, el precio vuelve a la tendencia (−0,38 %).</p></template>
+
+<script src="assets/data/azucar.js?v=1"></script>
+<script src="assets/js/formulas.js?v=1"></script>
+<script src="assets/js/core.js?v=1"></script>
+<script src="assets/js/charts.js?v=1"></script>
+<script src="assets/js/hp.js?v=1"></script>
+<script src="assets/js/justificacion.js?v=1"></script>
+</body>
+</html>

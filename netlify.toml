@@ -1,0 +1,47 @@
+# Configuración de despliegue en Netlify
+# Sitio estático: no requiere compilación. Se publica la carpeta site/.
+
+[build]
+  publish = "site"
+  command = ""
+
+# Encabezados de seguridad para todas las páginas
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+
+# Imágenes y tipografías: caché larga (los nombres de archivo no cambian)
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+# CSS, JS y datos llevan ?v=N en el HTML: caché de una semana con revalidación
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+# Descargas de datos en CSV
+[[headers]]
+  for = "/datos/*.csv"
+  [headers.values]
+    Content-Type = "text/csv; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+# Página 404 personalizada
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

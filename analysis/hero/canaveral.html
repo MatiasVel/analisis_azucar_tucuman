@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Generador procedural — cañaveral tucumano al anochecer</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;width:100%;height:auto}</style>
+</head>
+<body>
+<canvas id="lienzo"></canvas>
+<script src="../../site/assets/data/azucar.js"></script>
+<script>
+/*
+  Imagen procedural (sin fotografías de terceros) para la portada del sitio.
+  Escena: cañaveral al anochecer con la silueta de la Sierra del Aconquija al fondo.
+  Uso: abrir con ?w=3840&h=2160&seed=7 — analysis/hero/render_hero.py la exporta a WebP/PNG.
+*/
+setTimeout(dibujar, 0);
+function dibujar(){
+const t0 = performance.now();
+const params = new URLSearchParams(location.search);
+const W = +params.get('w') || 3840, H = +params.get('h') || 2160, SEED = +params.get('seed') || 7;
+const cv = document.getElementById('lienzo'); cv.width = W; cv.height = H;
+const ctx = cv.getContext('2d');
+const S = W / 3840;
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rnd = mulberry32(SEED);
+const r = (a,b)=>a+(b-a)*rnd();
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+const HZ = H*0.60;          // horizonte
+const FOCO = [W*0.70, HZ];  // fuente de luz crepuscular
+
+// ---------------------------------------------------------------- cielo
+let g = ctx.createLinearGradient(0,0,0,HZ);
+g.addColorStop(0,'#010302'); g.addColorStop(0.5,'#030a07'); g.addColorStop(0.85,'#0b2117'); g.addColorStop(1,'#1a4a33');
+ctx.fillStyle=g; ctx.fillRect(0,0,W,HZ+2);
+let halo = ctx.createRadialGradient(FOCO[0],FOCO[1],0,FOCO[0],FOCO[1],W*0.62);
+halo.addColorStop(0,'rgba(170,250,205,0.42)'); halo.addColorStop(0.12,'rgba(90,210,140,0.22)');
+halo.addColorStop(0.4,'rgba(30,110,70,0.08)'); halo.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=halo; ctx.fillRect(0,0,W,HZ+2);
+for(let i=0;i<220;i++){const x=r(0,W),y=r(0,HZ*0.5);ctx.fillStyle=`rgba(225,255,238,${r(0.05,0.28)})`;ctx.beginPath();ctx.arc(x,y,r(0.7,1.8)*S,0,7);ctx.fill()}
+
+// ---------------------------------------------------------------- Aconquija (crestas fractales escarpadas)
+function cresta(semilla, n, rug){
+  const R=mulberry32(semilla); let p=new Array(n).fill(0); p[0]=R(); p[n-1]=R();
+  let paso=n-1, esc=1;
+  while(paso>1){const m=paso/2;for(let i=m;i<n;i+=paso){p[i]=(p[i-m]+p[i+m])/2+(R()-0.5)*esc}esc*=rug;paso=m}
+  const mn=Math.min(...p), mx=Math.max(...p); return p.map(v=>(v-mn)/(mx-mn));
+}
+function sierra(semilla, base, alto, rug, picos){
+  const p=cresta(semilla, 513, rug);
+  return p.map((v,i)=>{const x=i/512; let env=0.18; picos.forEach(([c,a,s])=>env+=a*Math.exp(-Math.pow((x-c)/s,2)));
+    return base - alto*(0.35*v+0.65*v*env)*env;});
+}
+function capa(ys, relleno, borde, ancho){
+  ctx.beginPath(); ctx.moveTo(0,HZ+4); ys.forEach((y,i)=>ctx.lineTo(i/(ys.length-1)*W,y)); ctx.lineTo(W,HZ+4); ctx.closePath();
+  ctx.fillStyle=relleno; ctx.fill();
+  if(borde){ctx.beginPath(); ys.forEach((y,i)=>i?ctx.lineTo(i/(ys.length-1)*W,y):ctx.moveTo(0,y)); ctx.strokeStyle=borde; ctx.lineWidth=ancho*S; ctx.stroke();}
+}
+// El perfil de la sierra lejana ES la serie real del precio (224 meses, 2008–2026) en el 72 % izquierdo
+// del cuadro; a la derecha continúa una cresta fractal que desciende detrás de las cañas.
+const cruda = (window.AZUCAR && window.AZUCAR.mensual.real) || cresta(5,224,0.6).map(v=>40000+v*100000);
+// suavizado ponderado [1,2,3,2,1]/9 para que la cresta luzca natural sin perder la forma de la serie
+const serie = cruda.map((_,i)=>{let s=0,w=0;[-2,-1,0,1,2].forEach((d,j)=>{const k=Math.min(cruda.length-1,Math.max(0,i+d));const p=[1,2,3,2,1][j];s+=cruda[k]*p;w+=p});return s/w});
+const pmin = Math.min(...serie), pmax = Math.max(...serie);
+const relleno_frac = cresta(31, 513, 0.6);
+const lejana = new Array(513).fill(0).map((_,i)=>{
+  const x=i/512, CORTE=0.72;
+  if(x<=CORTE){ const pos=x/CORTE*(serie.length-1), k=Math.floor(pos), f=pos-k;
+    const v=serie[k]*(1-f)+(serie[Math.min(k+1,serie.length-1)])*f;
+    return HZ-H*0.035-(v-pmin)/(pmax-pmin)*H*0.33; }
+  const fin=(x-CORTE)/(1-CORTE); const ultimo=serie[serie.length-1];
+  return HZ-H*0.035-((ultimo-pmin)/(pmax-pmin)*(1-fin)*0.9+relleno_frac[i]*0.10)*H*0.33 + fin*H*0.01;
+});
+let gl=ctx.createLinearGradient(0,HZ-H*0.36,0,HZ); gl.addColorStop(0,'#16402d'); gl.addColorStop(0.6,'#0f3122'); gl.addColorStop(1,'#123b29');
+capa(lejana, gl, 'rgba(185,255,215,0.30)', 2.4);
+let neb=ctx.createLinearGradient(0,HZ-H*0.16,0,HZ); neb.addColorStop(0,'rgba(50,140,95,0)'); neb.addColorStop(1,'rgba(60,160,105,0.32)');
+ctx.fillStyle=neb; ctx.fillRect(0,HZ-H*0.16,W,H*0.16);
+const media = sierra(57, HZ+H*0.004, H*0.12, 0.62, [[0.12,0.9,0.12],[0.55,0.6,0.2],[0.9,0.8,0.1]]);
+let gm=ctx.createLinearGradient(0,HZ-H*0.13,0,HZ); gm.addColorStop(0,'#0b261a'); gm.addColorStop(1,'#081c13');
+capa(media, gm, 'rgba(140,240,180,0.14)', 1.6);
+let neb2=ctx.createLinearGradient(0,HZ-H*0.05,0,HZ+H*0.03); neb2.addColorStop(0,'rgba(70,170,115,0)'); neb2.addColorStop(1,'rgba(70,170,115,0.25)');
+ctx.fillStyle=neb2; ctx.fillRect(0,HZ-H*0.05,W,H*0.08);
+
+// ---------------------------------------------------------------- suelo y cañaveral lejano (hojas como trazos)
+let gs=ctx.createLinearGradient(0,HZ,0,H); gs.addColorStop(0,'#0d2a1c'); gs.addColorStop(0.25,'#06150d'); gs.addColorStop(1,'#010403');
+ctx.fillStyle=gs; ctx.fillRect(0,HZ,W,H-HZ);
+const FILAS=34;
+ctx.lineCap='round';
+for(let f=0; f<FILAS; f++){
+  const z=f/(FILAS-1), zz=Math.pow(z,1.9);
+  const y=HZ + (H*0.98-HZ)*zz + 2*S;
+  const alto=(6+190*Math.pow(z,2.2))*S;
+  const paso=(3+26*Math.pow(z,1.6))*S;
+  const tono=Math.round(lerp(58,8,Math.pow(z,0.6)));
+  const luzF=lerp(0.30,0.10,z);
+  const colorHoja=`rgb(${Math.round(tono*0.45)},${tono+Math.round(26*(1-z))},${Math.round(tono*0.7)})`;
+  const anchoHoja=Math.max(1,(1.2+6*Math.pow(z,1.8))*S), anchoLuz=Math.max(0.8,(0.6+1.6*z)*S);
+  // trazos agrupados por color para acelerar el render
+  const sombra=new Path2D(), brillo=new Path2D();
+  for(let x=-paso; x<W+paso; x+=paso*r(0.5,1.3)){
+    const n=Math.round(r(2,4));
+    for(let k=0;k<n;k++){
+      const lado=rnd()<0.5?-1:1, a=r(0.05,1.0)*lado, L=alto*r(0.6,1.25);
+      const tx=x+Math.sin(a)*L, ty=y-Math.cos(a)*L*0.75+L*0.25*Math.abs(a);
+      const cx=x+Math.sin(a)*L*0.35, cy=y-L*1.05;
+      sombra.moveTo(x,y); sombra.quadraticCurveTo(cx,cy,tx,ty);
+      if(z>0.15 && rnd()<0.55){brillo.moveTo(x,y); brillo.quadraticCurveTo(cx,cy,tx,ty);}
+    }
+  }
+  ctx.strokeStyle=colorHoja; ctx.lineWidth=anchoHoja; ctx.stroke(sombra);
+  if(z>0.15){
+    let gb=ctx.createRadialGradient(FOCO[0],y,0,FOCO[0],y,W*0.6);
+    gb.addColorStop(0,`rgba(120,235,170,${luzF+0.03})`); gb.addColorStop(1,'rgba(120,235,170,0.03)');
+    ctx.strokeStyle=gb; ctx.lineWidth=anchoLuz; ctx.stroke(brillo);
+  }
+  if(z<0.5){ctx.fillStyle=`rgba(25,70,48,${0.05*(1-z/0.5)})`; ctx.fillRect(0,HZ,W,H-HZ);}
+}
+
+// surcos en perspectiva (fuga hacia el foco de luz)
+ctx.save();
+for(let i=-70;i<=70;i++){
+  const xb=FOCO[0]+i*W*0.055, ancho=W*0.0065;
+  ctx.beginPath(); ctx.moveTo(FOCO[0]+i*W*0.0012,HZ+H*0.004); ctx.lineTo(xb-ancho,H); ctx.lineTo(xb+ancho,H); ctx.closePath();
+  ctx.fillStyle='rgba(1,6,3,0.30)'; ctx.fill();
+}
+ctx.restore();
+
+// ---------------------------------------------------------------- cañas de primer plano (tallos con nudos + hojas en cinta)
+function cinta(x,y,ang,L,ancho,caida,relleno,borde){
+  const N=26, izq=[], der=[], medio=[];
+  const px=x+Math.sin(ang)*L*0.42, py=y-Math.cos(ang)*L*0.78;
+  const tx=x+Math.sin(ang)*L*(0.92+0.2*caida), ty=y-Math.cos(ang)*L*(0.42-0.7*caida);
+  for(let i=0;i<=N;i++){
+    const t=i/N,u=1-t, bx=u*u*x+2*u*t*px+t*t*tx, by=u*u*y+2*u*t*py+t*t*ty;
+    const dx=2*u*(px-x)+2*t*(tx-px), dy=2*u*(py-y)+2*t*(ty-py), l=Math.hypot(dx,dy)||1;
+    const nx=-dy/l, ny=dx/l, w=ancho*Math.pow(Math.sin(Math.PI*Math.min(1,t*1.05+0.04)),0.7)*(1-0.85*t*t);
+    izq.push([bx+nx*w,by+ny*w]); der.push([bx-nx*w,by-ny*w]); medio.push([bx,by]);
+  }
+  ctx.beginPath(); ctx.moveTo(...izq[0]); izq.forEach(p=>ctx.lineTo(...p)); for(let i=N;i>=0;i--) ctx.lineTo(...der[i]); ctx.closePath();
+  ctx.fillStyle=relleno; ctx.fill();
+  ctx.beginPath(); izq.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p)); ctx.strokeStyle=borde; ctx.lineWidth=Math.max(1.2,ancho*0.10); ctx.stroke();
+  ctx.beginPath(); medio.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p)); ctx.strokeStyle='rgba(150,240,190,0.10)'; ctx.lineWidth=Math.max(1,ancho*0.06); ctx.stroke();
+}
+function cana(x0, yTop, grosor, incl, luz){
+  const seg=[]; let y=H+grosor*2, x=x0;
+  while(y>yTop){ const L=r(120,175)*S*(grosor/(30*S)); const nx=x+incl*L; seg.push([x,y,nx,y-L]); x=nx; y-=L; }
+  seg.forEach(([xa,ya,xb,yb])=>{
+    let gr=ctx.createLinearGradient(xa-grosor,0,xa+grosor,0);
+    gr.addColorStop(0,'#020805'); gr.addColorStop(0.55,'#071a10'); gr.addColorStop(0.86,`rgba(${Math.round(40+90*luz)},${Math.round(120+120*luz)},${Math.round(80+80*luz)},1)`); gr.addColorStop(1,'#04100a');
+    ctx.beginPath(); ctx.moveTo(xa-grosor/2,ya); ctx.quadraticCurveTo((xa+xb)/2-grosor*0.56,(ya+yb)/2,xb-grosor/2,yb);
+    ctx.lineTo(xb+grosor/2,yb); ctx.quadraticCurveTo((xa+xb)/2+grosor*0.56,(ya+yb)/2,xa+grosor/2,ya); ctx.closePath();
+    ctx.fillStyle=gr; ctx.fill();
+    ctx.beginPath(); ctx.ellipse(xb,yb,grosor*0.62,grosor*0.16,0,0,7); ctx.fillStyle='#031009'; ctx.fill();
+    ctx.beginPath(); ctx.ellipse(xb,yb-grosor*0.06,grosor*0.6,grosor*0.12,0,Math.PI*1.05,Math.PI*1.95); ctx.strokeStyle=`rgba(140,245,185,${0.25+0.35*luz})`; ctx.lineWidth=Math.max(1,grosor*0.07); ctx.stroke();
+  });
+  const borde=`rgba(${Math.round(90+80*luz)},${Math.round(200+50*luz)},${Math.round(140+40*luz)},${0.22+0.33*luz})`;
+  const relleno='#03100a';
+  const nudos=seg.slice(Math.floor(seg.length*0.45));
+  nudos.forEach(([,,xb,yb])=>{ if(rnd()<0.6){ const lado=rnd()<0.5?-1:1; cinta(xb,yb,lado*r(0.35,1.25),r(520,980)*S*(grosor/(30*S)),grosor*r(0.85,1.15),r(0.3,1),relleno,borde);} });
+  const [,,xt,yt]=seg[seg.length-1];
+  for(let k=0;k<8;k++){ const a=r(-1.3,1.3); cinta(xt,yt+grosor*0.5,a,r(480,1050)*S*(grosor/(30*S)),grosor*r(0.75,1.05),r(0.15,1),relleno,borde); }
+}
+const grupos=[
+  // x, yTop, grosor, inclinación, luz, desenfoque
+  [0.93,0.20,18,-0.05,0.75,0],[0.80,0.30,16,0.04,0.9,0],[0.86,0.08,22,-0.02,0.85,0],[0.69,0.36,14,0.06,1.0,0],
+  [0.98,0.02,30,-0.08,0.55,2],[0.75,0.15,26,0.02,0.7,1]
+];
+grupos.forEach(([fx,fy,gx,inc,luz,bl])=>{
+  if(bl){ctx.save(); ctx.filter=`blur(${Math.round(bl*3*S)}px)`;}
+  cana(fx*W, fy*H, gx*S, inc, luz);
+  if(bl){ctx.restore();}
+});
+ctx.save(); ctx.filter=`blur(${Math.round(10*S)}px)`;
+cinta(W*1.02,H*1.05,-0.85,1500*S,70*S,0.9,'#010604','rgba(80,200,130,0.35)');
+cinta(W*0.62,H*1.12,0.55,1100*S,55*S,0.95,'#010604','rgba(80,200,130,0.25)');
+ctx.restore();
+
+// ---------------------------------------------------------------- luz, viñeta y grano
+ctx.save(); ctx.globalCompositeOperation='screen';
+let luz=ctx.createRadialGradient(FOCO[0],FOCO[1],0,FOCO[0],FOCO[1],W*0.38);
+luz.addColorStop(0,'rgba(110,235,160,0.20)'); luz.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=luz; ctx.fillRect(0,0,W,H); ctx.restore();
+let vi=ctx.createLinearGradient(0,0,W,0); vi.addColorStop(0,'rgba(1,4,3,0.78)'); vi.addColorStop(0.42,'rgba(1,4,3,0.18)'); vi.addColorStop(1,'rgba(1,4,3,0)');
+ctx.fillStyle=vi; ctx.fillRect(0,0,W,H);
+let pie=ctx.createLinearGradient(0,H*0.78,0,H); pie.addColorStop(0,'rgba(2,5,4,0)'); pie.addColorStop(1,'rgba(2,5,4,0.9)');
+ctx.fillStyle=pie; ctx.fillRect(0,H*0.78,W,H*0.22);
+const img=ctx.getImageData(0,0,W,H), d=img.data; const R2=mulberry32(99);
+for(let i=0;i<d.length;i+=4){const n=(R2()-0.5)*4;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
+ctx.putImageData(img,0,0);
+window.TIEMPO = Math.round(performance.now()-t0);
+window.LISTO = true;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Dependencias para regenerar datos, figuras y el prototipo predictivo
+pandas>=2.2
+numpy>=2.0
+scipy>=1.13
+matplotlib>=3.9
+pillow>=10.0
+scikit-learn>=1.5
+# Opcional: si está instalado, pipeline.py verifica que su hpfilter coincida con la implementación propia
+statsmodels>=0.14
+# Solo para regenerar la imagen de portada (analysis/hero/render_hero.py)
+playwright>=1.45

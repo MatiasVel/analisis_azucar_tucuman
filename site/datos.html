@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Datos y fuentes · Estacionalidad del precio del azúcar en Tucumán</title>
+<meta name="description" content="Fuentes (CACTU e INDEC), pipeline de ingeniería de datos, control de calidad, deflactor IPC, diccionario de datos y descargas en CSV del estudio de estacionalidad del azúcar en Tucumán.">
+<meta name="author" content="Héctor Matías Veliz">
+<meta name="theme-color" content="#050806">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="De dónde salen los datos · Azúcar en Tucumán">
+<meta property="og:description" content="6.791 cotizaciones diarias de CACTU, IPC empalmado y un pipeline reproducible en Python.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="assets/css/styles.css?v=1">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="progreso" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__barra">
+    <a class="marca" href="index.html" aria-label="Inicio: Estacionalidad del azúcar en Tucumán">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span>
+    </a>
+    <nav class="nav__enlaces" aria-label="Principal">
+      <a href="index.html">Inicio</a>
+      <a href="datos.html" aria-current="page">Datos</a>
+      <a href="justificacion.html">Justificación</a>
+      <a href="futuro.html">Aportes futuros</a>
+    </nav>
+    <a class="btn btn--primario btn--chico nav__cta" href="index.html#paper">Leer el paper</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"><span></span></button>
+  </div>
+</header>
+<nav class="menu-movil" id="menu-movil" aria-label="Menú principal">
+  <a href="index.html">Inicio <span aria-hidden="true">→</span></a>
+  <a href="datos.html" aria-current="page">Datos <span aria-hidden="true">→</span></a>
+  <a href="justificacion.html">Justificación <span aria-hidden="true">→</span></a>
+  <a href="futuro.html">Aportes futuros <span aria-hidden="true">→</span></a>
+  <a href="index.html#paper">Leer el paper <span aria-hidden="true">→</span></a>
+  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+</nav>
+<main id="contenido">
+<section class="portada" aria-labelledby="t-portada">
+  <div class="portada__trama"></div>
+  <div class="contenedor">
+    <nav class="migas" aria-label="Ruta"><a href="index.html">Inicio</a><span aria-hidden="true">/</span><span>Datos</span></nav>
+    <h1 id="t-portada">De dónde salen <span class="verde">los datos</span></h1>
+    <p class="bajada">Dos fuentes primarias, un pipeline reproducible en Python y controles de calidad explícitos. Todo lo que el paper afirma puede verificarse con los archivos que se publican en esta página.</p>
+    <div class="indice-pagina">
+      <a href="#fuentes">Fuentes</a><a href="#pipeline">Pipeline</a><a href="#calidad">Calidad</a><a href="#ipc">Deflactor IPC</a><a href="#diccionario">Diccionario</a><a href="#tabla">Explorar la tabla</a><a href="#descargas">Descargas</a><a href="#reproducibilidad">Reproducibilidad</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= FUENTES -->
+<section class="seccion seccion--borde" id="fuentes" aria-labelledby="t-fuentes" style="padding-top:clamp(60px,8vw,110px)">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Fuentes primarias</span>
+      <h2 class="titulo" id="t-fuentes">Precio de mercado <em>+</em> índice de precios</h2>
+      <p class="bajada">El estudio cruza la cotización diaria de la bolsa de azúcar con el IPC. Ninguna de las dos fuentes alcanza por sí sola: la primera mide el mercado, la segunda permite comparar pesos de distintas épocas.</p>
+    </div>
+    <div class="reja reja--2">
+      <article class="tarjeta revelar" id="cactu">
+        <span class="etiqueta">Fuente 1 · Mercado</span>
+        <h3>Centro de Agricultores Cañeros de Tucumán (CACTU)</h3>
+        <p>Entidad gremial de los productores cañeros de Tucumán. Provee la serie histórica de cotizaciones de la bolsa de azúcar en el mercado interno, utilizada como referencia por el sector.</p>
+        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><tbody>
+          <tr><td class="izq tenue">Variable</td><td class="izq">Precio de la bolsa de azúcar común tipo A de 50 kg</td></tr>
+          <tr><td class="izq tenue">Mercado</td><td class="izq">Interno, provincia de Tucumán</td></tr>
+          <tr><td class="izq tenue">Frecuencia</td><td class="izq">Diaria (días calendario)</td></tr>
+          <tr><td class="izq tenue">Cobertura</td><td class="izq">01/01/2008 – 11/09/2026</td></tr>
+          <tr><td class="izq tenue">Registros</td><td class="izq"><b>6.791</b> cotizaciones válidas</td></tr>
+          <tr><td class="izq tenue">Unidad</td><td class="izq">Pesos corrientes (ARS) por bolsa</td></tr>
+          <tr><td class="izq tenue">Formato original</td><td class="izq">Planilla matricial por año y mes</td></tr>
+        </tbody></table></div>
+      </article>
+      <article class="tarjeta revelar">
+        <span class="etiqueta">Fuente 2 · Deflactor</span>
+        <h3>Índice de Precios al Consumidor (IPC) — serie empalmada</h3>
+        <p>Serie histórica del IPC elaborado por el Instituto Nacional de Estadística y Censos (INDEC), empalmada para obtener coeficientes continuos que llevan cada mes a pesos constantes de agosto de 2026.</p>
+        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><tbody>
+          <tr><td class="izq tenue">Variable</td><td class="izq">Coeficiente de ajuste a pesos de agosto de 2026</td></tr>
+          <tr><td class="izq tenue">Organismo</td><td class="izq">INDEC (<a href="https://www.indec.gob.ar" rel="noopener">indec.gob.ar</a>)</td></tr>
+          <tr><td class="izq tenue">Frecuencia</td><td class="izq">Mensual</td></tr>
+          <tr><td class="izq tenue">Cobertura usada</td><td class="izq">Enero 2008 – agosto 2026 (224 meses)</td></tr>
+          <tr><td class="izq tenue">Rango</td><td class="izq">× 1.051,54 (ene-2008) a × 1,00 (ago-2026)</td></tr>
+          <tr><td class="izq tenue">Archivo de origen</td><td class="izq">«IPC desde 1943.xlsx»</td></tr>
+          <tr><td class="izq tenue">Rol</td><td class="izq">Deflactar la serie nominal</td></tr>
+        </tbody></table></div>
+      </article>
+    </div>
+    <div class="reja reja--3 mt-2">
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Contexto sectorial</span><h3>EEAOC</h3><p>La Estación Experimental Agroindustrial Obispo Colombres produce información técnica sobre la caña de azúcar y la actividad sucroalcoholera de Tucumán (estimaciones de cosecha, molienda y rendimientos). Citada en el paper como referencia [4].</p></article>
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Contexto sectorial</span><h3>IPAAT</h3><p>El Instituto de Promoción del Azúcar y Alcohol de Tucumán es el organismo provincial de aplicación del régimen sucroalcoholero y realiza el seguimiento semanal de la zafra (caña molida, azúcar y alcohol producidos). Citado como referencia [5].</p></article>
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Por qué no el dólar</span><h3>Dólar informal: descartado</h3><p>La cotización del dólar blue incorpora brechas cambiarias, controles de capitales e inflación propia de la divisa. Usarla como deflactor introduciría ruido ajeno al mercado doméstico del azúcar. <a class="enlace-flecha" href="justificacion.html#dolar">Ver comparación</a></p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= PIPELINE -->
+<section class="seccion seccion--elevada seccion--borde" id="pipeline" aria-labelledby="t-pipeline">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Ingeniería de datos</span>
+      <h2 class="titulo" id="t-pipeline">El pipeline, <em>archivo por archivo</em></h2>
+      <p class="bajada">Ocho pasos transforman una planilla matricial en una tabla de decisiones. Cada bloque muestra el archivo que produce y, al abrirlo, el código del cuaderno Jupyter (o su equivalente en el pipeline del repositorio).</p>
+    </div>
+    <div class="flujo flujo--pipeline">
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>A</b>Ingesta</div>
+        <button class="nodo" type="button" data-detalle="p-planilla" data-grupo="pipe" data-etiqueta="Paso 1 · Origen"><span class="nodo__sup"><span class="nodo__num">01</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Planilla matricial CACTU</span><span class="nodo__texto">bloques por año y mes, con símbolos y leyendas</span></button>
+        <button class="nodo" type="button" data-detalle="p-limpieza" data-grupo="pipe" data-etiqueta="Paso 2 · Limpieza"><span class="nodo__sup"><span class="nodo__num">02</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Serie diaria limpia</span><span class="nodo__dato num">6.791 filas</span><span class="nodo__texto"><code>precio_azucar_50kg_desde_2008.csv</code></span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>B</b>Transformación</div>
+        <button class="nodo" type="button" data-detalle="p-mensual" data-grupo="pipe" data-etiqueta="Paso 3 · Submuestreo"><span class="nodo__sup"><span class="nodo__num">03</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Promedio mensual</span><span class="nodo__dato num">225 filas</span><span class="nodo__texto"><code>promedio_mensual_azucar_desde_2008.csv</code></span></button>
+        <button class="nodo" type="button" data-detalle="p-ipc" data-grupo="pipe" data-etiqueta="Paso 4 · IPC"><span class="nodo__sup"><span class="nodo__num">04</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Coeficientes IPC</span><span class="nodo__dato num">224 filas</span><span class="nodo__texto"><code>ipc_coeficientes_desde_2008.csv</code></span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>C</b>Integración</div>
+        <button class="nodo nodo--clave" type="button" data-detalle="p-merge" data-grupo="pipe" data-etiqueta="Paso 5 · Unión"><span class="nodo__sup"><span class="nodo__num">05</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Unión y precio real</span><span class="nodo__dato num">224 filas</span><span class="nodo__texto"><code>precio_real_azucar_desde_2008.csv</code></span></button>
+        <button class="nodo" type="button" data-detalle="p-actualizado" data-grupo="pipe" data-etiqueta="Paso 6 · Serie para el modelo"><span class="nodo__sup"><span class="nodo__num">06</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Precio actualizado</span><span class="nodo__dato num">224 filas</span><span class="nodo__texto"><code>precio_actualizado_agosto2026_azucar_mensual.csv</code></span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>D</b>Modelo y salida</div>
+        <button class="nodo nodo--clave" type="button" data-detalle="p-hp" data-grupo="pipe" data-etiqueta="Paso 7 · Filtro HP"><span class="nodo__sup"><span class="nodo__num">07</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Tendencia y ciclo</span><span class="nodo__dato num">224 filas</span><span class="nodo__texto"><code>azucar_tendencia_hp.csv</code></span></button>
+        <button class="nodo" type="button" data-detalle="p-tabla" data-grupo="pipe" data-etiqueta="Paso 8 · Tabla 1"><span class="nodo__sup"><span class="nodo__num">08</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Patrón estacional</span><span class="nodo__dato num">12 filas</span><span class="nodo__texto"><code>tabla1_estacionalidad.csv</code></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= CALIDAD -->
+<section class="seccion" id="calidad" aria-labelledby="t-calidad">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Control de calidad</span>
+      <h2 class="titulo" id="t-calidad">Qué tan completa es <em>la serie diaria</em></h2>
+      <p class="bajada">Antes de modelar se verificó la integridad de los datos. La serie diaria registra precio todos los días de la semana —incluidos sábados y domingos—, por lo que la cobertura se mide sobre días calendario.</p>
+    </div>
+    <div class="reja reja--4 revelar">
+      <div class="dato-clave"><b class="num">6.791</b><span>registros válidos</span></div>
+      <div class="dato-clave"><b class="num">99,4 %</b><span>de los 6.829 días calendario con dato</span></div>
+      <div class="dato-clave"><b class="num">0</b><span>valores nulos y fechas duplicadas</span></div>
+      <div class="dato-clave"><b class="num">38</b><span>días sin cotización, en dos huecos principales</span></div>
+    </div>
+    <div class="dividido mt-3">
+      <div class="panel-grafico revelar">
+        <div class="panel-grafico__barra"><h3 class="subtitulo" style="margin:0;font-size:1.15rem">Registros por año</h3><span class="tenue" style="font-size:.85rem">2026: hasta el 11 de septiembre</span></div>
+        <div class="grafico" id="g-registros"></div>
+      </div>
+      <div class="texto-largo revelar">
+        <h3 class="subtitulo">Lo que hay que saber</h3>
+        <ul>
+          <li><strong>Huecos detectados:</strong> del 20 al 31 de enero de 2009 (12 días) y del 1 al 20 de febrero de 2019 (20 días), más seis días aislados en 2018–2020. Los promedios de esos meses se calcularon con los días disponibles.</li>
+          <li><strong>Extremos nominales:</strong> mínimo de <span class="num">$ 55,00</span> el 27/11/2008 y máximo de <span class="num">$ 37.165,00</span> el 18/06/2026.</li>
+          <li><strong>Septiembre de 2026:</strong> el archivo diario llega al 11/09/2026, pero ese mes queda fuera del análisis por estar incompleto y no tener aún coeficiente IPC (la unión con el deflactor es interna).</li>
+          <li><strong>Valores no numéricos:</strong> símbolos monetarios, separadores de miles y leyendas como «s/c» se eliminaron en la extracción.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel-grafico mt-3 revelar">
+      <div class="panel-grafico__barra"><h3 class="subtitulo" style="margin:0;font-size:1.15rem">Serie diaria nominal</h3><label class="interruptor"><input type="checkbox" id="d-log" checked> Escala log</label></div>
+      <div class="grafico" id="g-diario"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= DEFLACTOR -->
+<section class="seccion seccion--elevada seccion--borde" id="ipc" aria-labelledby="t-ipc">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Deflactor IPC</span>
+      <h2 class="titulo" id="t-ipc">Cómo se llevan los precios <em>a pesos de hoy</em></h2>
+      <p class="bajada">El coeficiente indica cuántos pesos de agosto de 2026 equivalen a un peso de cada mes. Elegí un mes para reproducir el cálculo del precio real.</p>
+    </div>
+    <div class="dividido">
+      <div class="panel-grafico revelar">
+        <div class="panel-grafico__barra"><h3 class="subtitulo" style="margin:0;font-size:1.15rem">Coeficiente de actualización (escala log)</h3></div>
+        <div class="grafico" id="g-coef"></div>
+      </div>
+      <div class="tarjeta revelar" id="conversor">
+        <span class="etiqueta">Conversor</span>
+        <h3>Del precio nominal al precio real</h3>
+        <div class="reja reja--2 mt-1">
+          <div class="campo"><label for="c-anio">Año</label><select id="c-anio"></select></div>
+          <div class="campo"><label for="c-mes">Mes</label><select id="c-mes"></select></div>
+        </div>
+        <div class="formula formula--izq mt-2" id="c-calculo" aria-live="polite" style="font:500 1.05rem/1.7 var(--fuente)"></div>
+        <div class="datos-clave mt-2" id="c-datos"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= DICCIONARIO -->
+<section class="seccion" id="diccionario" aria-labelledby="t-diccionario">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Diccionario de datos</span>
+      <h2 class="titulo" id="t-diccionario">Qué contiene <em>cada columna</em></h2>
+      <p class="bajada">El archivo integrado <code>azucar_tendencia_hp.csv</code> reúne todas las etapas del estudio en una sola tabla mensual.</p>
+    </div>
+    <div class="tabla-envoltura revelar">
+      <table class="tabla">
+        <thead><tr><th class="izq">Columna</th><th class="izq">Tipo</th><th class="izq">Unidad</th><th class="izq">Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><code>Periodo</code></td><td class="izq">fecha</td><td class="izq">AAAA-MM-01</td><td class="izq" style="white-space:normal">Primer día del mes (índice <em>Month Start</em>).</td></tr>
+          <tr><td><code>Precio_Nominal_Promedio</code></td><td class="izq">decimal</td><td class="izq">ARS corrientes</td><td class="izq" style="white-space:normal">Media aritmética de las cotizaciones diarias del mes (CACTU).</td></tr>
+          <tr><td><code>Coeficiente de ajuste a Pesos de Agosto de 2026</code></td><td class="izq">decimal</td><td class="izq">adimensional</td><td class="izq" style="white-space:normal">Factor IPC que convierte pesos del mes a pesos de agosto de 2026.</td></tr>
+          <tr><td><code>Precio_Real</code></td><td class="izq">decimal</td><td class="izq">ARS de ago-2026</td><td class="izq" style="white-space:normal">Precio nominal promedio × coeficiente (y<sub>t</sub>).</td></tr>
+          <tr><td><code>Tendencia_Estructural</code></td><td class="izq">decimal</td><td class="izq">ARS de ago-2026</td><td class="izq" style="white-space:normal">Tendencia τ<sub>t</sub> del filtro de Hodrick-Prescott con λ = 14.400.</td></tr>
+          <tr><td><code>Ciclo_Estacional</code></td><td class="izq">decimal</td><td class="izq">ARS de ago-2026</td><td class="izq" style="white-space:normal">Componente cíclico-estacional c<sub>t</sub> = y<sub>t</sub> − τ<sub>t</sub>.</td></tr>
+          <tr><td><code>Desvio_Relativo_pct</code></td><td class="izq">decimal</td><td class="izq">%</td><td class="izq" style="white-space:normal">Ciclo en porcentaje de la tendencia: c<sub>t</sub> / τ<sub>t</sub> × 100.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= TABLA -->
+<section class="seccion seccion--elevada seccion--borde" id="tabla" aria-labelledby="t-tabla">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Explorar la tabla</span>
+      <h2 class="titulo" id="t-tabla">Los 224 meses, <em>uno por uno</em></h2>
+      <p class="bajada">Filtrá por año o por mes y ordená por cualquier columna haciendo clic en su encabezado.</p>
+    </div>
+    <div class="panel-grafico revelar">
+      <div class="panel-grafico__barra">
+        <div class="panel-grafico__controles">
+          <div class="campo" style="min-width:150px"><label for="t-anio">Año</label><select id="t-anio"><option value="">Todos</option></select></div>
+          <div class="campo" style="min-width:150px"><label for="t-mes">Mes</label><select id="t-mes"><option value="">Todos</option></select></div>
+        </div>
+        <span class="tenue" id="t-conteo" style="font-size:.88rem"></span>
+      </div>
+      <div class="tabla-envoltura" style="max-height:560px;overflow:auto">
+        <table class="tabla" id="t-datos">
+          <thead><tr>
+            <th class="izq"><button type="button" class="ordenar" data-col="fecha">Período</button></th>
+            <th><button type="button" class="ordenar" data-col="nominal">Nominal ($)</button></th>
+            <th><button type="button" class="ordenar" data-col="coef">Coef. IPC</button></th>
+            <th><button type="button" class="ordenar" data-col="real">Real ($ ago-26)</button></th>
+            <th><button type="button" class="ordenar" data-col="tendencia">Tendencia ($)</button></th>
+            <th><button type="button" class="ordenar" data-col="ciclo">Ciclo ($)</button></th>
+            <th><button type="button" class="ordenar" data-col="rel">Desvío (%)</button></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= DESCARGAS -->
+<section class="seccion" id="descargas" aria-labelledby="t-descargas">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Descargas</span>
+      <h2 class="titulo" id="t-descargas">Datos abiertos <em>para verificar</em></h2>
+      <p class="bajada">Archivos CSV en UTF-8, separados por coma, con fechas ISO 8601. Los precios pertenecen a CACTU y los coeficientes al INDEC: se publican con fines académicos y de verificación; citá siempre la fuente original.</p>
+    </div>
+    <div class="reja reja--3" id="lista-descargas"></div>
+  </div>
+</section>
+
+<!-- ================================================================= REPRODUCIBILIDAD -->
+<section class="seccion seccion--elevada seccion--borde" id="reproducibilidad" aria-labelledby="t-repro">
+  <div class="contenedor">
+    <div class="dividido">
+      <div class="encabezado revelar" style="margin-bottom:0">
+        <span class="antetitulo">Reproducibilidad</span>
+        <h2 class="titulo" id="t-repro">Cada cifra se puede <em>regenerar</em></h2>
+        <p class="bajada">El repositorio incluye el pipeline completo. Al ejecutarlo se recalculan la serie real, el filtro HP, la Tabla 1, las pruebas complementarias, las figuras 4K y los datos de este sitio.</p>
+        <div class="texto-largo mt-2">
+          <ul>
+            <li><strong>Entorno original:</strong> Python 3.13 · Jupyter Notebook en Visual Studio Code.</li>
+            <li><strong>Librerías:</strong> Pandas, NumPy, Statsmodels y Matplotlib; SciPy y scikit-learn para la validación y el prototipo predictivo.</li>
+            <li><strong>Verificación:</strong> si statsmodels está instalado, el pipeline comprueba que su <code>hpfilter</code> y la implementación matricial propia den el mismo resultado.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="revelar">
+        <pre class="codigo" style="font-size:.86rem"><span class="c"># 1. Obtener el proyecto</span>
+git clone https://github.com/MatiasVel/analisis_azucar_tucuman.git
+cd analisis_azucar_tucuman
+
+<span class="c"># 2. Instalar dependencias</span>
+pip install -r analysis/requirements.txt
+
+<span class="c"># 3. Recalcular datos, Tabla 1 y validación</span>
+python analysis/pipeline.py
+
+<span class="c"># 4. Regenerar las figuras 4K y las fórmulas</span>
+python analysis/figuras.py
+
+<span class="c"># 5. Prueba de concepto de machine learning</span>
+python analysis/prototipo_ml.py
+
+<span class="c"># 6. Ver el sitio en local</span>
+python -m http.server --directory site 8000</pre>
+        <pre class="codigo mt-2" style="font-size:.82rem;line-height:1.55">analisis_azucar_tucuman/
+├── netlify.toml          <span class="c"># despliegue (publica la carpeta site/)</span>
+├── analysis/             <span class="c"># pipeline, figuras y prototipo ML</span>
+└── site/
+    ├── index.html · datos.html · justificacion.html · futuro.html
+    ├── datos/            <span class="c"># CSV descargables</span>
+    └── assets/           <span class="c"># estilos, scripts, datos JSON e imágenes 4K</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__reja">
+      <div>
+        <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
+        <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
+      </div>
+      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+    </div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+  </div>
+</footer>
+
+<!-- ================================================================= DETALLES DEL PIPELINE -->
+<template id="p-planilla">
+  <p>CACTU registra la cotización diaria de la bolsa de 50 kg en planillas organizadas como matrices: bloques horizontales y verticales por año y por mes, con encabezados repetidos, símbolos monetarios, separadores de miles y leyendas como «s/c» (sin cotización).</p>
+  <p>Ese formato es cómodo para leer a simple vista, pero no es una serie de tiempo: no puede filtrarse, promediarse ni unirse con otras fuentes sin antes reestructurarlo.</p>
+  <h3>Objetivo del paso</h3>
+  <p>Convertir la planilla en una tabla «larga» de dos columnas —<code>Fecha</code> y <code>50Kg</code>— con una fila por día.</p>
+</template>
+<template id="p-limpieza">
+  <p>Un algoritmo de extracción en Pandas recorre cada bloque, depura los caracteres no numéricos, normaliza las fechas a ISO 8601 y consolida la serie.</p>
+  <div class="datos-clave"><div class="dato-clave"><b>6.791</b><span>filas</span></div><div class="dato-clave"><b>0</b><span>nulos</span></div><div class="dato-clave"><b>0</b><span>duplicados</span></div></div>
+  <pre class="codigo" data-py>df_azucar = pd.read_csv("precio_azucar_50kg_desde_2008.csv")
+df_azucar["Fecha"] = pd.to_datetime(df_azucar["Fecha"])
+df_azucar = df_azucar.sort_values("Fecha")</pre>
+  <p><strong>Salida:</strong> <code>precio_azucar_50kg_desde_2008.csv</code> — columnas <code>Fecha</code>, <code>50Kg</code>.</p>
+</template>
+<template id="p-mensual">
+  <p>El submuestreo a frecuencia mensual con la media aritmética simple compatibiliza la serie con el IPC y atenúa la microvolatilidad diaria. El índice se fija al primer día de cada mes.</p>
+  <pre class="codigo" data-py>df_azucar = df_azucar.set_index("Fecha")
+df_mensual = df_azucar["50Kg"].resample("MS").mean()
+df_mensual = df_mensual.round(2).reset_index().dropna(subset=["50Kg"])
+df_mensual.to_csv("promedio_mensual_azucar_desde_2008.csv", index=False, date_format="%Y-%m-%d")</pre>
+  <p><strong>Salida:</strong> 225 meses (enero de 2008 a septiembre de 2026). Septiembre de 2026 es parcial y se descarta en el paso 5 por no tener coeficiente IPC.</p>
+</template>
+<template id="p-ipc">
+  <p>El archivo «IPC desde 1943.xlsx» trae los períodos en formatos de texto heterogéneos (por ejemplo «ene-08»). Una función de parseo los convierte a fechas y se filtra el rango del estudio.</p>
+  <pre class="codigo" data-py>meses_es = {"ene": "01", "feb": "02", "mar": "03", "abr": "04", "may": "05", "jun": "06",
+            "jul": "07", "ago": "08", "sep": "09", "oct": "10", "nov": "11", "dic": "12"}
+df_ipc["Periodo"] = df_ipc["Periodo"].apply(parsear_fecha_ipc)
+df_ipc = df_ipc.dropna(subset=["Periodo"])
+df_final = df_ipc[(df_ipc["Periodo"] &gt;= "2008-01-01") &amp; (df_ipc["Periodo"] &lt;= "2026-08-01")]
+df_final.to_csv("ipc_coeficientes_desde_2008.csv", index=False, date_format="%Y-%m-%d")</pre>
+  <p><strong>Salida:</strong> 224 coeficientes mensuales, de × 1.051,54 a × 1,00.</p>
+</template>
+<template id="p-merge">
+  <p>Una intersección interna por período mensual alinea cada promedio nominal con su coeficiente. Solo sobreviven los meses presentes en ambas tablas: 224.</p>
+  <pre class="codigo" data-py>df_real = pd.merge(df_azucar, df_ipc, left_on="Fecha", right_on="Periodo", how="inner")
+col_coef = "Coeficiente de ajuste a Pesos de Agosto de 2026"
+df_real["Precio_Real"] = (df_real["50Kg"] * df_real[col_coef]).round(2)</pre>
+  <div class="formula" data-formula="deflactacion" data-alt="Precio real igual a precio nominal por coeficiente IPC"></div>
+  <p><strong>Salida:</strong> <code>precio_real_azucar_desde_2008.csv</code>.</p>
+</template>
+<template id="p-actualizado">
+  <p>Se genera una tabla mínima, ordenada cronológicamente, con las dos columnas que necesita el modelo: período y precio actualizado.</p>
+  <pre class="codigo" data-py>df_final = df_merge[["Periodo", "Precio actualizado"]].copy()
+df_final = df_final.sort_values(by="Periodo").reset_index(drop=True)
+df_final.to_csv("precio_actualizado_agosto2026_azucar_mensual.csv", index=False, float_format="%.2f")</pre>
+</template>
+<template id="p-hp">
+  <p>El filtro de Hodrick-Prescott descompone el precio real en tendencia y ciclo bajo el modelo aditivo y<sub>t</sub> = τ<sub>t</sub> + c<sub>t</sub>, con λ = 14.400.</p>
+  <pre class="codigo" data-py>ciclo, tendencia = sm.tsa.filters.hpfilter(df["Precio actualizado"], lamb=14400)
+df["Tendencia_Estructural"] = tendencia
+df["Ciclo_Estacional"] = ciclo
+df.reset_index().to_csv("azucar_tendencia_hp.csv", index=False, float_format="%.2f")</pre>
+  <a class="enlace-flecha" href="justificacion.html#hp">Ver la justificación del filtro <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+<template id="p-tabla">
+  <p>El ciclo se agrupa por mes calendario para calcular media, mediana y desvío relativo: el resultado es la Tabla 1 del paper.</p>
+  <pre class="codigo" data-py>df["Mes"] = df["Periodo"].dt.month
+df["Desvio_Relativo_pct"] = df["Ciclo_Estacional"] / df["Tendencia_Estructural"] * 100
+tabla1 = df.groupby("Mes").agg(media=("Ciclo_Estacional", "mean"),
+                               mediana=("Ciclo_Estacional", "median"),
+                               rel=("Desvio_Relativo_pct", "mean"))</pre>
+  <a class="enlace-flecha" href="index.html#estacionalidad">Abrir la Tabla 1 interactiva <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+
+<script src="assets/data/azucar.js?v=1"></script>
+<script src="assets/js/formulas.js?v=1"></script>
+<script src="assets/js/core.js?v=1"></script>
+<script src="assets/js/charts.js?v=1"></script>
+<script src="assets/js/datos.js?v=1"></script>
+</body>
+</html>

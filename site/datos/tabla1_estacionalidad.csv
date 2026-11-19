@@ -1,0 +1,13 @@
+mes,nombre,fase,senal,ventana,media,mediana,rel,rel_mediana,n,pct_bajo_tendencia,rel_min,rel_max,rel_q1,rel_q3
+1,Enero,Interzafra,Venta,venta,300.24,2125.17,0.25,6.10,19,42.11,-31.97,27.16,-13.21,9.46
+2,Febrero,Interzafra,Venta óptima (pico),venta,2404.45,4339.38,3.96,5.42,19,36.84,-30.21,40.31,-15.60,18.96
+3,Marzo,Interzafra,Venta,venta,755.46,158.98,1.32,0.20,19,47.37,-30.31,36.24,-23.40,20.98
+4,Abril,Pre-zafra,Neutral / transición,neutral,-168.44,-840.75,-0.38,-1.08,19,52.63,-36.08,39.32,-26.57,19.69
+5,Mayo,Inicio zafra,Transición,neutral,1131.61,1847.06,2.02,3.93,19,47.37,-40.54,61.24,-21.79,16.06
+6,Junio,Zafra,Compra,compra,-1531.32,-1647.82,-2.03,-2.20,19,52.63,-44.91,60.93,-22.31,9.04
+7,Julio,Plena zafra,Compra óptima (valle),compra,-2651.67,-5169.95,-4.66,-7.99,19,68.42,-41.55,68.40,-19.97,4.14
+8,Agosto,Plena zafra,Compra (mediana neg.),compra,454.52,-1055.53,-0.59,-1.79,19,57.89,-30.71,85.61,-18.51,8.06
+9,Septiembre,Plena zafra,Compra,compra,91.48,-1999.12,-2.45,-3.44,18,55.56,-34.72,93.68,-21.19,4.04
+10,Octubre,Fin zafra,Compra fuerte,compra,-917.39,-3530.42,-3.62,-6.50,18,61.11,-33.96,68.70,-19.50,5.98
+11,Noviembre,Fin zafra,Acopio,neutral,325.93,-2119.28,-1.43,-2.90,18,50.00,-28.37,55.42,-15.82,5.13
+12,Diciembre,Interzafra,Retención,neutral,-233.44,-1107.74,-1.12,-1.87,18,55.56,-31.09,28.55,-13.51,10.80

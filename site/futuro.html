@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aportes futuros · Predicción del precio del azúcar con machine learning</title>
+<meta name="description" content="Hoja de ruta para pasar del diagnóstico estacional a la predicción del precio de la bolsa de azúcar en Tucumán: plataforma de datos, machine learning, variables exógenas, cost of carry y una prueba de concepto evaluada con validación walk-forward.">
+<meta name="author" content="Héctor Matías Veliz">
+<meta name="theme-color" content="#050806">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Aportes futuros · Azúcar en Tucumán">
+<meta property="og:description" content="Del patrón estacional a la predicción del precio: machine learning, variables exógenas y una herramienta de decisión para el sector.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="assets/css/styles.css?v=1">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="progreso" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__barra">
+    <a class="marca" href="index.html" aria-label="Inicio: Estacionalidad del azúcar en Tucumán">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span>
+    </a>
+    <nav class="nav__enlaces" aria-label="Principal">
+      <a href="index.html">Inicio</a>
+      <a href="datos.html">Datos</a>
+      <a href="justificacion.html">Justificación</a>
+      <a href="futuro.html" aria-current="page">Aportes futuros</a>
+    </nav>
+    <a class="btn btn--primario btn--chico nav__cta" href="index.html#paper">Leer el paper</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"><span></span></button>
+  </div>
+</header>
+<nav class="menu-movil" id="menu-movil" aria-label="Menú principal">
+  <a href="index.html">Inicio <span aria-hidden="true">→</span></a>
+  <a href="datos.html">Datos <span aria-hidden="true">→</span></a>
+  <a href="justificacion.html">Justificación <span aria-hidden="true">→</span></a>
+  <a href="futuro.html" aria-current="page">Aportes futuros <span aria-hidden="true">→</span></a>
+  <a href="index.html#paper">Leer el paper <span aria-hidden="true">→</span></a>
+  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+</nav>
+<main id="contenido">
+<section class="portada" aria-labelledby="t-portada">
+  <div class="portada__trama"></div>
+  <div class="contenedor">
+    <nav class="migas" aria-label="Ruta"><a href="index.html">Inicio</a><span aria-hidden="true">/</span><span>Aportes futuros</span></nav>
+    <h1 id="t-portada">Del patrón estacional a la <span class="verde">predicción</span></h1>
+    <p class="bajada">El paper responde cuándo, en promedio, conviene comprar y vender. El paso siguiente es anticipar cuánto valdrá la bolsa y decidir con ese pronóstico. Esta página propone la hoja de ruta, la arquitectura de datos y una primera prueba de concepto con machine learning.</p>
+    <div class="indice-pagina">
+      <a href="#vision">Visión</a><a href="#hoja-de-ruta">Hoja de ruta</a><a href="#arquitectura">Arquitectura</a><a href="#prototipo">Prueba de concepto ML</a><a href="#variables">Variables exógenas</a><a href="#buenas-practicas">Buenas prácticas</a><a href="#colaborar">Colaborar</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= VISIÓN -->
+<section class="seccion seccion--borde" id="vision" aria-labelledby="t-vision" style="padding-top:clamp(60px,8vw,110px)">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Visión</span>
+      <h2 class="titulo" id="t-vision">Tres niveles de <em>analítica</em></h2>
+      <p class="bajada">El estudio cubre el primer nivel. Los dos siguientes convierten el conocimiento en una herramienta de uso diario para cañeros, ingenios y organismos.</p>
+    </div>
+    <div class="reja reja--3">
+      <article class="tarjeta revelar"><span class="etiqueta">Completado</span><h3>1 · Descriptivo</h3><p><strong>¿Qué pasó y cuándo?</strong> Serie real 2008–2026, filtro HP y patrón estacional: valle en julio, pico en febrero, diferencial de 8,62 pp.</p></article>
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--blanca">Próximo paso</span><h3>2 · Predictivo</h3><p><strong>¿Qué va a pasar?</strong> Pronóstico del precio real a 1, 3 y 6 meses con intervalos de confianza, combinando la estacionalidad con variables de oferta, demanda y macroeconomía.</p></article>
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Meta</span><h3>3 · Prescriptivo</h3><p><strong>¿Qué conviene hacer?</strong> Reglas óptimas de venta, retención y compra que incorporen el costo de tenencia, el riesgo y la liquidez de cada actor.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= HOJA DE RUTA -->
+<section class="seccion seccion--elevada seccion--borde" id="hoja-de-ruta" aria-labelledby="t-ruta">
+  <div class="contenedor">
+    <div class="dividido">
+      <div class="encabezado revelar" style="position:sticky;top:120px;margin-bottom:0">
+        <span class="antetitulo">Hoja de ruta</span>
+        <h2 class="titulo" id="t-ruta">Cinco etapas, <em>en orden</em></h2>
+        <p class="bajada">Cada etapa habilita la siguiente: sin datos actualizados y confiables no hay modelo; sin modelo evaluado, no hay herramienta de decisión. Abrí cada etapa para ver entregables y criterios de éxito.</p>
+      </div>
+      <div class="ruta">
+        <div class="hito revelar"><div class="hito__marca">1</div><div class="tarjeta tarjeta--clic" data-detalle="f-datos" data-grupo="ruta" data-etiqueta="Etapa 1 · Ingeniería de datos" data-titulo="Plataforma de datos automatizada"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Ingeniería de datos</span><h3>Plataforma de datos automatizada</h3><p>Ingesta periódica de precios, IPC y datos de zafra, con validaciones y almacenamiento versionado.</p></div></div>
+        <div class="hito revelar"><div class="hito__marca">2</div><div class="tarjeta tarjeta--clic" data-detalle="f-econometria" data-grupo="ruta" data-etiqueta="Etapa 2 · Econometría" data-titulo="Robustez econométrica"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Econometría</span><h3>Robustez econométrica</h3><p>X-13ARIMA-SEATS, STL, filtro de Hamilton, quiebres estructurales y pruebas formales de estacionalidad.</p></div></div>
+        <div class="hito revelar"><div class="hito__marca">3</div><div class="tarjeta tarjeta--clic" data-detalle="f-ml" data-grupo="ruta" data-etiqueta="Etapa 3 · Ciencia de datos" data-titulo="Modelos predictivos con machine learning"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta">Ciencia de datos</span><h3>Modelos predictivos con machine learning</h3><p>SARIMAX, gradient boosting y redes recurrentes, comparados con modelos ingenuos mediante validación walk-forward.</p></div></div>
+        <div class="hito revelar"><div class="hito__marca">4</div><div class="tarjeta tarjeta--clic" data-detalle="f-exogenas" data-grupo="ruta" data-etiqueta="Etapa 4 · Economía del sector" data-titulo="Variables exógenas y cost of carry"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Economía del sector</span><h3>Variables exógenas y cost of carry</h3><p>Bioetanol, paridad de exportación, producción, stocks, clima y costo de tenencia para pasar de márgenes brutos a netos.</p></div></div>
+        <div class="hito revelar"><div class="hito__marca">5</div><div class="tarjeta tarjeta--clic" data-detalle="f-producto" data-grupo="ruta" data-etiqueta="Etapa 5 · Producto" data-titulo="Herramienta de decisión para el sector"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Producto</span><h3>Herramienta de decisión para el sector</h3><p>Tablero público, alertas y simulador con pronósticos actualizados y reglas de decisión con gestión de riesgo.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= ARQUITECTURA -->
+<section class="seccion" id="arquitectura" aria-labelledby="t-arquitectura">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Arquitectura propuesta</span>
+      <h2 class="titulo" id="t-arquitectura">De las fuentes al tablero, <em>sin pasos manuales</em></h2>
+      <p class="bajada">Un flujo de datos de punta a punta, pensado para correr con herramientas abiertas y de bajo costo. Cada componente es interactivo.</p>
+    </div>
+    <div class="flujo" id="flujo-arq">
+      <svg class="flujo__lineas" id="lineas-arq" aria-hidden="true"></svg>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>1</b>Fuentes</div>
+        <button class="nodo" type="button" id="a-precios" data-detalle="a-fuentes-precio" data-grupo="arq" data-etiqueta="Fuentes" data-hacia="a-ingesta"><span class="nodo__sup"><span class="nodo__num">F1</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Precios y deflactor</span><span class="nodo__texto">CACTU · IPC (INDEC)</span></button>
+        <button class="nodo" type="button" id="a-sector" data-detalle="a-fuentes-sector" data-grupo="arq" data-etiqueta="Fuentes" data-hacia="a-ingesta"><span class="nodo__sup"><span class="nodo__num">F2</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Producción y stocks</span><span class="nodo__texto">IPAAT · EEAOC · zafra</span></button>
+        <button class="nodo" type="button" id="a-mercados" data-detalle="a-fuentes-mercado" data-grupo="arq" data-etiqueta="Fuentes" data-hacia="a-ingesta"><span class="nodo__sup"><span class="nodo__num">F3</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Mercados y clima</span><span class="nodo__texto">bioetanol · azúcar internacional · tipo de cambio · clima</span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>2</b>Ingesta y calidad</div>
+        <button class="nodo nodo--clave" type="button" id="a-ingesta" data-detalle="a-ingesta-d" data-grupo="arq" data-etiqueta="Ingeniería de datos" data-hacia="a-almacen"><span class="nodo__sup"><span class="nodo__num">I1</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">ETL programado</span><span class="nodo__texto">Python + GitHub Actions</span></button>
+        <button class="nodo" type="button" id="a-calidad" data-detalle="a-calidad-d" data-grupo="arq" data-etiqueta="Ingeniería de datos"><span class="nodo__sup"><span class="nodo__num">I2</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Validaciones</span><span class="nodo__texto">rangos, duplicados, huecos, saltos atípicos</span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>3</b>Almacenamiento y modelos</div>
+        <button class="nodo" type="button" id="a-almacen" data-detalle="a-almacen-d" data-grupo="arq" data-etiqueta="Data warehouse" data-hacia="a-modelos"><span class="nodo__sup"><span class="nodo__num">A1</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Data warehouse por capas</span><span class="nodo__texto">bronce · plata · oro</span></button>
+        <button class="nodo nodo--clave" type="button" id="a-modelos" data-detalle="a-modelos-d" data-grupo="arq" data-etiqueta="Modelado" data-hacia="a-tablero,a-api"><span class="nodo__sup"><span class="nodo__num">M1</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Entrenamiento y evaluación</span><span class="nodo__texto">features · walk-forward · registro de modelos</span></button>
+      </div>
+      <div class="etapa">
+        <div class="etapa__cabeza"><b>4</b>Servicio</div>
+        <button class="nodo" type="button" id="a-tablero" data-detalle="a-tablero-d" data-grupo="arq" data-etiqueta="Producto"><span class="nodo__sup"><span class="nodo__num">S1</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">Tablero público</span><span class="nodo__texto">índice estacional, pronóstico y simulador</span></button>
+        <button class="nodo" type="button" id="a-api" data-detalle="a-api-d" data-grupo="arq" data-etiqueta="Producto"><span class="nodo__sup"><span class="nodo__num">S2</span><span class="nodo__abrir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span></span><span class="nodo__titulo">API y alertas</span><span class="nodo__texto">datos abiertos y avisos por umbral</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= PROTOTIPO ML -->
+<section class="seccion seccion--elevada seccion--borde" id="prototipo" aria-labelledby="t-prototipo">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Prueba de concepto</span>
+      <h2 class="titulo" id="t-prototipo">¿Puede el machine learning <em>anticipar el precio</em>?</h2>
+      <p class="bajada">Una primera evaluación honesta, solo con la historia de precios: cuatro modelos pronostican el precio real a 1, 3 y 6 meses, reentrenándose mes a mes desde septiembre de 2022 sin usar información futura (validación walk-forward).</p>
+    </div>
+    <div class="panel-grafico revelar">
+      <div class="panel-grafico__barra">
+        <div class="segmentos" role="group" aria-label="Modelo" id="ml-modelos">
+          <button type="button" data-modelo="ridge" aria-pressed="true">Ridge</button>
+          <button type="button" data-modelo="gradient_boosting" aria-pressed="false">Gradient Boosting</button>
+          <button type="button" data-modelo="ingenuo" aria-pressed="false">Ingenuo</button>
+          <button type="button" data-modelo="ingenuo_estacional" aria-pressed="false">Ingenuo estacional</button>
+        </div>
+        <span class="tenue" style="font-size:.88rem">Pronóstico a 1 mes · precio real (pesos de ago-2026)</span>
+      </div>
+      <div class="explorador">
+        <div class="grafico" id="g-ml"></div>
+        <aside class="lectura" aria-live="polite">
+          <span class="etiqueta" id="ml-etiqueta">Modelo</span>
+          <h3 id="ml-titulo"></h3>
+          <p id="ml-texto"></p>
+          <div class="metricas-mini" id="ml-metricas"></div>
+        </aside>
+      </div>
+    </div>
+    <div class="tabla-envoltura mt-2 revelar">
+      <table class="tabla" id="t-ml" style="min-width:680px">
+        <caption>Error porcentual absoluto medio (MAPE) del pronóstico del precio real, septiembre de 2022 – agosto de 2026. Menor es mejor; en verde, el mejor modelo de cada horizonte.</caption>
+        <thead><tr><th class="izq">Modelo</th><th class="izq">Descripción</th><th>1 mes</th><th>3 meses</th><th>6 meses</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="destacado mt-3 revelar">
+      <div class="destacado__valor num">6,6 %</div>
+      <div>
+        <h3 class="subtitulo" style="margin-bottom:8px">Lo que enseña el prototipo</h3>
+        <p style="margin:0;color:var(--texto-2)">Con solo la historia de precios, el mejor modelo mejora apenas al ingenuo a un mes (6,6 % frente a 7,6 % de error) y no lo supera a 3 y 6 meses. El período de prueba incluye el shock de 2023, imposible de anticipar sin información de oferta. La conclusión orienta la investigación: <strong>el valor predictivo vendrá de las variables exógenas</strong> —producción, stocks, bioetanol, exportación, clima— y no de modelos más complejos sobre la misma serie.</p>
+      </div>
+    </div>
+    <div class="aviso mt-2 revelar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2v.1"/></svg><span>Evaluación retrospectiva con fines de investigación: no es un pronóstico del precio futuro ni una recomendación comercial. El código está en <code>analysis/prototipo_ml.py</code>.</span></div>
+  </div>
+</section>
+
+<!-- ================================================================= VARIABLES -->
+<section class="seccion" id="variables" aria-labelledby="t-variables">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Variables exógenas</span>
+      <h2 class="titulo" id="t-variables">Lo que mueve el precio <em>más allá del calendario</em></h2>
+      <p class="bajada">El paper ya propone incorporar el cost of carry, el arbitraje con el bioetanol y la paridad de exportación. Estas son las familias de variables candidatas para un modelo predictivo.</p>
+    </div>
+    <div class="reja reja--3">
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-carry" data-grupo="var" data-titulo="Cost of carry" data-etiqueta="Propuesto en el paper"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta">Propuesto en el paper</span><h3>Cost of carry</h3><p>Almacenamiento, merma y costo financiero real de retener stock: convierte el margen bruto en neto.</p></article>
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-etanol" data-grupo="var" data-titulo="Bioetanol" data-etiqueta="Propuesto en el paper"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta">Propuesto en el paper</span><h3>Bioetanol</h3><p>La caña que se destina a alcohol no se convierte en azúcar: el precio y el cupo del bioetanol regulan la oferta.</p></article>
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-export" data-grupo="var" data-titulo="Paridad de exportación" data-etiqueta="Propuesto en el paper"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta">Propuesto en el paper</span><h3>Paridad de exportación</h3><p>Precio internacional del azúcar por tipo de cambio, menos costos: marca el valor alternativo de los excedentes.</p></article>
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-produccion" data-grupo="var" data-titulo="Producción y stocks" data-etiqueta="Oferta"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Oferta</span><h3>Producción y stocks</h3><p>Caña molida, rendimiento sacarino y azúcar producido cada semana de zafra; stocks al inicio de la interzafra.</p></article>
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-clima" data-grupo="var" data-titulo="Clima" data-etiqueta="Oferta"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Oferta</span><h3>Clima</h3><p>Lluvias, sequías y heladas condicionan el volumen de caña y su rendimiento, con efectos sobre la oferta de la temporada.</p></article>
+      <article class="tarjeta tarjeta--clic revelar" data-detalle="v-macro" data-grupo="var" data-titulo="Macroeconomía y demanda" data-etiqueta="Demanda y contexto"><span class="tarjeta__mas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span><span class="etiqueta etiqueta--gris">Demanda y contexto</span><h3>Macroeconomía y demanda</h3><p>Tipo de cambio, tasas de interés reales, salarios y demanda de la industria alimenticia.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= BUENAS PRÁCTICAS -->
+<section class="seccion seccion--elevada seccion--borde" id="buenas-practicas" aria-labelledby="t-practicas">
+  <div class="contenedor">
+    <div class="encabezado revelar">
+      <span class="antetitulo">Buenas prácticas</span>
+      <h2 class="titulo" id="t-practicas">Cómo evaluar un pronóstico <em>sin engañarse</em></h2>
+    </div>
+    <div class="reja reja--3">
+      <div class="tarjeta revelar"><h3>Validación walk-forward</h3><p>Entrenar solo con el pasado y evaluar en el futuro, avanzando mes a mes. Nunca mezclar al azar meses de entrenamiento y de prueba en una serie de tiempo.</p></div>
+      <div class="tarjeta revelar"><h3>Sin fuga de información</h3><p>Usar solo datos disponibles en la fecha del pronóstico: el IPC se publica con rezago, y el filtro HP es bilateral, por lo que su tendencia no puede usarse como variable en tiempo real.</p></div>
+      <div class="tarjeta revelar"><h3>Siempre contra un ingenuo</h3><p>Un modelo solo aporta si supera al pronóstico «el precio de hoy». Métricas relativas como MASE lo hacen explícito.</p></div>
+      <div class="tarjeta revelar"><h3>Intervalos, no solo puntos</h3><p>Para decidir hace falta cuantificar la incertidumbre: regresión por cuantiles o predicción conformal para obtener rangos con cobertura conocida.</p></div>
+      <div class="tarjeta revelar"><h3>Modelos explicables</h3><p>Valores SHAP e importancia de variables para que cañeros e ingenios entiendan por qué el modelo anticipa una suba o una baja.</p></div>
+      <div class="tarjeta revelar"><h3>Monitoreo y reentrenamiento</h3><p>Seguir el error en producción y reentrenar cada zafra: los cambios de régimen (exportación, bioetanol, macro) degradan cualquier modelo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= COLABORAR -->
+<section class="seccion" id="colaborar" aria-labelledby="t-colaborar">
+  <div class="contenedor">
+    <div class="destacado revelar" style="grid-template-columns:minmax(0,1fr) auto">
+      <div>
+        <span class="antetitulo">Colaborar</span>
+        <h2 class="titulo mt-1" id="t-colaborar" style="font-size:clamp(1.8rem,3.4vw,2.8rem)">Más datos, <em>mejores decisiones</em></h2>
+        <p class="bajada mt-1">El próximo salto de calidad depende de integrar información que hoy está dispersa: series de stocks, molienda semanal, contratos y costos de almacenamiento. Entidades cañeras, ingenios, la EEAOC y el IPAAT pueden aportar datos y validar los modelos; el código y los datos de este estudio son abiertos para que cualquiera los mejore.</p>
+      </div>
+      <div class="fila-botones" style="flex-direction:column;align-items:stretch">
+        <a class="btn btn--primario" href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Ver el repositorio <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+        <a class="btn btn--secundario" href="datos.html#descargas">Descargar los datos</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__reja">
+      <div>
+        <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
+        <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
+      </div>
+      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+    </div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+  </div>
+</footer>
+
+<!-- ================================================================= DETALLES -->
+<template id="f-datos">
+  <p>Hoy el flujo depende de planillas descargadas y procesadas a mano. Automatizarlo es la base de todo lo demás.</p>
+  <h3>Entregables</h3>
+  <ul>
+    <li>Extractor de la planilla de CACTU tolerante a cambios de formato, con pruebas automáticas.</li>
+    <li>Actualización mensual del IPC y de los coeficientes de deflactación.</li>
+    <li>Ingesta de los partes semanales de zafra (caña molida, azúcar y alcohol producidos).</li>
+    <li>Ejecución programada (por ejemplo, GitHub Actions) y registro de cada corrida.</li>
+  </ul>
+  <h3>Criterio de éxito</h3>
+  <p>Cada mes, el sitio y la Tabla 1 se actualizan sin intervención manual y con un reporte de calidad.</p>
+</template>
+<template id="f-econometria">
+  <ul>
+    <li><strong>X-13ARIMA-SEATS</strong> (método oficial de desestacionalización de muchas oficinas estadísticas) y <strong>STL</strong> para contrastar los factores estacionales.</li>
+    <li><strong>Filtro de Hamilton</strong> como alternativa al HP sin efecto de borde.</li>
+    <li><strong>Quiebres estructurales</strong> (Bai-Perron) para detectar cambios de régimen.</li>
+    <li>Pruebas formales de estacionalidad y de raíz unitaria para documentar las propiedades de la serie real.</li>
+  </ul>
+  <p>Esta página ya incluye un primer paso: pruebas de Friedman, Wilcoxon y Mann-Whitney y sensibilidad a λ (<a href="justificacion.html#validacion">ver validación</a>).</p>
+</template>
+<template id="f-ml">
+  <p>Modelos candidatos, de menor a mayor complejidad:</p>
+  <ul>
+    <li><strong>Referencias:</strong> ingenuo y ingenuo estacional.</li>
+    <li><strong>Estadísticos:</strong> SARIMA/SARIMAX y suavizado exponencial (ETS), que modelan la estacionalidad explícitamente.</li>
+    <li><strong>Machine learning tabular:</strong> regresión regularizada y gradient boosting (LightGBM, XGBoost) con rezagos, mes del año y variables exógenas.</li>
+    <li><strong>Redes neuronales:</strong> LSTM o Temporal Fusion Transformer, solo si los datos disponibles lo justifican.</li>
+  </ul>
+  <h3>Criterio de éxito</h3>
+  <p>Superar al ingenuo en error (MAPE, MASE) con intervalos de predicción bien calibrados, en validación walk-forward.</p>
+  <a class="enlace-flecha" href="#prototipo">Ver la prueba de concepto <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+<template id="f-exogenas">
+  <p>El paper deja explícita esta agenda: incorporar el <strong>cost of carry</strong> (almacenamiento y merma), el <strong>arbitraje con el bioetanol</strong> y la <strong>paridad de exportación</strong> para robustecer el modelo de venta.</p>
+  <ul>
+    <li>Pasar del diferencial bruto (8,62 pp) a un margen neto por actor.</li>
+    <li>Explicar por qué algunos años el patrón se intensifica o se anula.</li>
+    <li>Proveer a los modelos predictivos de la información de oferta que hoy les falta.</li>
+  </ul>
+  <a class="enlace-flecha" href="#variables">Ver las variables candidatas <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+</template>
+<template id="f-producto">
+  <ul>
+    <li><strong>Tablero público</strong> con el precio real del mes, su posición frente al patrón estacional y el pronóstico con intervalos.</li>
+    <li><strong>Simulador de decisiones</strong> que combine pronóstico, costo de tenencia y liquidez del usuario.</li>
+    <li><strong>Alertas</strong> cuando el precio se aparta de su rango esperado.</li>
+    <li><strong>Prescripción:</strong> reglas de venta escalonada optimizadas con programación dinámica estocástica.</li>
+  </ul>
+</template>
+<template id="a-fuentes-precio"><p>La cotización diaria de CACTU y el IPC del INDEC son el núcleo del estudio actual. Automatizar su descarga y actualización es la primera tarea.</p></template>
+<template id="a-fuentes-sector"><p>El seguimiento semanal de zafra del IPAAT (caña molida, azúcar y alcohol) y los informes técnicos de la EEAOC aportan la información de oferta que explica buena parte de los desvíos respecto del patrón estacional.</p></template>
+<template id="a-fuentes-mercado"><p>Precio del bioetanol, precio internacional del azúcar, tipo de cambio oficial, tasas de interés y datos climáticos (lluvias y heladas) completan el set de variables exógenas.</p></template>
+<template id="a-ingesta-d"><p>Scripts en Python ejecutados en forma programada (por ejemplo, con GitHub Actions) que descargan, limpian y estandarizan cada fuente con el mismo criterio del pipeline actual.</p><pre class="codigo" data-py># .github/workflows/actualizar.yml (esquema)
+# on: schedule: cron "0 9 15 * *"   -> el día 15 de cada mes
+python analysis/pipeline.py
+python analysis/figuras.py</pre></template>
+<template id="a-calidad-d"><p>Cada carga se valida antes de entrar al almacén: fechas únicas, ausencia de nulos, precios dentro de rangos plausibles, detección de saltos atípicos y de huecos (como los de enero de 2009 y febrero de 2019). Si una validación falla, la actualización se detiene y se notifica.</p></template>
+<template id="a-almacen-d"><p>Un data warehouse por capas ordena el ciclo de vida del dato:</p><ul><li><strong>Bronce:</strong> archivos originales, tal como llegan.</li><li><strong>Plata:</strong> series limpias y estandarizadas (fechas ISO, tipos correctos).</li><li><strong>Oro:</strong> tablas listas para análisis: serie real, componentes HP, Tabla 1 y features del modelo.</li></ul><p>Para este volumen alcanza con DuckDB o PostgreSQL, sin costos de infraestructura significativos.</p></template>
+<template id="a-modelos-d"><p>Construcción de variables (rezagos, mes del año, variables exógenas), entrenamiento con validación walk-forward, comparación contra modelos ingenuos y registro de cada versión del modelo con sus métricas.</p></template>
+<template id="a-tablero-d"><p>Una evolución de este sitio: misma estética y mismos gráficos, alimentados automáticamente por la capa oro del almacén y con el pronóstico del mes.</p></template>
+<template id="a-api-d"><p>Una API de datos abiertos permite que ingenios, cooperativas y organismos integren la serie y los pronósticos en sus propios sistemas. Las alertas avisan cuando el precio sale del rango esperado.</p></template>
+<template id="v-carry"><p>Retener azúcar tiene costos: depósito, seguro, merma física y, sobre todo, el costo financiero de inmovilizar capital. El simulador de la página principal muestra que, en promedio, el arbitraje julio → febrero deja de convenir si el costo real supera ≈ 1,23 % mensual.</p><p>Medir estos costos por tipo de actor (pequeño cañero, cooperativa, ingenio) permitiría calcular márgenes netos realistas.</p></template>
+<template id="v-etanol"><p>Los ingenios con destilería pueden orientar parte de la caña a alcohol. Cuando el bioetanol resulta más rentable o aumenta el corte obligatorio en las naftas, se produce menos azúcar y la oferta del mercado interno se ajusta. Incorporar el precio y el volumen de bioetanol ayudaría a anticipar la oferta de cada temporada.</p></template>
+<template id="v-export"><p>La exportación de excedentes es una válvula de la oferta interna. La paridad de exportación —precio internacional del azúcar convertido a pesos al tipo de cambio oficial, menos costos de logística— define el valor alternativo del azúcar y, en la práctica, un piso para el precio interno en años de sobreproducción.</p></template>
+<template id="v-produccion"><p>La cantidad de caña molida y el rendimiento sacarino determinan cuánta azúcar llega al mercado. Los partes semanales de zafra permiten seguir esa oferta casi en tiempo real; el stock remanente al cierre de la zafra condiciona el precio de la interzafra.</p></template>
+<template id="v-clima"><p>Las sequías y las heladas reducen el volumen y la calidad de la caña. Variables como la lluvia acumulada o la ocurrencia de heladas antes y durante la zafra son predictores naturales de la oferta.</p></template>
+<template id="v-macro"><p>El tipo de cambio afecta la paridad de exportación y los costos; las tasas de interés reales determinan el costo de retener stock; los salarios reales y la actividad de la industria alimenticia mueven la demanda.</p></template>
+
+<script src="assets/data/azucar.js?v=1"></script>
+<script src="assets/data/ml.js?v=1"></script>
+<script src="assets/js/core.js?v=1"></script>
+<script src="assets/js/charts.js?v=1"></script>
+<script src="assets/js/futuro.js?v=1"></script>
+</body>
+</html>

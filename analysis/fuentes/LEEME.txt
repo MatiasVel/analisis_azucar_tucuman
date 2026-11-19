@@ -1,0 +1,9 @@
+Fuentes tipográficas usadas para generar las figuras (subconjunto latino).
+
+- Montserrat (Bold, ExtraBold): Copyright 2011 The Montserrat Project Authors
+  (https://github.com/JulietaUla/Montserrat). Licencia SIL Open Font License 1.1 (ver OFL-Montserrat.txt).
+- Inter (Regular, Medium, SemiBold): Copyright 2016-2023 The Inter Project Authors
+  (https://github.com/rsms/inter). Licencia SIL Open Font License 1.1.
+
+Las versiones "para el paper" de las figuras usan Times New Roman si está instalada
+(Windows/macOS) o Liberation Serif (métricamente compatible) como alternativa.
