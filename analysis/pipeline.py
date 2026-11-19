@@ -260,6 +260,8 @@ def main() -> None:
         "meta": {
             "titulo": "Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán",
             "autor": "Héctor Matías Veliz",
+            "tutores": ["Dra. Mariana Dorigatti", "Ing. Duilio Sardi"],
+            "laboratorio": "Laboratorio GIITNI Datos",
             "filiacion": "Universidad Tecnológica Nacional, Facultad Regional Tucumán",
             "periodo": "Enero 2008 – Agosto 2026",
             "base": "Pesos constantes de agosto de 2026",
@@ -271,7 +273,8 @@ def main() -> None:
         "mensual": {
             "fechas": real["Fecha"].dt.strftime("%Y-%m").tolist(),
             "nominal": [r2(v) for v in real["50Kg"]],
-            "coef": [round(float(v), 4) for v in real[COL_COEF]],
+            # 8 decimales: con menos, nominal × coeficiente no reproduce el precio real al centavo
+            "coef": [round(float(v), 8) for v in real[COL_COEF]],
             "real": [r2(v) for v in real["Precio_Real"]],
             "tendencia": [r2(v) for v in real["Tendencia_Estructural"]],
             "ciclo": [r2(v) for v in real["Ciclo_Estacional"]],

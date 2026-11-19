@@ -245,6 +245,7 @@
         AZ.panel.abrir(item, grupos[item.grupo], alNavegar);
       };
       item.el.addEventListener("click", activar);
+      if (item.el.tagName !== "A") item.el.setAttribute("aria-haspopup", "dialog");
       if (item.el.tagName !== "BUTTON" && item.el.tagName !== "A") {
         item.el.setAttribute("tabindex", "0");
         item.el.setAttribute("role", "button");
@@ -447,10 +448,22 @@
     }));
   }
 
+  // ------------------------------------------------------------ impresión: paper completo y contenido visible
+  function iniciarImpresion() {
+    let cerrados = [];
+    window.addEventListener("beforeprint", () => {
+      document.querySelectorAll(".revelar").forEach((el) => el.classList.add("visible"));
+      cerrados = Array.from(document.querySelectorAll(".acordeon details:not([open])"));
+      cerrados.forEach((d) => (d.open = true));
+    });
+    window.addEventListener("afterprint", () => { cerrados.forEach((d) => (d.open = false)); cerrados = []; });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     iniciarNavegacion();
     iniciarRevelado();
     iniciarCopiado();
+    iniciarImpresion();
     AZ.resaltarPython();
     AZ.formulas();
     document.querySelectorAll("[data-anio]").forEach((el) => (el.textContent = new Date().getFullYear()));

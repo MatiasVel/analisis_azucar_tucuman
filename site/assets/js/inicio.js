@@ -275,7 +275,7 @@
     const M = D.matriz, idx = {};
     D.mensual.fechas.forEach((f, i) => (idx[f] = i));
     AZ.graficos.calor(cont, {
-      etiqueta: "Desvío relativo por año y mes", filas: M.anios.map(String), columnas: AZ.MESES_CORTOS.map((m) => m[0].toUpperCase() + m.slice(1)),
+      etiqueta: "Mapa de calor del desvío del precio real respecto de su tendencia, por año (filas) y mes (columnas). Los valores de cada mes figuran en la tabla «Los 224 meses» de la página Datos.", filas: M.anios.map(String), columnas: AZ.MESES_CORTOS.map((m) => m[0].toUpperCase() + m.slice(1)),
       valores: M.rel, color: AZ.colorCalor, formato: (v) => F.num(v, 0, true),
       colorTexto: (v) => (v < -18 || v > 26 ? "#06100B" : "#F2F6F3"),
       tooltip: (r, c) => {
