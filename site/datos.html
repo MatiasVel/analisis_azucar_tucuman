@@ -4,17 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Datos y fuentes · Estacionalidad del precio del azúcar en Tucumán</title>
-<meta name="description" content="Fuentes (CACTU e INDEC), pipeline de ingeniería de datos, control de calidad, deflactor IPC, diccionario de datos y descargas en CSV del estudio de estacionalidad del azúcar en Tucumán.">
+<meta name="description" content="Fuentes CACTU e INDEC, pipeline de datos, control de calidad, deflactor IPC, diccionario y descargas en CSV del estudio del precio del azúcar en Tucumán.">
 <meta name="author" content="Héctor Matías Veliz">
 <meta name="theme-color" content="#050806">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_AR">
 <meta property="og:title" content="De dónde salen los datos · Azúcar en Tucumán">
 <meta property="og:description" content="6.791 cotizaciones diarias de CACTU, IPC empalmado y un pipeline reproducible en Python.">
+<meta property="og:url" content="https://analisis-azucar-tucuman.netlify.app/datos.html">
+<meta property="og:site_name" content="Estacionalidad del azúcar en Tucumán">
+<meta property="og:image" content="https://analisis-azucar-tucuman.netlify.app/assets/img/compartir-1200x630.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cañaveral tucumano al anochecer con el título Estacionalidad del precio del azúcar en Tucumán">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://analisis-azucar-tucuman.netlify.app/datos.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=1">
+<link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -42,7 +51,7 @@
   <a href="justificacion.html">Justificación <span aria-hidden="true">→</span></a>
   <a href="futuro.html">Aportes futuros <span aria-hidden="true">→</span></a>
   <a href="index.html#paper">Leer el paper <span aria-hidden="true">→</span></a>
-  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+  <p>Laboratorio GIITNI Datos · UTN Facultad Regional Tucumán</p>
 </nav>
 <main id="contenido">
 <section class="portada" aria-labelledby="t-portada">
@@ -70,7 +79,7 @@
         <span class="etiqueta">Fuente 1 · Mercado</span>
         <h3>Centro de Agricultores Cañeros de Tucumán (CACTU)</h3>
         <p>Entidad gremial de los productores cañeros de Tucumán. Provee la serie histórica de cotizaciones de la bolsa de azúcar en el mercado interno, utilizada como referencia por el sector.</p>
-        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><tbody>
+        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><caption class="sr">Ficha de la fuente de precios (CACTU)</caption><tbody>
           <tr><td class="izq tenue">Variable</td><td class="izq">Precio de la bolsa de azúcar común tipo A de 50 kg</td></tr>
           <tr><td class="izq tenue">Mercado</td><td class="izq">Interno, provincia de Tucumán</td></tr>
           <tr><td class="izq tenue">Frecuencia</td><td class="izq">Diaria (días calendario)</td></tr>
@@ -84,7 +93,7 @@
         <span class="etiqueta">Fuente 2 · Deflactor</span>
         <h3>Índice de Precios al Consumidor (IPC) — serie empalmada</h3>
         <p>Serie histórica del IPC elaborado por el Instituto Nacional de Estadística y Censos (INDEC), empalmada para obtener coeficientes continuos que llevan cada mes a pesos constantes de agosto de 2026.</p>
-        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><tbody>
+        <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><caption class="sr">Ficha de la fuente del deflactor (IPC)</caption><tbody>
           <tr><td class="izq tenue">Variable</td><td class="izq">Coeficiente de ajuste a pesos de agosto de 2026</td></tr>
           <tr><td class="izq tenue">Organismo</td><td class="izq">INDEC (<a href="https://www.indec.gob.ar" rel="noopener">indec.gob.ar</a>)</td></tr>
           <tr><td class="izq tenue">Frecuencia</td><td class="izq">Mensual</td></tr>
@@ -209,6 +218,7 @@
     </div>
     <div class="tabla-envoltura revelar">
       <table class="tabla">
+        <caption class="sr">Diccionario de datos del archivo azucar_tendencia_hp.csv</caption>
         <thead><tr><th class="izq">Columna</th><th class="izq">Tipo</th><th class="izq">Unidad</th><th class="izq">Descripción</th></tr></thead>
         <tbody>
           <tr><td><code>Periodo</code></td><td class="izq">fecha</td><td class="izq">AAAA-MM-01</td><td class="izq" style="white-space:normal">Primer día del mes (índice <em>Month Start</em>).</td></tr>
@@ -242,6 +252,7 @@
       </div>
       <div class="tabla-envoltura" style="max-height:560px;overflow:auto">
         <table class="tabla" id="t-datos">
+          <caption class="sr">Serie mensual completa: precio nominal, coeficiente IPC, precio real, tendencia, ciclo y desvío relativo</caption>
           <thead><tr>
             <th class="izq"><button type="button" class="ordenar" data-col="fecha">Período</button></th>
             <th><button type="button" class="ordenar" data-col="nominal">Nominal ($)</button></th>
@@ -324,11 +335,16 @@ python -m http.server --directory site 8000</pre>
         <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
         <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
       </div>
-      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
-      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
-      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+      <div><h2 class="pie__titulo">Secciones</h2><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h2 class="pie__titulo">Recursos</h2><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h2 class="pie__titulo">Cómo citar</h2><p class="pie__cita">Veliz, H. M. (2026). <i>Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán</i>. Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán. https://analisis-azucar-tucuman.netlify.app</p></div>
     </div>
-    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+    <dl class="creditos creditos--pie">
+      <div><dt>Autor</dt><dd>Héctor Matías Veliz</dd></div>
+      <div><dt>Tutores</dt><dd>Dra. Dorigatti Mariana · Ing. Sardi Duilio</dd></div>
+      <div><dt>Desarrollado en</dt><dd>Laboratorio GIITNI Datos · Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI), UTN Facultad Regional Tucumán</dd></div>
+    </dl>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
   </div>
 </footer>
 
@@ -397,10 +413,10 @@ tabla1 = df.groupby("Mes").agg(media=("Ciclo_Estacional", "mean"),
   <a class="enlace-flecha" href="index.html#estacionalidad">Abrir la Tabla 1 interactiva <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
 </template>
 
-<script src="assets/data/azucar.js?v=1"></script>
-<script src="assets/js/formulas.js?v=1"></script>
-<script src="assets/js/core.js?v=1"></script>
-<script src="assets/js/charts.js?v=1"></script>
-<script src="assets/js/datos.js?v=1"></script>
+<script src="assets/data/azucar.js?v=2"></script>
+<script src="assets/js/formulas.js?v=2"></script>
+<script src="assets/js/core.js?v=2"></script>
+<script src="assets/js/charts.js?v=2"></script>
+<script src="assets/js/datos.js?v=2"></script>
 </body>
 </html>

@@ -3,18 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Justificación metodológica · Estacionalidad del precio del azúcar en Tucumán</title>
-<meta name="description" content="Por qué precios reales, por qué el IPC y no el dólar blue, por qué el filtro de Hodrick-Prescott con λ = 14.400, validación estadística complementaria, backtest y limitaciones del estudio.">
+<title>Justificación metodológica · Precio del azúcar en Tucumán</title>
+<meta name="description" content="Por qué precios reales, por qué el IPC y no el dólar blue y por qué el filtro HP con λ = 14.400: validación estadística, backtest y límites del estudio.">
 <meta name="author" content="Héctor Matías Veliz">
 <meta name="theme-color" content="#050806">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="es_AR">
 <meta property="og:title" content="Por qué este planteamiento · Azúcar en Tucumán">
 <meta property="og:description" content="La justificación completa del paper: deflactación, filtro HP con λ interactivo, pruebas no paramétricas, backtest y límites.">
+<meta property="og:url" content="https://analisis-azucar-tucuman.netlify.app/justificacion.html">
+<meta property="og:site_name" content="Estacionalidad del azúcar en Tucumán">
+<meta property="og:image" content="https://analisis-azucar-tucuman.netlify.app/assets/img/compartir-1200x630.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cañaveral tucumano al anochecer con el título Estacionalidad del precio del azúcar en Tucumán">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://analisis-azucar-tucuman.netlify.app/justificacion.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=1">
+<link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -42,7 +51,7 @@
   <a href="justificacion.html" aria-current="page">Justificación <span aria-hidden="true">→</span></a>
   <a href="futuro.html">Aportes futuros <span aria-hidden="true">→</span></a>
   <a href="index.html#paper">Leer el paper <span aria-hidden="true">→</span></a>
-  <p>Paper de investigación · UTN Facultad Regional Tucumán</p>
+  <p>Laboratorio GIITNI Datos · UTN Facultad Regional Tucumán</p>
 </nav>
 <main id="contenido">
 <section class="portada" aria-labelledby="t-portada">
@@ -110,7 +119,7 @@
       <p class="bajada">En Argentina es habitual «dolarizar» los precios para compararlos en el tiempo. Para un mercado doméstico como el del azúcar tucumano, el paper descarta esa vía.</p>
     </div>
     <div class="tabla-envoltura revelar">
-      <table class="tabla comparativa">
+      <table class="tabla comparativa"><caption class="sr">Comparación de deflactores: IPC empalmado, dólar informal y dólar oficial</caption>
         <thead><tr><th>Criterio</th><th>IPC empalmado</th><th>Dólar informal (blue)</th><th>Dólar oficial</th></tr></thead>
         <tbody>
           <tr><td>Mide el poder de compra en el mercado interno</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
@@ -203,7 +212,7 @@
         <p class="bajada">La Tabla 1 informa ambas porque responden preguntas distintas. La media incorpora todos los episodios; la mediana describe el año «típico» y es robusta a extremos como la escasez de 2023 (+93,7 % sobre la tendencia en septiembre).</p>
       </div>
       <div class="revelar">
-        <div class="tabla-envoltura"><table class="tabla" style="min-width:0">
+        <div class="tabla-envoltura"><table class="tabla" style="min-width:0"><caption class="sr">Media y mediana del ciclo en los meses clave del año azucarero</caption>
           <thead><tr><th class="izq">Mes</th><th>Media (ARS)</th><th>Mediana (ARS)</th><th>Desvío medio</th></tr></thead>
           <tbody>
             <tr><td><b>Febrero</b> · pico</td><td class="pos">+2.404,45</td><td class="pos">+4.339,38</td><td class="pos">+3,96 %</td></tr>
@@ -258,7 +267,7 @@
       <p class="bajada">Estas pruebas no forman parte del paper original: se calcularon con los mismos datos para dimensionar la solidez del resultado. Las pruebas por rangos no suponen normalidad, adecuadas para 18–19 observaciones por mes con valores extremos.</p>
     </div>
     <div class="tabla-envoltura revelar">
-      <table class="tabla" id="t-pruebas" style="min-width:820px">
+      <table class="tabla" id="t-pruebas" style="min-width:820px"><caption class="sr">Pruebas estadísticas complementarias del patrón estacional</caption>
         <thead><tr><th class="izq">Prueba</th><th class="izq">Pregunta</th><th>Estadístico</th><th>Valor p</th><th class="izq">Lectura</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -377,11 +386,16 @@
         <a class="marca" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#0E3B25"/><path d="M15 33V7" stroke="#F2F6F3" stroke-width="3.4" stroke-linecap="round"/><path d="M12.6 14h4.8M12.6 21h4.8M12.6 28h4.8" stroke="#0E3B25" stroke-width="1.6"/><path d="M15 12c3-4 8-5 12-3M15 18c4-2 9-1 12 2" stroke="#7DF0A8" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M20 31c2.5 0 3-5 5.5-5s3 5 5.5 5" stroke="#2BD46B" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Azúcar · Tucumán<small>Estacionalidad del precio</small></span></a>
         <p class="mt-2">Sitio del paper «Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán». Datos y código abiertos para su verificación.</p>
       </div>
-      <div><h4>Secciones</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
-      <div><h4>Recursos</h4><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
-      <div><h4>Cómo citar</h4><p class="pie__cita">Veliz, H. M. (2026). Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán. UTN Facultad Regional Tucumán.</p></div>
+      <div><h2 class="pie__titulo">Secciones</h2><ul><li><a href="index.html">Inicio</a></li><li><a href="datos.html">Datos</a></li><li><a href="justificacion.html">Justificación</a></li><li><a href="futuro.html">Aportes futuros</a></li></ul></div>
+      <div><h2 class="pie__titulo">Recursos</h2><ul><li><a href="index.html#paper">Leer el paper</a></li><li><a href="index.html#figuras">Galería 4K</a></li><li><a href="datos.html#descargas">Descargar datos</a></li><li><a href="https://github.com/MatiasVel/analisis_azucar_tucuman" rel="noopener">Repositorio en GitHub</a></li></ul></div>
+      <div><h2 class="pie__titulo">Cómo citar</h2><p class="pie__cita">Veliz, H. M. (2026). <i>Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán</i>. Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán. https://analisis-azucar-tucuman.netlify.app</p></div>
     </div>
-    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+    <dl class="creditos creditos--pie">
+      <div><dt>Autor</dt><dd>Héctor Matías Veliz</dd></div>
+      <div><dt>Tutores</dt><dd>Dra. Dorigatti Mariana · Ing. Sardi Duilio</dd></div>
+      <div><dt>Desarrollado en</dt><dd>Laboratorio GIITNI Datos · Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI), UTN Facultad Regional Tucumán</dd></div>
+    </dl>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
   </div>
 </footer>
 
@@ -395,11 +409,11 @@
 <template id="m-espalda"><p>Quienes pudieron retener azúcar —ingenios y actores con capacidad financiera— concentran la oferta remanente y pueden esperar mejores precios. Esa asimetría explica por qué los beneficios del arbitraje estacional quedan, en general, del lado de quien tiene financiamiento.</p></template>
 <template id="m-pico"><p>El ciclo se vuelve positivo entre enero y marzo y alcanza su máximo en <strong>febrero (+3,96 %; mediana +$ 4.339,38)</strong>. En abril, con la expectativa de la nueva zafra, el precio vuelve a la tendencia (−0,38 %).</p></template>
 
-<script src="assets/data/azucar.js?v=1"></script>
-<script src="assets/js/formulas.js?v=1"></script>
-<script src="assets/js/core.js?v=1"></script>
-<script src="assets/js/charts.js?v=1"></script>
-<script src="assets/js/hp.js?v=1"></script>
-<script src="assets/js/justificacion.js?v=1"></script>
+<script src="assets/data/azucar.js?v=2"></script>
+<script src="assets/js/formulas.js?v=2"></script>
+<script src="assets/js/core.js?v=2"></script>
+<script src="assets/js/charts.js?v=2"></script>
+<script src="assets/js/hp.js?v=2"></script>
+<script src="assets/js/justificacion.js?v=2"></script>
 </body>
 </html>

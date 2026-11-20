@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://analisis-azucar-tucuman.netlify.app/sitemap.xml

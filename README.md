@@ -1,7 +1,15 @@
 # Estacionalidad del precio del azúcar en Tucumán
 
-Sitio web interactivo del paper **«Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán»**
-— Héctor Matías Veliz · Universidad Tecnológica Nacional, Facultad Regional Tucumán.
+Sitio web interactivo del paper **«Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán»**.
+
+**Sitio publicado:** <https://analisis-azucar-tucuman.netlify.app>
+
+| Autoría | |
+|---|---|
+| Autor | Héctor Matías Veliz |
+| Tutores | Dra. Dorigatti Mariana · Ing. Sardi Duilio |
+| Desarrollado en | Laboratorio GIITNI Datos — Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI) |
+| Filiación | Universidad Tecnológica Nacional, Facultad Regional Tucumán |
 
 El estudio determina en qué meses conviene comprar y vender la bolsa de azúcar común tipo A de 50 kg en el mercado
 interno de Tucumán, a partir de 6.791 cotizaciones diarias (CACTU, 2008–2026) deflactadas con el IPC a pesos
@@ -31,6 +39,7 @@ analisis_azucar_tucuman/
 │   ├── pipeline.py           # serie real, filtro HP, Tabla 1, validación y datos del sitio
 │   ├── figuras.py            # láminas 4K (web y versión paper) y fórmulas SVG
 │   ├── prototipo_ml.py       # pronóstico walk-forward (prueba de concepto)
+│   ├── compartir.py          # imagen para compartir en redes (1200 × 630)
 │   ├── hero/                 # generador procedural de la imagen de portada
 │   ├── fuentes/              # tipografías usadas en las figuras (OFL)
 │   └── requirements.txt
@@ -55,12 +64,19 @@ pip install -r analysis/requirements.txt
 python analysis/pipeline.py      # recalcula datos, Tabla 1 y pruebas; escribe site/assets/data/azucar.js
 python analysis/figuras.py       # regenera las láminas 4K y las fórmulas
 python analysis/prototipo_ml.py  # regenera la prueba de concepto de machine learning
+python analysis/compartir.py      # regenera la imagen para compartir en redes
 python -m http.server --directory site 8000   # ver el sitio en http://localhost:8000
 ```
 
 `pipeline.py` reproduce exactamente las cifras del paper (media 60.042,71; mediana 52.544,84; desvío 24.205,77;
 Tabla 1 completa). Si `statsmodels` está instalado, verifica que `sm.tsa.filters.hpfilter` y la implementación
 matricial propia coincidan.
+
+## Cómo citar
+
+Veliz, H. M. (2026). *Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán*.
+Laboratorio GIITNI Datos, Universidad Tecnológica Nacional, Facultad Regional Tucumán.
+https://analisis-azucar-tucuman.netlify.app
 
 ## Fuentes y licencia de los datos
 

@@ -66,7 +66,7 @@
       const clave = `${selA.value}-${String(selM.value).padStart(2, "0")}`, i = D.mensual.fechas.indexOf(clave);
       if (i < 0) return;
       document.getElementById("c-calculo").innerHTML =
-        `<span class="tenue">${F.mesLargo(clave)}</span><br><b class="num">${F.pesos(D.mensual.nominal[i])}</b> × <b class="num">${F.num(D.mensual.coef[i], 4)}</b> = <b class="num verde" style="font-size:1.25em">${F.pesos(D.mensual.real[i])}</b>`;
+        `<span class="tenue">${F.mesLargo(clave)}</span><br><b class="num">${F.pesos(D.mensual.nominal[i])}</b> × <b class="num">${F.num(D.mensual.coef[i], 8)}</b> =<b class="num verde" style="font-size:1.25em">${F.pesos(D.mensual.real[i])}</b>`;
       document.getElementById("c-datos").innerHTML = `
         <div class="dato-clave"><b class="num">${F.pesos(D.mensual.tendencia[i], 0)}</b><span>tendencia HP de ese mes</span></div>
         <div class="dato-clave"><b class="num">${F.pesos(D.mensual.ciclo[i], 0, true)}</b><span>ciclo (precio − tendencia)</span></div>
@@ -90,7 +90,11 @@
         .sort((p, q) => (p[col] > q[col] ? 1 : p[col] < q[col] ? -1 : 0) * dir);
       tbody.innerHTML = vista.map((r) => `<tr><td>${F.mes(r.fecha)}</td><td>${F.num(r.nominal, 2)}</td><td>${F.num(r.coef, 4)}</td><td><b>${F.num(r.real, 2)}</b></td><td>${F.num(r.tendencia, 2)}</td><td class="${r.ciclo >= 0 ? "pos" : "neg"}">${F.num(r.ciclo, 2, true)}</td><td class="${r.rel >= 0 ? "pos" : "neg"}">${F.num(r.rel, 2, true)} %</td></tr>`).join("");
       conteo.textContent = `${vista.length} ${vista.length === 1 ? "mes" : "meses"}`;
-      document.querySelectorAll("#t-datos .ordenar").forEach((b) => { b.dataset.dir = b.dataset.col === col ? (dir > 0 ? "asc" : "desc") : ""; });
+      document.querySelectorAll("#t-datos .ordenar").forEach((b) => {
+        const activa = b.dataset.col === col;
+        b.dataset.dir = activa ? (dir > 0 ? "asc" : "desc") : "";
+        b.parentElement.setAttribute("aria-sort", activa ? (dir > 0 ? "ascending" : "descending") : "none");
+      });
     };
     document.querySelectorAll("#t-datos .ordenar").forEach((b) => b.addEventListener("click", () => {
       if (col === b.dataset.col) dir = -dir; else { col = b.dataset.col; dir = col === "fecha" ? 1 : -1; }
