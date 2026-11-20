@@ -7,7 +7,7 @@ Sitio web interactivo del paper **«Análisis de la Estacionalidad del Precio de
 | Autoría | |
 |---|---|
 | Autor | Héctor Matías Veliz |
-| Tutores | Dra. Mariana Dorigatti · Ing. Duilio Sardi |
+| Tutores | Dra. Dorigatti Mariana · Ing. Sardi Duilio |
 | Desarrollado en | Laboratorio GIITNI Datos — Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI) |
 | Filiación | Universidad Tecnológica Nacional, Facultad Regional Tucumán |
 

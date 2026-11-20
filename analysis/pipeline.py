@@ -260,7 +260,7 @@ def main() -> None:
         "meta": {
             "titulo": "Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán",
             "autor": "Héctor Matías Veliz",
-            "tutores": ["Dra. Mariana Dorigatti", "Ing. Duilio Sardi"],
+            "tutores": ["Dra. Dorigatti Mariana", "Ing. Sardi Duilio"],
             "laboratorio": "Laboratorio GIITNI Datos",
             "filiacion": "Universidad Tecnológica Nacional, Facultad Regional Tucumán",
             "periodo": "Enero 2008 – Agosto 2026",

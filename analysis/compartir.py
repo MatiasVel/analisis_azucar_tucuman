@@ -72,7 +72,7 @@ def main() -> None:
     texto = fuente("Inter-Regular.otf", 19)
     d.text((MARGEN, y), "Héctor Matías Veliz", font=nombre, fill=BLANCO)
     x = MARGEN + d.textlength("Héctor Matías Veliz", font=nombre) + 14
-    d.text((x, y + 2), "· Tutores: Dra. Mariana Dorigatti e Ing. Duilio Sardi", font=texto, fill=GRIS)
+    d.text((x, y + 2), "· Tutores: Dra. Dorigatti Mariana e Ing. Sardi Duilio", font=texto, fill=GRIS)
     d.text((MARGEN, y + 36), "Laboratorio GIITNI Datos · UTN Facultad Regional Tucumán", font=texto, fill=TENUE)
 
     lienzo.save(DESTINO, "JPEG", quality=86, optimize=True, progressive=True)
