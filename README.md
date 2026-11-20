@@ -26,8 +26,8 @@ constantes de agosto de 2026 y descompuestas con el filtro de Hodrick-Prescott (
 | Página | Contenido |
 |---|---|
 | `index.html` | Resultados, rueda anual, diagrama de 12 bloques clickeables, explorador de series, Tabla 1 interactiva, mapa de calor, simulador de arbitraje, galería de láminas 4K y el paper completo |
-| `datos.html` | Fuentes (CACTU, INDEC), pipeline de ingeniería de datos, control de calidad, deflactor IPC con conversor, diccionario, tabla explorable y descargas en CSV |
-| `justificacion.html` | Hipótesis, precios reales, IPC frente al dólar, filtro HP con λ interactivo, validación estadística, backtest, limitaciones y reglas de decisión |
+| `datos.html` | Fuentes (CACTU e IPC empalmado del BCRA), pipeline de ingeniería de datos, control de calidad, deflactor IPC con conversor, diccionario, tabla explorable y descargas en CSV |
+| `justificacion.html` | Hipótesis, precios reales, pesos constantes frente al dólar, filtro HP con λ interactivo, validación estadística, backtest, limitaciones y reglas de decisión |
 | `futuro.html` | Hoja de ruta, arquitectura de datos, prueba de concepto de machine learning y variables exógenas |
 
 ## Estructura
@@ -80,6 +80,6 @@ https://analisis-azucar-tucuman.netlify.app
 
 ## Fuentes y licencia de los datos
 
-Precios: Centro de Agricultores Cañeros de Tucumán (CACTU). Coeficientes de actualización: IPC (INDEC), serie empalmada.
+Precios: Centro de Agricultores Cañeros de Tucumán (CACTU). Coeficientes de actualización: serie de IPC empalmada con la metodología del BCRA (nota metodológica del Índice de Tipo de Cambio Real Multilateral, enero de 2019): IPC San Luis, promedio de CABA y San Luis, IPC GBA e IPC nacional del INDEC.
 Los datos se publican con fines académicos y de verificación; citar siempre la fuente original.
 El contenido del sitio no constituye asesoramiento financiero.

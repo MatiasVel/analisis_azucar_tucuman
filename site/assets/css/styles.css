@@ -676,3 +676,6 @@ pre.codigo .c { color: #6f8a79; font-style: italic; } pre.codigo .k { color: var
   details > summary .acordeon__icono { display: none; }
   .pie { border-top: 1px solid #ccc; padding-top: 24px; }
 }
+
+/* direcciones web largas en las listas de referencias */
+.referencias a, #referencias li a { overflow-wrap: anywhere; }

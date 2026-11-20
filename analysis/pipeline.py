@@ -6,7 +6,7 @@ Autor: Héctor Matías Veliz — UTN Facultad Regional Tucumán
 Etapas (idénticas al cuaderno CuadernoComparación_V2.ipynb):
   1. Ingesta y validación de la serie diaria nominal (CACTU).
   2. Submuestreo mensual con .resample('MS').mean().
-  3. Deflactación con coeficientes IPC (INDEC) a pesos de agosto de 2026.
+  3. Deflactación con coeficientes de la serie de IPC empalmada con la metodología del BCRA, a pesos de agosto de 2026.
   4. Filtro de Hodrick-Prescott (lambda = 14.400) bajo modelo aditivo y_t = tau_t + c_t.
   5. Agregación del componente cíclico por mes calendario (Tabla 1).
   6. Validación complementaria (sensibilidad a lambda, métodos alternativos, pruebas no paramétricas, backtest).

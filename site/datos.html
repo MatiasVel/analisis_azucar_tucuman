@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Datos y fuentes · Estacionalidad del precio del azúcar en Tucumán</title>
-<meta name="description" content="Fuentes CACTU e INDEC, pipeline de datos, control de calidad, deflactor IPC, diccionario y descargas en CSV del estudio del precio del azúcar en Tucumán.">
+<meta name="description" content="Fuentes (CACTU e IPC empalmado del BCRA), pipeline de datos, control de calidad, deflactor, diccionario y descargas en CSV del precio del azúcar en Tucumán.">
 <meta name="author" content="Héctor Matías Veliz">
 <meta name="theme-color" content="#050806">
 <meta property="og:type" content="website">
@@ -23,7 +23,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=2">
+<link rel="stylesheet" href="assets/css/styles.css?v=3">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -91,11 +91,12 @@
       </article>
       <article class="tarjeta revelar">
         <span class="etiqueta">Fuente 2 · Deflactor</span>
-        <h3>Índice de Precios al Consumidor (IPC) — serie empalmada</h3>
-        <p>Serie histórica del IPC elaborado por el Instituto Nacional de Estadística y Censos (INDEC), empalmada para obtener coeficientes continuos que llevan cada mes a pesos constantes de agosto de 2026.</p>
+        <h3>Índice de Precios al Consumidor (IPC) — serie empalmada por el BCRA</h3>
+        <p>Serie del IPC de Argentina que el Banco Central de la República Argentina (BCRA) construye por empalme hacia atrás para su Índice de Tipo de Cambio Real Multilateral. Combina índices del INDEC con los de las direcciones de estadística de San Luis y de la Ciudad de Buenos Aires, y de ella surgen los coeficientes que llevan cada mes a pesos constantes de agosto de 2026.</p>
         <div class="tabla-envoltura mt-2" style="border-radius:16px"><table class="tabla" style="min-width:0"><caption class="sr">Ficha de la fuente del deflactor (IPC)</caption><tbody>
           <tr><td class="izq tenue">Variable</td><td class="izq">Coeficiente de ajuste a pesos de agosto de 2026</td></tr>
-          <tr><td class="izq tenue">Organismo</td><td class="izq">INDEC (<a href="https://www.indec.gob.ar" rel="noopener">indec.gob.ar</a>)</td></tr>
+          <tr><td class="izq tenue">Metodología</td><td class="izq">BCRA, nota metodológica del Índice de Tipo de Cambio Real Multilateral, enero de 2019 (<a href="https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/tcrmmetodologia.pdf" rel="noopener">PDF</a>)</td></tr>
+          <tr><td class="izq tenue">Índices empalmados (2008–2026)</td><td class="izq">IPC San Luis hasta jul-2012 · promedio CABA y San Luis hasta abr-2016 · IPC GBA (INDEC) may–dic 2016 · IPC nacional (INDEC) desde 2017</td></tr>
           <tr><td class="izq tenue">Frecuencia</td><td class="izq">Mensual</td></tr>
           <tr><td class="izq tenue">Cobertura usada</td><td class="izq">Enero 2008 – agosto 2026 (224 meses)</td></tr>
           <tr><td class="izq tenue">Rango</td><td class="izq">× 1.051,54 (ene-2008) a × 1,00 (ago-2026)</td></tr>
@@ -107,7 +108,7 @@
     <div class="reja reja--3 mt-2">
       <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Contexto sectorial</span><h3>EEAOC</h3><p>La Estación Experimental Agroindustrial Obispo Colombres produce información técnica sobre la caña de azúcar y la actividad sucroalcoholera de Tucumán (estimaciones de cosecha, molienda y rendimientos). Citada en el paper como referencia [4].</p></article>
       <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Contexto sectorial</span><h3>IPAAT</h3><p>El Instituto de Promoción del Azúcar y Alcohol de Tucumán es el organismo provincial de aplicación del régimen sucroalcoholero y realiza el seguimiento semanal de la zafra (caña molida, azúcar y alcohol producidos). Citado como referencia [5].</p></article>
-      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Por qué no el dólar</span><h3>Dólar informal: descartado</h3><p>La cotización del dólar blue incorpora brechas cambiarias, controles de capitales e inflación propia de la divisa. Usarla como deflactor introduciría ruido ajeno al mercado doméstico del azúcar. <a class="enlace-flecha" href="justificacion.html#dolar">Ver comparación</a></p></article>
+      <article class="tarjeta revelar"><span class="etiqueta etiqueta--gris">Unidad de medida</span><h3>Pesos constantes, no dólares</h3><p>La bolsa se compra y se vende en pesos, igual que se pagan la cosecha y los fletes. Medir en pesos constantes muestra su valor real en el mercado interno, sin sumarle los movimientos propios del tipo de cambio. <a class="enlace-flecha" href="justificacion.html#dolar">Ver comparación</a></p></article>
     </div>
   </div>
 </section>
@@ -193,6 +194,7 @@
       <div class="panel-grafico revelar">
         <div class="panel-grafico__barra"><h3 class="subtitulo" style="margin:0;font-size:1.15rem">Coeficiente de actualización (escala log)</h3></div>
         <div class="grafico" id="g-coef"></div>
+        <p class="tenue" style="font-size:.86rem;margin:12px 0 0">Las franjas marcan los tramos del empalme del BCRA: San Luis (hasta jul-2012), promedio CABA y San Luis (ago-2012 a abr-2016), GBA (may–dic 2016) y nacional (desde 2017). Pasá el cursor o tocá la línea para ver el índice de cada mes.</p>
       </div>
       <div class="tarjeta revelar" id="conversor">
         <span class="etiqueta">Conversor</span>
@@ -275,7 +277,7 @@
     <div class="encabezado revelar">
       <span class="antetitulo">Descargas</span>
       <h2 class="titulo" id="t-descargas">Datos abiertos <em>para verificar</em></h2>
-      <p class="bajada">Archivos CSV en UTF-8, separados por coma, con fechas ISO 8601. Los precios pertenecen a CACTU y los coeficientes al INDEC: se publican con fines académicos y de verificación; citá siempre la fuente original.</p>
+      <p class="bajada">Archivos CSV en UTF-8, separados por coma, con fechas ISO 8601. Los precios pertenecen a CACTU y los coeficientes surgen de la serie de IPC empalmada con la metodología del BCRA: se publican con fines académicos y de verificación; citá siempre la fuente original.</p>
     </div>
     <div class="reja reja--3" id="lista-descargas"></div>
   </div>
@@ -344,7 +346,7 @@ python -m http.server --directory site 8000</pre>
       <div><dt>Tutores</dt><dd>Dra. Dorigatti Mariana · Ing. Sardi Duilio</dd></div>
       <div><dt>Desarrollado en</dt><dd>Laboratorio GIITNI Datos · Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI), UTN Facultad Regional Tucumán</dd></div>
     </dl>
-    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e IPC empalmado con la metodología del BCRA. Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
   </div>
 </footer>
 
@@ -415,8 +417,8 @@ tabla1 = df.groupby("Mes").agg(media=("Ciclo_Estacional", "mean"),
 
 <script src="assets/data/azucar.js?v=2"></script>
 <script src="assets/js/formulas.js?v=2"></script>
-<script src="assets/js/core.js?v=2"></script>
+<script src="assets/js/core.js?v=3"></script>
 <script src="assets/js/charts.js?v=2"></script>
-<script src="assets/js/datos.js?v=2"></script>
+<script src="assets/js/datos.js?v=3"></script>
 </body>
 </html>

@@ -47,12 +47,23 @@
     log.addEventListener("change", () => g.actualizar(op()));
   }
 
+  // Tramos del empalme del IPC según la metodología del BCRA (nota del ITCRM, enero de 2019)
+  const TRAMOS_IPC = [
+    { hasta: "2012-07", nombre: "IPC San Luis" },
+    { hasta: "2016-04", nombre: "Promedio CABA y San Luis" },
+    { hasta: "2016-12", nombre: "IPC GBA (INDEC)" },
+    { hasta: "9999-12", nombre: "IPC nacional (INDEC)" },
+  ];
+  const tramoIPC = (fecha) => TRAMOS_IPC.find((t) => fecha <= t.hasta).nombre;
+
   function deflactor() {
     AZ.graficos.lineas(document.getElementById("g-coef"), {
-      etiqueta: "Coeficiente IPC", logY: true,
+      etiqueta: "Coeficiente IPC, serie empalmada con la metodología del BCRA", logY: true,
       series: [{ nombre: "Coeficiente IPC", x: mensualX, y: D.mensual.coef, color: VERDE, ancho: 3, area: 0.15, formato: (v) => "× " + F.num(v, 2) }],
       formatoY: (v) => "× " + F.num(v),
-      tooltip: (i) => `<span class="fecha">${F.mesLargo(D.mensual.fechas[i])}</span><div class="fila"><span>Coeficiente</span><b>× ${F.num(D.mensual.coef[i], 2)}</b></div><div class="fila"><span>$ 1 de entonces</span><b>${F.pesos(D.mensual.coef[i])} de hoy</b></div>`,
+      // franjas en los tramos San Luis y GBA: alternan con los tramos sin sombrear
+      bandas: [{ x0: Date.UTC(2008, 0, 1), x1: Date.UTC(2012, 6, 31) }, { x0: Date.UTC(2016, 4, 1), x1: Date.UTC(2016, 11, 31) }],
+      tooltip: (i) => `<span class="fecha">${F.mesLargo(D.mensual.fechas[i])}</span><div class="fila"><span>Coeficiente</span><b>× ${F.num(D.mensual.coef[i], 2)}</b></div><div class="fila"><span>$ 1 de entonces</span><b>${F.pesos(D.mensual.coef[i])} de hoy</b></div><div class="fila"><span>Índice</span><b>${tramoIPC(D.mensual.fechas[i])}</b></div>`,
       alto: (w) => (w < 560 ? 260 : 340),
     });
     const selA = document.getElementById("c-anio"), selM = document.getElementById("c-mes");

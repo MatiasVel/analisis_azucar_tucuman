@@ -79,7 +79,7 @@ def hp_filter(y: np.ndarray, lamb: float):
     return y - tendencia, tendencia
 
 
-def lienzo(t: dict, tema: str, titulo: str, subtitulo: str, fuente: str = "Fuente: CACTU (precios diarios) e INDEC (IPC). Elaboración propia — Veliz, UTN-FRT."):
+def lienzo(t: dict, tema: str, titulo: str, subtitulo: str, fuente: str = "Fuente: CACTU (precios diarios) e IPC empalmado con la metodología del BCRA. Elaboración propia — Veliz, UTN-FRT."):
     plt.rcParams.update({
         "font.family": t["fuente"], "font.size": 13, "text.color": t["fg"],
         "axes.edgecolor": t["grid"], "axes.labelcolor": t["muted"], "axes.facecolor": t["bg"],
@@ -327,8 +327,21 @@ def figuras(tema: str, d: dict) -> None:
 
     # Fig. 9 — Coeficiente IPC
     fig, ax = lienzo(t, tema, "Deflactor: coeficiente de actualización IPC a pesos de agosto de 2026",
-                     "Serie empalmada del IPC (INDEC) · cuántos pesos de ago-2026 equivalen a 1 peso de cada mes",
-                     fuente="Fuente: INDEC, IPC empalmado. Elaboración propia — Veliz, UTN-FRT.")
+                     "Serie de IPC empalmada con la metodología del BCRA · cuántos pesos de ago-2026 equivalen a 1 peso de cada mes",
+                     fuente="Fuente: BCRA (metodología de empalme del IPC); INDEC y direcciones de estadística de San Luis y CABA. Elaboración propia — Veliz, UTN-FRT.")
+    # tramos del empalme (nota metodológica del ITCRM, BCRA, enero de 2019)
+    tramos = [(pd.Timestamp("2008-01-01"), pd.Timestamp("2012-08-01"), "IPC San Luis", True),
+              (pd.Timestamp("2012-08-01"), pd.Timestamp("2016-05-01"), "Promedio CABA y San Luis", False),
+              (pd.Timestamp("2016-05-01"), pd.Timestamp("2017-01-01"), "GBA", True),
+              (pd.Timestamp("2017-01-01"), pd.Timestamp("2026-09-01"), "IPC nacional (INDEC)", False)]
+    eje_x = ax.get_xaxis_transform()
+    for desde, hasta, nombre, sombra in tramos:
+        if sombra:
+            ax.axvspan(desde, hasta, color=t["banda"], zorder=0, lw=0)
+        ax.axvline(desde, color=t["grid"], lw=1, zorder=1)
+        medio = desde + (hasta - desde) / 2
+        ax.text(medio, 0.06, nombre, transform=eje_x, ha="center", va="bottom", fontsize=12 if nombre != "GBA" else 10.5,
+                color=t["muted"], linespacing=1.15)
     ax.plot(m["Periodo"], m["Coef"], color=t["verde"], lw=3)
     ax.set_yscale("log")
     ax.yaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0)))

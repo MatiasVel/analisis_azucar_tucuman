@@ -322,8 +322,8 @@
       textoEl.textContent = f.texto || "";
       contador.textContent = `${i + 1} / ${lista.length} · 3840 × 2160 px`;
       botones.innerHTML = "";
-      if (f.png) botones.insertAdjacentHTML("beforeend", `<a class="btn btn--primario btn--chico" href="${f.png}" download>${AZ.icono.descarga}<span>PNG 4K</span></a>`);
-      if (f.paper) botones.insertAdjacentHTML("beforeend", `<a class="btn btn--secundario btn--chico" href="${f.paper}" download>${AZ.icono.descarga}<span>Versión paper (fondo blanco)</span></a>`);
+      if (f.png) botones.insertAdjacentHTML("beforeend", `<a class="btn btn--primario btn--chico" href="${f.png}" download="${nombreArchivo(f.png)}">${AZ.icono.descarga}<span>PNG 4K</span></a>`);
+      if (f.paper) botones.insertAdjacentHTML("beforeend", `<a class="btn btn--secundario btn--chico" href="${f.paper}" download="${nombreArchivo(f.paper)}">${AZ.icono.descarga}<span>Versión paper (fondo blanco)</span></a>`);
       if (f.enlace) {
         botones.insertAdjacentHTML("beforeend", `<a class="btn btn--secundario btn--chico" href="${f.enlace}" data-profundizar><span>Profundizar</span>${AZ.icono.flecha}</a>`);
         botones.querySelector("[data-profundizar]").addEventListener("click", cerrar);
@@ -447,6 +447,9 @@
       if (objetivo) AZ.copiar(objetivo.innerText.trim());
     }));
   }
+
+  // nombre de descarga sin la versión de caché (?v=…)
+  const nombreArchivo = (url) => url.split("?")[0].split("/").pop();
 
   // ------------------------------------------------------------ impresión: paper completo y contenido visible
   function iniciarImpresion() {

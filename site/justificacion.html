@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Justificación metodológica · Precio del azúcar en Tucumán</title>
-<meta name="description" content="Por qué precios reales, por qué el IPC y no el dólar blue y por qué el filtro HP con λ = 14.400: validación estadística, backtest y límites del estudio.">
+<meta name="description" content="Por qué pesos constantes y no dólares, cómo se empalma el IPC y por qué el filtro HP con λ = 14.400: validación estadística, backtest y límites del estudio.">
 <meta name="author" content="Héctor Matías Veliz">
 <meta name="theme-color" content="#050806">
 <meta property="og:type" content="article">
@@ -23,7 +23,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=2">
+<link rel="stylesheet" href="assets/css/styles.css?v=3">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -59,9 +59,9 @@
   <div class="contenedor">
     <nav class="migas" aria-label="Ruta"><a href="index.html">Inicio</a><span aria-hidden="true">/</span><span>Justificación</span></nav>
     <h1 id="t-portada">Por qué <span class="verde">este planteamiento</span></h1>
-    <p class="bajada">Cada decisión metodológica del paper responde a un problema concreto: la inflación, el ruido cambiario, la diferencia de frecuencias y la necesidad de separar lo estructural de lo estacional. Esta página reúne los argumentos, permite poner a prueba las elecciones y expone los límites del estudio.</p>
+    <p class="bajada">Cada decisión metodológica del paper responde a un problema concreto: la inflación, la elección de la unidad de medida, la diferencia de frecuencias y la necesidad de separar lo estructural de lo estacional. Esta página reúne los argumentos, permite poner a prueba las elecciones y expone los límites del estudio.</p>
     <div class="indice-pagina">
-      <a href="#hipotesis">Hipótesis</a><a href="#precios-reales">Precios reales</a><a href="#dolar">IPC vs. dólar</a><a href="#mensual">Promedio mensual</a><a href="#hp">Filtro HP · λ en vivo</a><a href="#estadisticos">Media y mediana</a><a href="#mecanismo">Mecanismo económico</a><a href="#validacion">Validación</a><a href="#backtest">Backtest</a><a href="#limitaciones">Limitaciones</a><a href="#uso">Cómo usarlo</a><a href="#referencias">Referencias</a>
+      <a href="#hipotesis">Hipótesis</a><a href="#precios-reales">Precios reales</a><a href="#dolar">Pesos o dólares</a><a href="#mensual">Promedio mensual</a><a href="#hp">Filtro HP · λ en vivo</a><a href="#estadisticos">Media y mediana</a><a href="#mecanismo">Mecanismo económico</a><a href="#validacion">Validación</a><a href="#backtest">Backtest</a><a href="#limitaciones">Limitaciones</a><a href="#uso">Cómo usarlo</a><a href="#referencias">Referencias</a>
     </div>
   </div>
 </section>
@@ -115,31 +115,39 @@
   <div class="contenedor">
     <div class="encabezado revelar">
       <span class="antetitulo">3 · Elección del deflactor</span>
-      <h2 class="titulo" id="t-dolar">IPC frente al <em>dólar informal</em></h2>
-      <p class="bajada">En Argentina es habitual «dolarizar» los precios para compararlos en el tiempo. Para un mercado doméstico como el del azúcar tucumano, el paper descarta esa vía.</p>
+      <h2 class="titulo" id="t-dolar">Pesos constantes frente al <em>dólar</em></h2>
+      <p class="bajada">En Argentina es habitual «dolarizar» los precios para compararlos en el tiempo, y para muchas preguntas es una buena referencia. Para estudiar un mercado que opera en pesos, como el del azúcar tucumano, el paper prefiere medir en pesos de poder adquisitivo constante.</p>
     </div>
     <div class="tabla-envoltura revelar">
-      <table class="tabla comparativa"><caption class="sr">Comparación de deflactores: IPC empalmado, dólar informal y dólar oficial</caption>
-        <thead><tr><th>Criterio</th><th>IPC empalmado</th><th>Dólar informal (blue)</th><th>Dólar oficial</th></tr></thead>
+      <table class="tabla comparativa"><caption class="sr">Comparación de unidades de medida: pesos constantes con IPC empalmado, dólar informal y dólar oficial</caption>
+        <thead><tr><th>Criterio</th><th>Pesos constantes (IPC empalmado)</th><th>Dólar informal (blue)</th><th>Dólar oficial</th></tr></thead>
         <tbody>
-          <tr><td>Mide el poder de compra en el mercado interno</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
-          <tr><td>Libre de brecha cambiaria</td><td class="si">Sí</td><td class="no">No</td><td class="si">Sí</td></tr>
-          <tr><td>Libre de controles de capitales y cotización administrada</td><td class="si">Sí</td><td class="no">No (mercado paralelo)</td><td class="no">No (tipo de cambio administrado)</td></tr>
+          <tr><td>Expresa el valor en poder de compra del mercado interno</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
+          <tr><td>No depende de la brecha entre mercados de cambio</td><td class="si">Sí</td><td class="no">No</td><td class="si">Sí</td></tr>
+          <tr><td>No depende de controles de capitales ni de un tipo de cambio administrado</td><td class="si">Sí</td><td class="no">No (mercado paralelo)</td><td class="no">No (administrado en varios períodos)</td></tr>
           <tr><td>No incorpora la inflación propia del dólar estadounidense</td><td class="si">Sí</td><td class="no">No</td><td class="no">No</td></tr>
-          <tr><td>Serie oficial, mensual y continua</td><td class="si">Sí, con empalmes</td><td class="no">No</td><td class="si">Sí</td></tr>
+          <tr><td>Serie mensual, continua y documentada para 2008–2026</td><td class="si">Sí (empalme del BCRA)</td><td class="no">Sin fuente oficial</td><td class="si">Sí (BCRA)</td></tr>
           <tr><td>Coherente con la formación del precio en Tucumán</td><td class="si">Sí</td><td class="no">No</td><td class="no">Parcial (paridad de exportación)</td></tr>
         </tbody>
       </table>
     </div>
     <div class="dividido mt-3">
       <div class="texto-largo revelar">
-        <h3 class="subtitulo">El problema del dólar como deflactor</h3>
-        <p>Dividir por el dólar blue mezcla dos fenómenos: el precio del azúcar y la dinámica cambiaria. En períodos de cepo, la brecha entre el dólar oficial y el informal llegó a ser muy amplia; una caída del «precio en dólares» podía reflejar una corrida cambiaria y no un cambio en el mercado azucarero. Además, el dólar tiene su propia inflación, que también contamina la comparación.</p>
+        <h3 class="subtitulo">Qué cambia al medir en dólares</h3>
+        <p>Medir en dólares responde a otra pregunta: cuánto vale la bolsa frente a la moneda extranjera. Es una referencia útil, por ejemplo, para compararla con la paridad de exportación. Pero el tipo de cambio tiene su propia dinámica: en los períodos con controles cambiarios la distancia entre el dólar oficial y el informal llegó a ser amplia, y una variación del «precio en dólares» podía deberse más al mercado de cambios que al del azúcar.</p>
+        <p>Como la bolsa se compra, se vende y se paga en pesos —igual que la cosecha y los fletes—, medirla en pesos de poder adquisitivo constante permite ver con más claridad el comportamiento propio del mercado azucarero.</p>
       </div>
       <div class="texto-largo revelar">
-        <h3 class="subtitulo">Por qué una serie empalmada</h3>
-        <p>El IPC oficial cambió de base y de metodología varias veces, y entre 2007 y 2015 sus mediciones fueron objeto de fuertes cuestionamientos. Las series de largo plazo «empalmadas» enlazan los distintos tramos —y en algunos casos reemplazan el período cuestionado por índices alternativos— para obtener coeficientes continuos. El factor acumulado usado en el estudio (× 1.051,54 entre enero de 2008 y agosto de 2026) es del orden de esas series.</p>
-        <p class="tenue" style="font-size:.92rem">Recomendación para la versión final: documentar en la referencia [2] la fuente exacta del archivo «IPC desde 1943.xlsx» y el criterio de empalme.</p>
+        <h3 class="subtitulo">Cómo se arma la serie del IPC</h3>
+        <p>El IPC oficial cambió de base y de cobertura varias veces, sus mediciones fueron cuestionadas entre 2007 y 2015 y su publicación se interrumpió durante la emergencia estadística de 2016. Para contar con una serie continua, el estudio usa la que el Banco Central de la República Argentina construye por empalme hacia atrás para su Índice de Tipo de Cambio Real Multilateral [2]:</p>
+        <ul>
+          <li><strong>Hasta diciembre de 2006:</strong> IPC del Gran Buenos Aires (INDEC).</li>
+          <li><strong>Enero de 2007 a julio de 2012:</strong> IPC de la provincia de San Luis.</li>
+          <li><strong>Agosto de 2012 a abril de 2016:</strong> promedio simple de las variaciones de los IPC de la Ciudad de Buenos Aires y de San Luis.</li>
+          <li><strong>Mayo a diciembre de 2016:</strong> IPC del Gran Buenos Aires (INDEC).</li>
+          <li><strong>Desde enero de 2017:</strong> IPC nacional (INDEC).</li>
+        </ul>
+        <p>Se puede comprobar en los propios coeficientes: la inflación anual que implican entre 2010 y 2013 va del 23 % al 29 %, en línea con los índices provinciales, mientras que el IPC oficial de esos años rondaba el 10 %. Desde 2017 coincide con el IPC nacional; por ejemplo, 211,4 % en 2023. <a href="https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/tcrmmetodologia.pdf" rel="noopener">Ver la nota metodológica del BCRA</a>.</p>
       </div>
     </div>
   </div>
@@ -279,8 +287,8 @@
         <p>Cuando se ignora el año (Kruskal-Wallis), la diferencia deja de ser significativa: los ciclos plurianuales —como 2011 o 2023— desplazan años enteros hacia arriba o hacia abajo y tapan la señal estacional. Conclusión: <strong>la estacionalidad existe y es consistente, pero su amplitud (±4–5 %) es pequeña frente a la volatilidad interanual (±23 %)</strong>. Las ventanas son una ventaja probabilística, no una garantía.</p>
       </div>
       <div class="revelar">
-        <button class="figura" type="button" style="width:100%" data-num="Lámina 08" data-src4k="assets/img/figuras/fig08-robustez-3840.webp" data-png="assets/img/figuras/fig08-robustez-3840.png" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12." data-titulo="Sensibilidad a λ y al método">
-          <span class="figura__imagen"><img src="assets/img/figuras/fig08-robustez-1600.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Patrón estacional con distintos valores de lambda y métodos"><span class="figura__4k">4K</span></span>
+        <button class="figura" type="button" style="width:100%" data-num="Lámina 08" data-src4k="assets/img/figuras/fig08-robustez-3840.webp?v=2" data-png="assets/img/figuras/fig08-robustez-3840.png?v=2" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png?v=2" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12." data-titulo="Sensibilidad a λ y al método">
+          <span class="figura__imagen"><img src="assets/img/figuras/fig08-robustez-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Patrón estacional con distintos valores de lambda y métodos"><span class="figura__4k">4K</span></span>
           <span class="figura__cuerpo"><span class="figura__num">Lámina 08 · Robustez</span><span class="figura__titulo">Sensibilidad a λ y al método</span></span>
         </button>
       </div>
@@ -321,7 +329,7 @@
       <div class="tarjeta revelar"><h3>Promedios, no certezas</h3><p>La estacionalidad (±4–5 %) es pequeña frente a la volatilidad interanual (±23 %). Las ventanas mejoran las probabilidades, pero no eliminan el riesgo de precio.</p></div>
       <div class="tarjeta revelar"><h3>Efecto de borde</h3><p>La tendencia HP es menos precisa en los últimos meses de la muestra; la caída final de la tendencia debe interpretarse con cautela.</p></div>
       <div class="tarjeta revelar"><h3>Un único precio de referencia</h3><p>La serie de CACTU es una cotización de referencia del mercado interno; los precios efectivos de cada operación pueden diferir por plazos de pago, calidad, volumen o condiciones impositivas.</p></div>
-      <div class="tarjeta revelar"><h3>Deflactor general</h3><p>El IPC mide el costo de vida general, no los costos del sector. Además depende del criterio de empalme y se publica con rezago, lo que importa para usos en tiempo real.</p></div>
+      <div class="tarjeta revelar"><h3>Deflactor general</h3><p>El IPC mide el costo de vida general, no los costos del sector. Entre 2007 y 2016 la serie se apoya en índices de San Luis y de la Ciudad de Buenos Aires, según el criterio de empalme del BCRA, y se publica con rezago, lo que importa para usos en tiempo real.</p></div>
       <div class="tarjeta revelar"><h3>Cambios de régimen</h3><p>Cupos de exportación, cortes de bioetanol, sequías o shocks macroeconómicos pueden alterar el patrón. Con 18–19 años por mes, el poder estadístico es limitado: conviene actualizar el análisis cada temporada.</p></div>
     </div>
   </div>
@@ -355,7 +363,7 @@
       <h3 class="subtitulo" style="font-family:var(--fuente-titulo)">Citadas en el paper</h3>
       <ol>
         <li>Centro de Agricultores Cañeros de Tucumán (CACTU). Serie histórica de cotizaciones diarias de la bolsa de azúcar común tipo A de 50 kg, 2008–2026.</li>
-        <li>Instituto Nacional de Estadística y Censos (INDEC). Índice de Precios al Consumidor, serie empalmada y coeficientes a pesos de agosto de 2026.</li>
+        <li>Banco Central de la República Argentina (BCRA). «Índice del Tipo de Cambio Real Multilateral diario», nota metodológica, enero de 2019, sección 3: serie de IPC de Argentina construida por empalme hacia atrás. <a href="https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/tcrmmetodologia.pdf" rel="noopener">https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/tcrmmetodologia.pdf</a></li>
         <li>R. J. Hodrick y E. C. Prescott, “Postwar U.S. Business Cycles: An Empirical Investigation”, <i>Journal of Money, Credit and Banking</i>, 29(1), 1–16, 1997.</li>
         <li>Estación Experimental Agroindustrial Obispo Colombres (EEAOC). Informes técnicos sobre la actividad sucroalcoholera de Tucumán.</li>
         <li>Instituto de Promoción del Azúcar y Alcohol de Tucumán (IPAAT). Información sectorial y seguimiento de zafra.</li>
@@ -395,7 +403,7 @@
       <div><dt>Tutores</dt><dd>Dra. Dorigatti Mariana · Ing. Sardi Duilio</dd></div>
       <div><dt>Desarrollado en</dt><dd>Laboratorio GIITNI Datos · Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI), UTN Facultad Regional Tucumán</dd></div>
     </dl>
-    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e INDEC (IPC). Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
+    <div class="pie__legal"><span>© <span data-anio>2026</span> Héctor Matías Veliz · Laboratorio GIITNI Datos, UTN Facultad Regional Tucumán</span><span>Fuentes: CACTU (precios) e IPC empalmado con la metodología del BCRA. Contenido con fines académicos; no constituye asesoramiento financiero.</span></div>
   </div>
 </footer>
 
@@ -411,7 +419,7 @@
 
 <script src="assets/data/azucar.js?v=2"></script>
 <script src="assets/js/formulas.js?v=2"></script>
-<script src="assets/js/core.js?v=2"></script>
+<script src="assets/js/core.js?v=3"></script>
 <script src="assets/js/charts.js?v=2"></script>
 <script src="assets/js/hp.js?v=2"></script>
 <script src="assets/js/justificacion.js?v=2"></script>
