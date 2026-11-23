@@ -23,7 +23,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=3">
+<link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -303,7 +303,7 @@
     <div class="encabezado revelar">
       <span class="antetitulo">9 · Backtest histórico</span>
       <h2 class="titulo" id="t-backtest">¿Qué habría pasado <em>ciclo por ciclo</em>?</h2>
-      <p class="bajada">El diferencial de 8,62 pp es un promedio respecto de la tendencia. Con precios observados, la operación «comprar en julio y vender en febrero del año siguiente» también depende de hacia dónde se mueva la tendencia durante los siete meses de tenencia.</p>
+      <p class="bajada">El margen de 8,62 % es un promedio respecto de la tendencia. Con precios observados, la operación «comprar en julio y vender en febrero del año siguiente» también depende de hacia dónde se mueva la tendencia durante los siete meses de tenencia.</p>
     </div>
     <div class="reja reja--4 revelar" id="bt-resumen"></div>
     <div class="panel-grafico mt-2 revelar">
@@ -325,7 +325,7 @@
       <p class="bajada">Explicitar los límites es parte del rigor. Estas son las principales salvedades para quien use los resultados en decisiones reales.</p>
     </div>
     <div class="reja reja--3">
-      <div class="tarjeta revelar"><h3>Márgenes brutos</h3><p>El diferencial de 8,62 pp no descuenta almacenamiento, merma, costo financiero, impuestos ni comisiones. El margen neto puede ser sensiblemente menor.</p></div>
+      <div class="tarjeta revelar"><h3>Márgenes brutos</h3><p>El margen de 8,62 % no descuenta almacenamiento, merma, costo financiero, impuestos ni comisiones. El margen neto puede ser sensiblemente menor.</p></div>
       <div class="tarjeta revelar"><h3>Promedios, no certezas</h3><p>La estacionalidad (±4–5 %) es pequeña frente a la volatilidad interanual (±23 %). Las ventanas mejoran las probabilidades, pero no eliminan el riesgo de precio.</p></div>
       <div class="tarjeta revelar"><h3>Efecto de borde</h3><p>La tendencia HP es menos precisa en los últimos meses de la muestra; la caída final de la tendencia debe interpretarse con cautela.</p></div>
       <div class="tarjeta revelar"><h3>Un único precio de referencia</h3><p>La serie de CACTU es una cotización de referencia del mercado interno; los precios efectivos de cada operación pueden diferir por plazos de pago, calidad, volumen o condiciones impositivas.</p></div>
@@ -345,7 +345,7 @@
     <div class="ruta">
       <div class="hito revelar"><div class="hito__marca">1</div><div class="tarjeta"><h3>Concentrar compras y acopio en plena zafra</h3><p>Junio a octubre, con julio (−4,66 %) y octubre (−3,62 %) como los meses de mayor descuento relativo.</p></div></div>
       <div class="hito revelar"><div class="hito__marca">2</div><div class="tarjeta"><h3>Concentrar ventas en la interzafra</h3><p>Enero a marzo, con febrero (+3,96 %) como el mes de mayor premio relativo. Abril ya es neutral (−0,38 %).</p></div></div>
-      <div class="hito revelar"><div class="hito__marca">3</div><div class="tarjeta"><h3>Comparar el premio con el costo de esperar</h3><p>8,62 pp en 7 meses equivalen a ≈ 1,23 pp por mes: si el costo real de mantener el stock supera ese umbral, el arbitraje julio → febrero deja de convenir en promedio. <a class="enlace-flecha" href="index.html#simulador">Usar el simulador</a></p></div></div>
+      <div class="hito revelar"><div class="hito__marca">3</div><div class="tarjeta"><h3>Comparar el premio con el costo de esperar</h3><p>8,62 % en 7 meses equivalen a ≈ 1,23 % por mes: si el costo real de mantener el stock supera ese umbral, el arbitraje julio → febrero deja de convenir en promedio. <a class="enlace-flecha" href="index.html#simulador">Usar el simulador</a></p></div></div>
       <div class="hito revelar"><div class="hito__marca">4</div><div class="tarjeta"><h3>Escalonar y gestionar el riesgo de tendencia</h3><p>Distribuir compras y ventas dentro de cada ventana en lugar de concentrarlas en un solo mes, y monitorear la tendencia: en ciclos bajistas el premio estacional puede no alcanzar.</p></div></div>
       <div class="hito revelar"><div class="hito__marca">5</div><div class="tarjeta"><h3>Actualizar cada temporada</h3><p>El pipeline del repositorio permite recalcular la Tabla 1 al incorporar cada nueva zafra y verificar si el patrón se mantiene.</p></div></div>
     </div>
@@ -418,10 +418,10 @@
 <template id="m-pico"><p>El ciclo se vuelve positivo entre enero y marzo y alcanza su máximo en <strong>febrero (+3,96 %; mediana +$ 4.339,38)</strong>. En abril, con la expectativa de la nueva zafra, el precio vuelve a la tendencia (−0,38 %).</p></template>
 
 <script src="assets/data/azucar.js?v=2"></script>
-<script src="assets/js/formulas.js?v=2"></script>
+<script src="assets/js/formulas.js?v=3"></script>
 <script src="assets/js/core.js?v=3"></script>
 <script src="assets/js/charts.js?v=2"></script>
 <script src="assets/js/hp.js?v=2"></script>
-<script src="assets/js/justificacion.js?v=2"></script>
+<script src="assets/js/justificacion.js?v=3"></script>
 </body>
 </html>

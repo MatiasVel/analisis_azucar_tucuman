@@ -23,7 +23,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=3">
+<link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -84,7 +84,7 @@
           <tr><td class="izq tenue">Mercado</td><td class="izq">Interno, provincia de Tucumán</td></tr>
           <tr><td class="izq tenue">Frecuencia</td><td class="izq">Diaria (días calendario)</td></tr>
           <tr><td class="izq tenue">Cobertura</td><td class="izq">01/01/2008 – 11/09/2026</td></tr>
-          <tr><td class="izq tenue">Registros</td><td class="izq"><b>6.791</b> cotizaciones válidas</td></tr>
+          <tr><td class="izq tenue">Registros</td><td class="izq"><b>6.791</b> cotizaciones válidas (6.780 dentro del período de estudio)</td></tr>
           <tr><td class="izq tenue">Unidad</td><td class="izq">Pesos corrientes (ARS) por bolsa</td></tr>
           <tr><td class="izq tenue">Formato original</td><td class="izq">Planilla matricial por año y mes</td></tr>
         </tbody></table></div>
@@ -416,7 +416,7 @@ tabla1 = df.groupby("Mes").agg(media=("Ciclo_Estacional", "mean"),
 </template>
 
 <script src="assets/data/azucar.js?v=2"></script>
-<script src="assets/js/formulas.js?v=2"></script>
+<script src="assets/js/formulas.js?v=3"></script>
 <script src="assets/js/core.js?v=3"></script>
 <script src="assets/js/charts.js?v=2"></script>
 <script src="assets/js/datos.js?v=3"></script>

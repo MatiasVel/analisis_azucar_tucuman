@@ -12,14 +12,14 @@ Sitio web interactivo del paper **«Análisis de la Estacionalidad del Precio de
 | Filiación | Universidad Tecnológica Nacional, Facultad Regional Tucumán |
 
 El estudio determina en qué meses conviene comprar y vender la bolsa de azúcar común tipo A de 50 kg en el mercado
-interno de Tucumán, a partir de 6.791 cotizaciones diarias (CACTU, 2008–2026) deflactadas con el IPC a pesos
+interno de Tucumán, a partir de 6.780 cotizaciones diarias del período (CACTU, enero de 2008 a agosto de 2026) deflactadas con el IPC a pesos
 constantes de agosto de 2026 y descompuestas con el filtro de Hodrick-Prescott (λ = 14.400).
 
 | Resultado | Valor |
 |---|---|
 | Ventana de compra (zafra) | junio – octubre · piso en julio: −4,66 % bajo la tendencia |
 | Ventana de venta (interzafra) | enero – marzo · pico en febrero: +3,96 % sobre la tendencia |
-| Diferencial de arbitraje julio → febrero | 8,62 pp reales · $ 9.509,33 por bolsa sobre medianas |
+| Diferencial de arbitraje julio → febrero | 8,62 % real (margen bruto) · $ 9.509,33 por bolsa sobre medianas |
 
 ## Páginas
 
@@ -40,6 +40,7 @@ analisis_azucar_tucuman/
 │   ├── figuras.py            # láminas 4K (web y versión paper) y fórmulas SVG
 │   ├── prototipo_ml.py       # pronóstico walk-forward (prueba de concepto)
 │   ├── compartir.py          # imagen para compartir en redes (1200 × 630)
+│   ├── figuras_paper.py      # Figuras 1, 2 y 3 del paper (estilo del Word)
 │   ├── hero/                 # generador procedural de la imagen de portada
 │   ├── fuentes/              # tipografías usadas en las figuras (OFL)
 │   └── requirements.txt
@@ -65,6 +66,7 @@ python analysis/pipeline.py      # recalcula datos, Tabla 1 y pruebas; escribe s
 python analysis/figuras.py       # regenera las láminas 4K y las fórmulas
 python analysis/prototipo_ml.py  # regenera la prueba de concepto de machine learning
 python analysis/compartir.py      # regenera la imagen para compartir en redes
+python analysis/figuras_paper.py  # regenera las Figuras 1, 2 y 3 del paper
 python -m http.server --directory site 8000   # ver el sitio en http://localhost:8000
 ```
 

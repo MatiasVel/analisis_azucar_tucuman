@@ -679,3 +679,8 @@ pre.codigo .c { color: #6f8a79; font-style: italic; } pre.codigo .k { color: var
 
 /* direcciones web largas en las listas de referencias */
 .referencias a, #referencias li a { overflow-wrap: anywhere; }
+
+/* figuras del paper (mismas imágenes que el documento Word) */
+.figura-paper { margin: 26px 0 30px; }
+.figura-paper img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(11, 17, 13, .1); background: #fff; }
+.figura-paper figcaption { margin-top: 10px; font: italic 400 .9rem/1.5 var(--fuente-serif); color: var(--tinta-2); text-align: center; }

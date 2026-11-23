@@ -321,7 +321,7 @@
       const bruto = (p * diff) / 100, costoT = (p * c * meses) / 100, neto = bruto - costoT;
       $("sim-costo-valor").textContent = F.num(c, 1) + " % por mes";
       $("sim-titulo").textContent = `Diferencial estacional ${AZ.MESES[b].toLowerCase()} → ${AZ.MESES[s].toLowerCase()}`;
-      $("sim-diferencial").textContent = F.num(diff, 2, true) + " pp";
+      $("sim-diferencial").textContent = F.num(diff, 2, true) + " %";
       $("sim-diferencial").style.color = diff >= 0 ? "var(--verde)" : "var(--compra)";
       $("sim-explicacion").textContent = `${AZ.MESES[s]} (${F.pct(T1[s].rel)}) menos ${AZ.MESES[b].toLowerCase()} (${F.pct(T1[b].rel)}). Sobre las medianas de la Tabla 1, la diferencia es de ${F.pesos(T1[s].mediana - T1[b].mediana, 2, true)} por bolsa.`;
       $("sim-meses").textContent = meses;

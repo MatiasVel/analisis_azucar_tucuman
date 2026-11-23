@@ -90,7 +90,7 @@
       metricas.innerHTML = `
         <div class="dato-clave"><b class="num">${AZ.MESES[imin]}</b><span>valle · ${F.pct(r.rel[imin])}</span></div>
         <div class="dato-clave"><b class="num">${AZ.MESES[imax]}</b><span>pico · ${F.pct(r.rel[imax])}</span></div>
-        <div class="dato-clave"><b class="num verde">${F.num(dif, 2, true)} pp</b><span>diferencial febrero − julio</span></div>
+        <div class="dato-clave"><b class="num verde">${F.num(dif, 2, true)} %</b><span>diferencial febrero − julio</span></div>
         <div class="dato-clave"><b class="num" style="color:${mantiene ? "var(--verde)" : "var(--compra)"}">${mantiene ? "Se mantiene" : "Cambia"}</b><span>${mantiene ? "valle en julio y pico en febrero" : "el valle o el pico se desplazan"} · medianas ${F.pesos(difMed, 0, true)}</span></div>`;
     };
     rango.addEventListener("input", actualizar);
@@ -135,7 +135,7 @@
           <div class="fila"><span>Compra jul-${o.anio}</span><b>${F.pesos(o.compra, 0)}</b></div>
           <div class="fila"><span>Venta feb-${o.anio + 1}</span><b>${F.pesos(o.venta, 0)}</b></div>
           <div class="fila"><span>Retorno real</span><b>${F.pct(o.retorno, 1)}</b></div>
-          <div class="fila"><span>Posición vs. tendencia</span><b>${F.num(o.ciclo_pp, 1, true)} pp</b></div>
+          <div class="fila"><span>Posición vs. tendencia</span><b>${F.num(o.ciclo_pp, 1, true)} %</b></div>
           <div class="fila"><span>Cambio de la tendencia</span><b>${F.pct(o.tendencia_pct, 1)}</b></div>`;
       },
       alto: (w) => (w < 560 ? 280 : 360),

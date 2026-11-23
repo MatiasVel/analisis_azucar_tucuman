@@ -1,6 +1,6 @@
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="549.3" height="42.0" fill="currentColor" role="img" viewBox="0 0 412.1 31.5" xmlns="http://www.w3.org/2000/svg" version="1.1"><defs><style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style></defs><g id="f-arbitraje-figure_1"><g id="f-arbitraje-patch_1"><path d="M 0 31.5 
-L 412.1 31.5 
-L 412.1 -0 
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="537.0" height="42.0" fill="currentColor" role="img" viewBox="0 0 402.86 31.5" xmlns="http://www.w3.org/2000/svg" version="1.1"><defs><style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style></defs><g id="f-arbitraje-figure_1"><g id="f-arbitraje-patch_1"><path d="M 0 31.5 
+L 402.86 31.5 
+L 402.86 -0 
 L 0 -0 
 L 0 31.5 
 z
@@ -448,40 +448,58 @@ Q 2541 486 2665 569
 Q 2790 653 2944 915 
 L 3034 877 
 z
-" transform="scale(0.015625)"/><path id="f-arbitraje-STIXGeneral-Regular-53" d="M 1018 2931 
-L 1018 2438 
-Q 1421 2944 1939 2944 
-Q 2406 2944 2707 2560 
-Q 3008 2176 3008 1581 
-Q 3008 883 2621 409 
-Q 2234 -64 1664 -64 
-Q 1466 -64 1328 -6 
-Q 1190 51 1018 211 
-L 1018 -794 
-Q 1018 -1094 1120 -1180 
-Q 1222 -1267 1581 -1274 
-L 1581 -1389 
-L 32 -1389 
-L 32 -1280 
-Q 314 -1254 397 -1171 
-Q 480 -1088 480 -838 
-L 480 2157 
-Q 480 2381 429 2451 
-Q 378 2522 218 2522 
-Q 115 2522 58 2515 
-L 58 2618 
-Q 506 2752 979 2944 
-L 1018 2931 
+" transform="scale(0.015625)"/><path id="f-arbitraje-STIXGeneral-Regular-8" d="M 4390 1363 
+Q 4390 781 4070 329 
+Q 3750 -122 3341 -122 
+Q 3014 -122 2790 134 
+Q 2566 390 2566 762 
+Q 2566 1274 2940 1693 
+Q 3315 2112 3776 2112 
+Q 4070 2112 4230 1917 
+Q 4390 1722 4390 1363 
 z
-M 1018 2138 
-L 1018 563 
-Q 1018 422 1238 281 
-Q 1459 141 1683 141 
-Q 2029 141 2243 467 
-Q 2458 794 2458 1325 
-Q 2458 1888 2243 2224 
-Q 2029 2560 1670 2560 
-Q 1446 2560 1232 2419 
-Q 1018 2278 1018 2138 
+M 4243 1376 
+Q 4243 1626 4131 1779 
+Q 4019 1933 3840 1933 
+Q 3654 1933 3526 1786 
+Q 3315 1562 3171 1187 
+Q 3027 813 3027 486 
+Q 3027 301 3129 176 
+Q 3232 51 3386 51 
+Q 3718 51 3980 457 
+Q 4243 864 4243 1376 
 z
-" transform="scale(0.015625)"/></defs><use xlink:href="#f-arbitraje-STIXGeneral-Regular-254" transform="translate(0 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(119.977936 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-202" transform="translate(290.255863 26.90625)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-47" transform="translate(236.255875 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-49" transform="translate(287.830829 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-48" transform="translate(307.29081 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-45" transform="translate(338.370784 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(397.870752 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-202" transform="translate(540.37068 26.90625)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-47" transform="translate(486.370691 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-4d" transform="translate(537.945645 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-58" transform="translate(557.405626 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-4f" transform="translate(592.405594 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(664.143575 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-16" transform="translate(780.421514 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(830.421468 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-1c" transform="translate(855.421438 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(905.421392 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(975.421346 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-b" transform="translate(1063.921285 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(1097.221258 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-17" transform="translate(1165.721196 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(1215.721151 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1240.72112 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1290.721074 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-c" transform="translate(1340.721029 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(1421.799001 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-1b" transform="translate(1538.07694 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(1588.076894 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1613.076864 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-15" transform="translate(1663.076818 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-53" transform="translate(1746.409772 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-53" transform="translate(1796.409727 0.8125)"/></g></g></g></svg>
+M 3974 4518 
+L 1222 -115 
+L 922 -115 
+L 3443 4096 
+Q 3264 3891 3094 3811 
+Q 2925 3731 2669 3731 
+Q 2445 3731 2182 3821 
+Q 2208 3674 2208 3539 
+Q 2208 3206 2067 2873 
+Q 1926 2541 1696 2323 
+Q 1453 2086 1146 2086 
+Q 826 2086 608 2339 
+Q 390 2592 390 2963 
+Q 390 3507 761 3916 
+Q 1133 4326 1626 4326 
+Q 1792 4326 2010 4147 
+Q 2310 3898 2624 3898 
+Q 2918 3898 3084 3994 
+Q 3251 4090 3693 4518 
+L 3974 4518 
+z
+M 2054 3642 
+Q 2054 3782 2025 3833 
+Q 1997 3885 1894 3936 
+Q 1747 4006 1613 4154 
+Q 1414 4058 1331 3984 
+Q 1248 3910 1152 3750 
+Q 845 3264 845 2707 
+Q 845 2509 944 2384 
+Q 1043 2259 1210 2259 
+Q 1549 2259 1801 2675 
+Q 2054 3091 2054 3642 
+z
+" transform="scale(0.015625)"/></defs><use xlink:href="#f-arbitraje-STIXGeneral-Regular-254" transform="translate(0 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(119.977936 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-202" transform="translate(290.255863 26.90625)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-47" transform="translate(236.255875 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-49" transform="translate(287.830829 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-48" transform="translate(307.29081 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-45" transform="translate(338.370784 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(397.870752 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-202" transform="translate(540.37068 26.90625)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-47" transform="translate(486.370691 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-4d" transform="translate(537.945645 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-58" transform="translate(557.405626 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Italic-4f" transform="translate(592.405594 -14.1875) scale(0.7)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(664.143575 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-16" transform="translate(780.421514 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(830.421468 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-1c" transform="translate(855.421438 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(905.421392 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(975.421346 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-b" transform="translate(1063.921285 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-425" transform="translate(1097.221258 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-17" transform="translate(1165.721196 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(1215.721151 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1240.72112 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1290.721074 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-c" transform="translate(1340.721029 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-20" transform="translate(1421.799001 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-1b" transform="translate(1538.07694 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-f" transform="translate(1588.076894 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-19" transform="translate(1613.076864 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-15" transform="translate(1663.076818 0.8125)"/><use xlink:href="#f-arbitraje-STIXGeneral-Regular-8" transform="translate(1729.743772 0.8125)"/></g></g></g></svg>

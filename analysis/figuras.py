@@ -291,8 +291,8 @@ def figuras(tema: str, d: dict) -> None:
     caja = FancyBboxPatch((0.75, 2.05), 2.5, 2.9, boxstyle="round,pad=0.12,rounding_size=0.25",
                           fc=t["banda"], ec=t["verde"], lw=1.6, zorder=1)
     ax.add_patch(caja)
-    ax.text(2.0, 4.0, "8,62 pp", ha="center", va="center", fontsize=34, fontweight="bold", family=t["titulo"], color=t["verde"])
-    ax.text(2.0, 2.85, "diferencial real promedio\n$ 9.509,33 por bolsa (medianas)", ha="center", va="center", fontsize=13, color=t["fg"])
+    ax.text(2.0, 4.0, "8,62 %", ha="center", va="center", fontsize=34, fontweight="bold", family=t["titulo"], color=t["verde"])
+    ax.text(2.0, 2.85, "margen bruto estacional promedio\n$ 9.509,33 por bolsa (medianas)", ha="center", va="center", fontsize=13, color=t["fg"])
     ax.set_ylabel("Desvío relativo medio sobre la tendencia")
     guardar(fig, "fig07-arbitraje", tema)
 
@@ -381,7 +381,7 @@ FORMULAS = {
     "hp": r"$\min_{\{\tau_t\}} \; \sum_{t=1}^{T} (y_t-\tau_t)^2 \;+\; \lambda \sum_{t=2}^{T-1} \left[(\tau_{t+1}-\tau_t)-(\tau_t-\tau_{t-1})\right]^2$",
     "matricial": r"$\hat{\tau} \;=\; (\,I + \lambda K^{\top}K\,)^{-1}\, y \qquad \lambda = 14\,400$",
     "relativo": r"$d_t \;=\; \dfrac{c_t}{\tau_t} \times 100 \qquad \bar{d}_m \;=\; \dfrac{1}{n_m}\sum_{t \,\in\, m} d_t$",
-    "arbitraje": r"$\Delta \;=\; \bar{d}_{feb} - \bar{d}_{jul} \;=\; 3{,}96 - (-4{,}66) \;=\; 8{,}62\ \mathrm{pp}$",
+    "arbitraje": r"$\Delta \;=\; \bar{d}_{feb} - \bar{d}_{jul} \;=\; 3{,}96 - (-4{,}66) \;=\; 8{,}62\,\%$",
 }
 
 
