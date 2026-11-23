@@ -438,7 +438,12 @@ table.tabla { width: 100%; border-collapse: collapse; font-size: .92rem; min-wid
 .figura__titulo { font: 700 1.05rem/1.25 var(--fuente-titulo); letter-spacing: -.01em; }
 .figura__texto { font-size: .88rem; color: var(--tenue); line-height: 1.5; }
 .figura[hidden] { display: none; }
-@media (max-width: 1080px) { .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); } .figura, .figura--ancha { grid-column: span 1; } }
+@media (max-width: 1080px) {
+  .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figura, .figura--ancha { grid-column: span 1; }
+  /* si queda una lámina sola en la última fila (con o sin filtro), ocupa las dos columnas */
+  .figura:nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) { grid-column: 1 / -1; }
+}
 @media (max-width: 620px) { .galeria { grid-template-columns: 1fr; } }
 
 /* visor (lightbox) */

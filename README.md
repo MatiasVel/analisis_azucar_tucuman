@@ -25,7 +25,7 @@ constantes de agosto de 2026 y descompuestas con el filtro de Hodrick-Prescott (
 
 | Página | Contenido |
 |---|---|
-| `index.html` | Resultados, rueda anual, diagrama de 12 bloques clickeables, explorador de series, Tabla 1 interactiva, mapa de calor, simulador de arbitraje, galería de láminas 4K y el paper completo |
+| `index.html` | Resultados, rueda anual, diagrama de 12 bloques clickeables, explorador de series, Tabla 1 interactiva, simulador de arbitraje, galería de láminas 4K y el paper completo |
 | `datos.html` | Fuentes (CACTU e IPC empalmado del BCRA), pipeline de ingeniería de datos, control de calidad, deflactor IPC con conversor, diccionario, tabla explorable y descargas en CSV |
 | `justificacion.html` | Hipótesis, precios reales, pesos constantes frente al dólar, filtro HP con λ interactivo, validación estadística, backtest, limitaciones y reglas de decisión |
 | `futuro.html` | Hoja de ruta, arquitectura de datos, prueba de concepto de machine learning y variables exógenas |

@@ -24,7 +24,7 @@
 <link rel="preload" href="assets/fonts/montserrat-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" as="image" href="assets/img/hero/canaveral-2560.webp" imagesrcset="assets/img/hero/canaveral-1600.webp 1600w, assets/img/hero/canaveral-2560.webp 2560w, assets/img/hero/canaveral-3840.webp 3840w" imagesizes="100vw" media="(min-width: 701px)">
-<link rel="stylesheet" href="assets/css/styles.css?v=4">
+<link rel="stylesheet" href="assets/css/styles.css?v=5">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Análisis de la Estacionalidad del Precio del Azúcar en el Mercado Interno de Tucumán","url":"https://analisis-azucar-tucuman.netlify.app/","image":"https://analisis-azucar-tucuman.netlify.app/assets/img/compartir-1200x630.jpg","inLanguage":"es-AR","author":{"@type":"Person","name":"Héctor Matías Veliz","affiliation":{"@type":"CollegeOrUniversity","name":"Universidad Tecnológica Nacional, Facultad Regional Tucumán"}},"contributor":[{"@type":"Role","roleName":"Tutora","contributor":{"@type":"Person","honorificPrefix":"Dra.","name":"Dorigatti Mariana","familyName":"Dorigatti","givenName":"Mariana"}},{"@type":"Role","roleName":"Tutor","contributor":{"@type":"Person","honorificPrefix":"Ing.","name":"Sardi Duilio","familyName":"Sardi","givenName":"Duilio"}}],"sourceOrganization":{"@type":"ResearchOrganization","name":"Laboratorio GIITNI Datos","parentOrganization":{"@type":"ResearchOrganization","name":"Grupo de Investigación de Inteligencia Tecnológica para Negocios e Industrias (GIITNI)","parentOrganization":{"@type":"CollegeOrUniversity","name":"Universidad Tecnológica Nacional, Facultad Regional Tucumán"}}},"keywords":"Azúcar, Tucumán, Filtro Hodrick-Prescott, Estacionalidad, Zafra, IPC","about":"Estacionalidad del precio de la bolsa de azúcar común tipo A de 50 kg en el mercado interno de Tucumán, 2008–2026"}
 </script>
@@ -317,28 +317,6 @@
   </div>
 </section>
 
-<!-- ================================================================= MAPA DE CALOR -->
-<section class="seccion" id="mapa" aria-labelledby="t-mapa">
-  <div class="contenedor">
-    <div class="dividido dividido--texto" style="align-items:end;margin-bottom:clamp(30px,4vw,48px)">
-      <div class="encabezado revelar" style="margin-bottom:0">
-        <span class="antetitulo">Consistencia año a año</span>
-        <h2 class="titulo" id="t-mapa">¿Se repite el patrón <em>todos los años</em>?</h2>
-        <p class="bajada">Cada celda es un mes de un año: verde si el precio estuvo sobre su tendencia, claro si estuvo por debajo. Los ciclos largos (2011, 2023) tiñen filas completas; la estacionalidad aparece como una regularidad de columnas.</p>
-      </div>
-      <div class="datos-clave revelar">
-        <div class="dato-clave"><b class="num">13 de 19</b><span>años con julio bajo la tendencia (68 %)</span></div>
-        <div class="dato-clave"><b class="num">14 de 19</b><span>años con febrero por encima de julio del mismo año (74 %)</span></div>
-        <div class="dato-clave"><b class="num">p = 0,047</b><span>prueba de Friedman por bloques anuales</span></div>
-      </div>
-    </div>
-    <div class="panel-grafico revelar">
-      <div class="panel-grafico__barra"><span class="escala-color"><span>−40 %</span><span class="escala-color__barra"></span><span>+40 %</span></span><span class="tenue" style="font-size:.82rem">Pasá el cursor por una celda o tocala para ver el detalle del mes</span></div>
-      <div class="calor-envoltura"><div class="grafico" id="calor"></div></div>
-    </div>
-  </div>
-</section>
-
 <!-- ================================================================= SIMULADOR -->
 <section class="seccion seccion--elevada seccion--borde" id="simulador" aria-labelledby="t-simulador">
   <div class="contenedor">
@@ -393,9 +371,9 @@
         <span class="figura__imagen"><img src="assets/img/figuras/fig04-patron-estacional-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Barras del desvío relativo medio por mes: pico en febrero y valle en julio"><span class="figura__4k">4K</span></span>
         <span class="figura__cuerpo"><span class="figura__num">Lámina 04 · Resultados</span><span class="figura__titulo">Patrón estacional por mes (Tabla 1)</span><span class="figura__texto">El resumen del paper en una imagen: pico de febrero y valle de julio.</span></span>
       </button>
-      <button class="figura figura--ancha revelar" type="button" data-cat="resultados" data-num="Lámina 07" data-src4k="assets/img/figuras/fig07-arbitraje-3840.webp?v=3" data-png="assets/img/figuras/fig07-arbitraje-3840.png?v=3" data-paper="assets/img/figuras/fig07-arbitraje-paper-3840.png?v=3" data-enlace="#simulador" data-texto="Recorrido del desvío relativo medio desde el valle de julio hasta el pico de febrero: un margen bruto estacional promedio del 8,62 % en términos reales, equivalentes a $ 9.509,33 por bolsa sobre medianas.">
+      <button class="figura figura--ancha revelar" type="button" data-cat="resultados" data-num="Lámina 06" data-src4k="assets/img/figuras/fig07-arbitraje-3840.webp?v=3" data-png="assets/img/figuras/fig07-arbitraje-3840.png?v=3" data-paper="assets/img/figuras/fig07-arbitraje-paper-3840.png?v=3" data-enlace="#simulador" data-texto="Recorrido del desvío relativo medio desde el valle de julio hasta el pico de febrero: un margen bruto estacional promedio del 8,62 % en términos reales, equivalentes a $ 9.509,33 por bolsa sobre medianas.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig07-arbitraje-1600.webp?v=3" width="1600" height="900" loading="lazy" decoding="async" alt="Línea del desvío relativo desde julio hasta febrero con el diferencial de 8,62 puntos"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 07 · Resultados</span><span class="figura__titulo">Ruta del arbitraje julio → febrero</span><span class="figura__texto">Cómo se construye el margen de 8,62 % mes a mes.</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 06 · Resultados</span><span class="figura__titulo">Ruta del arbitraje julio → febrero</span><span class="figura__texto">Cómo se construye el margen de 8,62 % mes a mes.</span></span>
       </button>
       <button class="figura revelar" type="button" data-cat="datos" data-num="Lámina 01" data-src4k="assets/img/figuras/fig01-nominal-3840.webp?v=2" data-png="assets/img/figuras/fig01-nominal-3840.png?v=2" data-paper="assets/img/figuras/fig01-nominal-paper-3840.png?v=2" data-enlace="datos.html#calidad" data-texto="Serie nominal diaria de CACTU en escala logarítmica: de un mínimo de $ 55,00 (27/11/2008) a un máximo de $ 37.165,00 (18/06/2026). La pendiente refleja la inflación, no el mercado del azúcar.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig01-nominal-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Serie nominal diaria en escala logarítmica"><span class="figura__4k">4K</span></span>
@@ -409,25 +387,21 @@
         <span class="figura__imagen"><img src="assets/img/figuras/fig03-ciclo-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Componente cíclico en barras con franjas de zafra"><span class="figura__4k">4K</span></span>
         <span class="figura__cuerpo"><span class="figura__num">Lámina 03 · Modelo</span><span class="figura__titulo">Componente cíclico-estacional</span><span class="figura__texto">El desvío respecto de la tendencia, mes a mes.</span></span>
       </button>
-      <button class="figura revelar" type="button" data-cat="resultados" data-num="Lámina 05" data-src4k="assets/img/figuras/fig05-mapa-calor-3840.webp?v=2" data-png="assets/img/figuras/fig05-mapa-calor-3840.png?v=2" data-paper="assets/img/figuras/fig05-mapa-calor-paper-3840.png?v=2" data-enlace="#mapa" data-texto="Desvío relativo de cada mes de cada año. Los ciclos largos tiñen filas completas (2011, 2023); la estacionalidad se lee como regularidad entre columnas.">
-        <span class="figura__imagen"><img src="assets/img/figuras/fig05-mapa-calor-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Mapa de calor año por mes del desvío relativo"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 05 · Resultados</span><span class="figura__titulo">Mapa de calor año × mes</span><span class="figura__texto">228 celdas para ver la regularidad del ciclo.</span></span>
-      </button>
-      <button class="figura revelar" type="button" data-cat="robustez" data-num="Lámina 06" data-src4k="assets/img/figuras/fig06-distribucion-3840.webp?v=2" data-png="assets/img/figuras/fig06-distribucion-3840.png?v=2" data-paper="assets/img/figuras/fig06-distribucion-paper-3840.png?v=2" data-enlace="justificacion.html#validacion" data-texto="Distribución del desvío relativo por mes: la dispersión interanual es amplia, por eso el paper informa medias y medianas y aquí se complementa con pruebas no paramétricas.">
+      <button class="figura figura--ancha revelar" type="button" data-cat="robustez" data-num="Lámina 05" data-src4k="assets/img/figuras/fig06-distribucion-3840.webp?v=2" data-png="assets/img/figuras/fig06-distribucion-3840.png?v=2" data-paper="assets/img/figuras/fig06-distribucion-paper-3840.png?v=2" data-enlace="justificacion.html#validacion" data-texto="Distribución del desvío relativo por mes: la dispersión interanual es amplia, por eso el paper informa medias y medianas y aquí se complementa con pruebas no paramétricas.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig06-distribucion-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Diagramas de caja del desvío relativo por mes"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 06 · Robustez</span><span class="figura__titulo">Distribución por mes</span><span class="figura__texto">Medianas, cuartiles y valores extremos.</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 05 · Robustez</span><span class="figura__titulo">Distribución por mes</span><span class="figura__texto">Medianas, cuartiles y valores extremos.</span></span>
       </button>
-      <button class="figura revelar" type="button" data-cat="robustez" data-num="Lámina 08" data-src4k="assets/img/figuras/fig08-robustez-3840.webp?v=2" data-png="assets/img/figuras/fig08-robustez-3840.png?v=2" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png?v=2" data-enlace="justificacion.html#hp" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12.">
+      <button class="figura figura--ancha revelar" type="button" data-cat="robustez" data-num="Lámina 07" data-src4k="assets/img/figuras/fig08-robustez-3840.webp?v=2" data-png="assets/img/figuras/fig08-robustez-3840.png?v=2" data-paper="assets/img/figuras/fig08-robustez-paper-3840.png?v=2" data-enlace="justificacion.html#hp" data-texto="El valle de julio y el pico de febrero se mantienen con λ = 1.600, 14.400 y 129.600 y con una descomposición clásica por medias móviles 2×12.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig08-robustez-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Patrón estacional con distintos valores de lambda"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 08 · Robustez</span><span class="figura__titulo">Sensibilidad a λ y al método</span><span class="figura__texto">El patrón no depende de una elección arbitraria.</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 07 · Robustez</span><span class="figura__titulo">Sensibilidad a λ y al método</span><span class="figura__texto">El patrón no depende de una elección arbitraria.</span></span>
       </button>
-      <button class="figura figura--ancha revelar" type="button" data-cat="datos" data-num="Lámina 09" data-src4k="assets/img/figuras/fig09-ipc-3840.webp?v=2" data-png="assets/img/figuras/fig09-ipc-3840.png?v=2" data-paper="assets/img/figuras/fig09-ipc-paper-3840.png?v=2" data-enlace="datos.html#ipc" data-texto="Coeficiente de actualización del IPC empalmado: 1 peso de enero de 2008 equivale a 1.051,54 pesos de agosto de 2026.">
+      <button class="figura figura--ancha revelar" type="button" data-cat="datos" data-num="Lámina 08" data-src4k="assets/img/figuras/fig09-ipc-3840.webp?v=2" data-png="assets/img/figuras/fig09-ipc-3840.png?v=2" data-paper="assets/img/figuras/fig09-ipc-paper-3840.png?v=2" data-enlace="datos.html#ipc" data-texto="Coeficiente de actualización del IPC empalmado: 1 peso de enero de 2008 equivale a 1.051,54 pesos de agosto de 2026.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig09-ipc-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Coeficiente de actualización IPC en escala logarítmica"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 09 · Datos</span><span class="figura__titulo">El deflactor IPC</span><span class="figura__texto">Cómo se llevan los precios a pesos de ago-2026.</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 08 · Datos</span><span class="figura__titulo">El deflactor IPC</span><span class="figura__texto">Cómo se llevan los precios a pesos de ago-2026.</span></span>
       </button>
-      <button class="figura figura--ancha revelar" type="button" data-cat="robustez" data-num="Lámina 10" data-src4k="assets/img/figuras/fig10-backtest-3840.webp?v=2" data-png="assets/img/figuras/fig10-backtest-3840.png?v=2" data-paper="assets/img/figuras/fig10-backtest-paper-3840.png?v=2" data-enlace="justificacion.html#backtest" data-texto="Retorno real observado de comprar en julio y vender en febrero del año siguiente, ciclo por ciclo (2008/09 a 2025/26). Positivo en 10 de 18 ciclos, con mediana de +14,6 % y alta dispersión.">
+      <button class="figura figura--ancha revelar" type="button" data-cat="robustez" data-num="Lámina 09" data-src4k="assets/img/figuras/fig10-backtest-3840.webp?v=2" data-png="assets/img/figuras/fig10-backtest-3840.png?v=2" data-paper="assets/img/figuras/fig10-backtest-paper-3840.png?v=2" data-enlace="justificacion.html#backtest" data-texto="Retorno real observado de comprar en julio y vender en febrero del año siguiente, ciclo por ciclo (2008/09 a 2025/26). Positivo en 10 de 18 ciclos, con mediana de +14,6 % y alta dispersión.">
         <span class="figura__imagen"><img src="assets/img/figuras/fig10-backtest-1600.webp?v=2" width="1600" height="900" loading="lazy" decoding="async" alt="Barras del retorno real de cada ciclo julio a febrero"><span class="figura__4k">4K</span></span>
-        <span class="figura__cuerpo"><span class="figura__num">Lámina 10 · Robustez</span><span class="figura__titulo">Backtest julio → febrero</span><span class="figura__texto">Qué pasó, ciclo por ciclo, con precios observados.</span></span>
+        <span class="figura__cuerpo"><span class="figura__num">Lámina 09 · Robustez</span><span class="figura__titulo">Backtest julio → febrero</span><span class="figura__texto">Qué pasó, ciclo por ciclo, con precios observados.</span></span>
       </button>
     </div>
   </div>
@@ -945,6 +919,6 @@ ciclo, tendencia = sm.tsa.filters.hpfilter(df["Precio actualizado"], lamb=14400)
 <script src="assets/js/core.js?v=3"></script>
 <script src="assets/js/charts.js?v=2"></script>
 <script src="assets/js/hp.js?v=2"></script>
-<script src="assets/js/inicio.js?v=3"></script>
+<script src="assets/js/inicio.js?v=4"></script>
 </body>
 </html>

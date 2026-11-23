@@ -1,6 +1,6 @@
 /* ==========================================================================
    Página principal: rueda anual, diagrama interactivo, explorador de series,
-   Tabla 1 interactiva, mapa de calor, simulador de arbitraje y galería 4K.
+   Tabla 1 interactiva, simulador de arbitraje y galería 4K.
    ========================================================================== */
 (function () {
   "use strict";
@@ -16,7 +16,6 @@
     explorador();
     estacionalidad();
     tablaPaper();
-    mapaCalor();
     simulador();
     galeria();
     AZ.conectarDetalles(document.querySelector("#respuesta"));
@@ -257,47 +256,6 @@
     const tbody = document.querySelector("#tabla1-paper tbody");
     if (!tbody) return;
     tbody.innerHTML = T1.map((f) => `<tr><td><b>${f.nombre}</b></td><td class="izq">${f.fase}</td><td class="${f.media >= 0 ? "pos" : "neg"}">${F.num(f.media, 2, true)}</td><td class="${f.mediana >= 0 ? "pos" : "neg"}">${F.num(f.mediana, 2, true)}</td><td class="${f.rel >= 0 ? "pos" : "neg"}">${F.num(f.rel, 2, true)} %</td><td class="izq"><span class="pildora pildora--${f.ventana}">${f.senal}</span></td></tr>`).join("");
-  }
-
-  // ------------------------------------------------------------------ mapa de calor
-  function hexARgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
-  function mezclar(a, b, t) { const x = hexARgb(a), y = hexARgb(b); return `rgb(${x.map((v, i) => Math.round(v + (y[i] - v) * t)).join(",")})`; }
-  AZ.colorCalor = function (v) {
-    const c = Math.max(-40, Math.min(40, v));
-    if (c < -20) return mezclar("#8C9A90", "#F2F5F1", (-c - 20) / 20);
-    if (c < 0) return mezclar("#0A120E", "#8C9A90", -c / 20);
-    if (c < 20) return mezclar("#0A120E", "#1C8F4A", c / 20);
-    return mezclar("#1C8F4A", "#5BF08F", (c - 20) / 20);
-  };
-  function mapaCalor() {
-    const cont = document.getElementById("calor");
-    if (!cont) return;
-    const M = D.matriz, idx = {};
-    D.mensual.fechas.forEach((f, i) => (idx[f] = i));
-    AZ.graficos.calor(cont, {
-      etiqueta: "Mapa de calor del desvío del precio real respecto de su tendencia, por año (filas) y mes (columnas). Los valores de cada mes figuran en la tabla «Los 224 meses» de la página Datos.", filas: M.anios.map(String), columnas: AZ.MESES_CORTOS.map((m) => m[0].toUpperCase() + m.slice(1)),
-      valores: M.rel, color: AZ.colorCalor, formato: (v) => F.num(v, 0, true),
-      colorTexto: (v) => (v < -18 || v > 26 ? "#06100B" : "#F2F6F3"),
-      tooltip: (r, c) => {
-        const clave = `${M.anios[r]}-${String(c + 1).padStart(2, "0")}`, i = idx[clave];
-        return `<span class="fecha">${AZ.MESES[c]} ${M.anios[r]}</span><div class="fila"><span>Desvío relativo</span><b>${F.pct(M.rel[r][c], 1)}</b></div><div class="fila"><span>Precio real</span><b>${F.pesos(D.mensual.real[i], 0)}</b></div><div class="fila"><span>Tendencia</span><b>${F.pesos(D.mensual.tendencia[i], 0)}</b></div>`;
-      },
-      alClic: (r, c) => {
-        const clave = `${M.anios[r]}-${String(c + 1).padStart(2, "0")}`, i = idx[clave], f = T1[c];
-        AZ.panel.abrir({
-          etiqueta: `${f.fase} · ${f.senal}`, titulo: `${AZ.MESES[c]} de ${M.anios[r]}`,
-          html: `<div class="datos-clave">
-              <div class="dato-clave"><b>${F.pesos(D.mensual.nominal[i])}</b><span>promedio nominal del mes</span></div>
-              <div class="dato-clave"><b>× ${F.num(D.mensual.coef[i], 2)}</b><span>coeficiente IPC</span></div>
-              <div class="dato-clave"><b>${F.pesos(D.mensual.real[i])}</b><span>precio real (ago-2026)</span></div>
-              <div class="dato-clave"><b>${F.pesos(D.mensual.tendencia[i])}</b><span>tendencia HP</span></div>
-              <div class="dato-clave"><b>${F.pesos(D.mensual.ciclo[i], 2, true)}</b><span>ciclo c</span></div>
-              <div class="dato-clave"><b>${F.pct(D.mensual.rel[i])}</b><span>desvío relativo</span></div>
-            </div>
-            <p>En promedio, ${AZ.MESES[c].toLowerCase()} se ubica <strong>${F.pct(f.rel)}</strong> respecto de la tendencia (mediana ${F.pesos(f.mediana, 2, true)}). Este mes de ${M.anios[r]} estuvo <strong>${D.mensual.rel[i] >= f.rel ? "por encima" : "por debajo"}</strong> de ese patrón.</p>`,
-        });
-      },
-    });
   }
 
   // ------------------------------------------------------------------ simulador
